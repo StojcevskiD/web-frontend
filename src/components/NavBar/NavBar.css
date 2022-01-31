@@ -4,8 +4,27 @@
     left: 159px;
     border: 1px solid lightgrey;
     border-radius: 3px;
+    z-index: 1;
 }
 
-.navBar_menu_items:hover > div {
+.navBar_menu_item1:hover > div {
     display: block;
+    bottom: 120px;
+}
+
+.navBar_menu_item2:hover > div {
+    display: block;
+    bottom: 85px;
+}
+
+.navBar_menu_item3:hover > div {
+    display: block;
+    bottom: 54px;
+
+}
+
+.navBar_menu_item4:hover > div {
+    display: block;
+    bottom: 23px;
+
 }

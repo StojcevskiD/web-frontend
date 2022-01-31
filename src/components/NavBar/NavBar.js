@@ -21,25 +21,25 @@ const NavBar = () => {
                         navbarScroll
                     >
                         <NavDropdown title="Предмети">
-                            <NavDropdown.Item href="/" className="navBar_menu_items">Прва година
+                            <NavDropdown.Item href="/" className="navBar_menu_item1">Прва година
                                 <div className="floatDiv">
                                     <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
                                     <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
                                 </div>
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/" className="navBar_menu_items">Втора година
+                            <NavDropdown.Item href="/" className="navBar_menu_item2">Втора година
                                 <div className="floatDiv">
                                     <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
                                     <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
                                 </div>
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/" className="navBar_menu_items">Трета година
+                            <NavDropdown.Item href="/" className="navBar_menu_item3">Трета година
                                 <div className="floatDiv">
                                     <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
                                     <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
                                 </div>
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="/" className="navBar_menu_items">Четврта година
+                            <NavDropdown.Item href="/" className="navBar_menu_item4">Четврта година
                                 <div className="floatDiv">
                                     <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
                                     <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>

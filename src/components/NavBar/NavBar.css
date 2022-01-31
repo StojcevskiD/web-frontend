@@ -1,6 +1,7 @@
 .floatDiv {
     display: none;
     position: absolute;
+    background: white;
     left: 159px;
     border: 1px solid lightgrey;
     border-radius: 3px;

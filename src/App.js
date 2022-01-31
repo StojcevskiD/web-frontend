@@ -6,6 +6,7 @@ import {Redirect, Routes} from "react-router-dom";
 import MainPage from "./components/MainPage/MainPage";
 import NavBar from "./components/NavBar/NavBar";
 import Login from "./components/Login/Login";
+import Subject from "./components/Subject/Subject";
 
 class App extends Component {
 
@@ -25,6 +26,7 @@ class App extends Component {
 
                 <Routes>
                     <Route path='/' element={<MainPage/>}/>
+                    <Route path='/subject/:id' element={<Subject/>}/>
                     <Route path='/login' element={<Login/>}/>
                 </Routes>
             </Router>

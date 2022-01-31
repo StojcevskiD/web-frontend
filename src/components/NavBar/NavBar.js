@@ -10,7 +10,7 @@ const NavBar = () => {
     }
 
     return (
-        <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar bg="dark" variant="dark" expand="md" className="mb-4">
             <Container>
                 <Navbar.Brand href="/">Предметник</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>

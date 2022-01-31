@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
-import SubjectService from '../repository/SubjectRepository'
+import './MainPage.css'
+import SubjectService from '../../repository/SubjectRepository'
 
 const MainPage = () => {
 

@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import './MainPage.css'
 import SubjectService from '../../repository/SubjectRepository'
+import {Link} from "react-router-dom";
 
 const MainPage = () => {
 
@@ -14,18 +15,40 @@ const MainPage = () => {
         })
     }, [])
 
+
     return (
         <div className="container">
-            <h2>Наслов</h2>
-            <div>Внеси нешто</div>
-            <input className="form-check"/>
-            <button className="btn btn-info mt-2"> Submit</button>
-            <div className="mt-3"><h3>Subjects:</h3>
-                {subjects.map((s) => {
-                    return (
-                        <div>{s.name}</div>
-                    )
-                })}
+            <div className="row">
+                <h1 id="main_page_title">Предмети:</h1>
+                <div className="col-12 col-md-6">
+                    <h3 className="main_page_sub_title">Прв колоквиум</h3>
+                    <ol>
+                        {subjects.map((s) => {
+                            return (
+                                <li className="main_page_li">
+                                    <Link to={"/subject/" + s.id}>
+                                        {s.name}
+                                    </Link>
+                                </li>
+                            )
+                        })}
+                    </ol>
+                </div>
+
+                <div className="col-12 col-md-6" id="main_page_second">
+                    <h3 className="main_page_sub_title">Втор колоквиум</h3>
+                    <ol>
+                        {subjects.map((s) => {
+                            return (
+                                <li className="main_page_li">
+                                    <Link to={"/subject/" + s.id}>
+                                        {s.name}
+                                    </Link>
+                                </li>
+                            )
+                        })}
+                    </ol>
+                </div>
             </div>
         </div>
     )

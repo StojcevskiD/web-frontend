@@ -1,24 +1,65 @@
 import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
-import {Container, Dropdown, Form, Nav, NavDropdown} from "react-bootstrap";
+import {Button, Container, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
 
 
 const NavBar = () => {
+
+    const search = () => {
+
+    }
+
     return (
-        <Navbar bg="dark" variant="dark" className="mb-3">
+        <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
-                <Navbar.Brand href="#home">Предметник</Navbar.Brand>
-                <Nav className="me-auto">
-                    <NavDropdown title="Предмети" id="navbarScrollingDropdown">
-                        <NavDropdown.Item href="/">Прва година</NavDropdown.Item>
-                        <NavDropdown.Item href="/">Втора година</NavDropdown.Item>
-                        <NavDropdown.Item href="/">Трета година</NavDropdown.Item>
-                        <NavDropdown.Item href="/">Четврта година</NavDropdown.Item>
-                        <NavDropdown.Divider/>
-                        <NavDropdown.Item href="/">Сите предмети</NavDropdown.Item>
-                    </NavDropdown>
+                <Navbar.Brand href="/">Предметник</Navbar.Brand>
+                <Navbar.Toggle aria-controls="navbarScroll"/>
+                <Navbar.Collapse>
+                    <Nav
+                        className="me-auto my-2 my-lg-0"
+                        style={{maxHeight: '100px'}}
+                        navbarScroll
+                    >
+                        <NavDropdown title="Предмети">
+                            <NavDropdown.Item href="/" className="navBar_menu_items">Прва година
+                                <div className="floatDiv">
+                                    <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
+                                    <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/" className="navBar_menu_items">Втора година
+                                <div className="floatDiv">
+                                    <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
+                                    <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/" className="navBar_menu_items">Трета година
+                                <div className="floatDiv">
+                                    <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
+                                    <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/" className="navBar_menu_items">Четврта година
+                                <div className="floatDiv">
+                                    <NavDropdown.Item href="/">Зимски семестар</NavDropdown.Item>
+                                    <NavDropdown.Item href="/">Летен семестар</NavDropdown.Item>
+                                </div>
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item href="/">Сите предмети</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                    <Form className="d-flex">
+                        <FormControl
+                            type="search"
+                            placeholder="Search"
+                            className="me-2"
+                            aria-label="Search"
+                        />
+                        <Button variant="outline-secondary" onClick={search}>Search</Button>
+                    </Form>
                     <Nav.Link href="/login">Логирај се</Nav.Link>
-                </Nav>
+                </Navbar.Collapse>
             </Container>
         </Navbar>
     )

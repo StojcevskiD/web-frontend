@@ -1,0 +1,11 @@
+.floatDiv {
+    display: none;
+    position: absolute;
+    left: 159px;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+}
+
+.navBar_menu_items:hover > div {
+    display: block;
+}

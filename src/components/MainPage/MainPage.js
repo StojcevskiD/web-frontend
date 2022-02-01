@@ -8,7 +8,6 @@ const MainPage = () => {
     const [subjects, setSubjects] = React.useState([])
 
     useEffect(() => {
-        console.log(".evn", process.env.REACT_APP_HOST_ENV)
         SubjectService.getAllSubjects().then((sub) => {
             console.log("subjects: ", sub.data)
             setSubjects(sub.data)

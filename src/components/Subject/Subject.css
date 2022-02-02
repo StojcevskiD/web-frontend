@@ -1,0 +1,19 @@
+#subject_title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.subject_sub_title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.subject_sub_title_border {
+    border-left: 1px solid lightgray;
+}
+
+@media (max-width: 991px) {
+    .subject_sub_title_border {
+        border: none;
+    }
+}

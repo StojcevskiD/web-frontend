@@ -3,7 +3,7 @@ import {Link, useParams} from "react-router-dom";
 import './Subject.css'
 import SubjectService from "../../repository/SubjectRepository";
 import Form from 'react-bootstrap/Form'
-import {Button} from "react-bootstrap";
+import Swal from 'sweetalert2'
 
 
 const Subject = () => {
@@ -28,6 +28,33 @@ const Subject = () => {
     }, [id])
 
     const addMaterials = () => {
+        Swal.fire({
+            title: 'Дали си сигурен?',
+            text: "Дали си сигурен дека сакаш да ги додадеш прикачените фајлови? Оваа акција е неповратна!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Потврди',
+            cancelButtonText: 'Откажи'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Додадено!',
+                    'Фајловите беа успешно прикачени.',
+                    'success'
+                )
+            }
+        }).catch(() => {
+            Swal.fire(
+                'Грешка!',
+                'Обидете се повторно.',
+                'error'
+            )
+        })
+    }
+
+    const deleteMaterials = () => {
 
     }
 
@@ -88,9 +115,10 @@ const Subject = () => {
                     <h1 id="subject_title">{subject.name}</h1>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
-                        {/*<div>*/}
-                        {/*    <button className="btn btn-outline-danger">Избриши материјали</button>*/}
-                        {/*</div>*/}
+                        <div>
+                            {/*<button className="btn btn-outline-danger" onClick={deleteMaterials}>Избриши материјали*/}
+                            {/*</button>*/}
+                        </div>
                         <div>
                             <button className="btn btn-outline-primary subject_add_button" id="first_button"
                                     onClick={showForm}>Додади материјали

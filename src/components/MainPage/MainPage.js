@@ -2,6 +2,8 @@ import React, {useEffect} from "react";
 import './MainPage.css'
 import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
+import {AiFillStar} from 'react-icons/ai';
+
 
 const MainPage = () => {
 
@@ -27,6 +29,14 @@ const MainPage = () => {
         }
     }
 
+    const addToFavorites = (e) => {
+        if (document.getElementById(e.target.parentNode.id).style.color === "yellow") {
+            document.getElementById(e.target.parentNode.id).style.color = "black"
+        } else {
+            document.getElementById(e.target.parentNode.id).style.color = "yellow"
+        }
+
+    }
 
     useEffect(() => {
             getQueryParam()
@@ -54,6 +64,8 @@ const MainPage = () => {
                                         <Link to={`/subject/${s.id}`}>
                                             {s.name}
                                         </Link>
+                                        <AiFillStar size="20px" onClick={addToFavorites} className="main_page_star"
+                                                    id={"unique_star_id" + s.id}/>
                                     </li>
                                 )
                             })}

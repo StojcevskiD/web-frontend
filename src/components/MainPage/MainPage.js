@@ -8,23 +8,27 @@ import {AiFillStar} from 'react-icons/ai';
 const MainPage = () => {
 
     const [subjects, setSubjects] = React.useState([])
-    const [year, setYear] = React.useState(null)
-    const [type, setType] = React.useState(null)
+    const [year, setYear] = React.useState(undefined)
+    const [type, setType] = React.useState(undefined)
     const [search, setSearch] = React.useState("")
+    const [areFavorites, setAreFavorites] = React.useState(false)
     let p = useLocation().search
 
     const getQueryParam = () => {
-        setYear(p[6])
-        if (p[6] === "0") {
-            setYear("сите")
-        }
-        if (p[8] !== undefined) {
-            if (p[8] === "s") {
-                setSearch(p.substring(15, p.length))
-            } else if (p[13] === "s") {
-                setType("летен")
-            } else {
-                setType("зимски")
+        if (p[6] === "f") {
+            setAreFavorites(true)
+        } else {
+            if (p[6] !== "h") {
+                setYear(p[6])
+            }
+            if (p[1] !== undefined) {
+                if (p[1] === "s") {
+                    setSearch(p.substring(8, p.length))
+                } else if (p[13] === "s") {
+                    setType("летен")
+                } else if (p[13] === "w") {
+                    setType("зимски")
+                }
             }
         }
     }
@@ -54,9 +58,14 @@ const MainPage = () => {
                 <div className="col">
                     <h1 id="main_page_title">Предмети</h1>
                     <div>
-                        <h3>Предмети од {year === "сите" || year === undefined ? "сите години" : year + " година "}
-                            {type !== null ? "(" + type + " семестар)" : null}: </h3>
-                        {search !== "" ? <h5>-пребарување по "{search}"</h5> : null}
+                        {areFavorites === true ? <h3>Омилени предмети:</h3> :
+                            <div>
+                                <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
+                                    {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
+                                {search !== "" ? <h5>-пребарување по "{search}"</h5> : null}
+                            </div>
+                        }
+
                         <ol>
                             {subjects.map((s) => {
                                 return (

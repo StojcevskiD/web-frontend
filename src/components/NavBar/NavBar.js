@@ -8,7 +8,7 @@ const NavBar = () => {
     const [searchValue, setSearchValue] = React.useState("")
 
     const search = () => {
-        window.location.href = "/subjects?year=0&search=" + searchValue
+        window.location.href = "/subjects?search=" + searchValue
     }
 
     const onValueChange = (e) => {
@@ -24,7 +24,7 @@ const NavBar = () => {
     return (
         <Navbar id="nav_bar" variant="dark" expand="md" className="mb-4">
             <Container>
-                <Navbar.Brand href="/subjects?year=0">Предметник</Navbar.Brand>
+                <Navbar.Brand href="/subjects">Предметник</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse>
                     <Nav
@@ -66,8 +66,9 @@ const NavBar = () => {
                                 </div>
                             </NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href="/subjects?year=0">Сите предмети</NavDropdown.Item>
+                            <NavDropdown.Item href="/subjects">Сите предмети</NavDropdown.Item>
                         </NavDropdown>
+                        <Nav.Link href="/subjects?type=favorites">Омилени предмети</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                         <FormControl

@@ -4,6 +4,7 @@ import './Subject.css'
 import SubjectService from "../../repository/SubjectRepository";
 import Form from 'react-bootstrap/Form'
 import Swal from 'sweetalert2'
+import {BsTrash} from "react-icons/bs";
 
 
 const Subject = () => {
@@ -29,8 +30,8 @@ const Subject = () => {
 
     const addMaterials = () => {
         Swal.fire({
-            title: 'Дали си сигурен?',
-            text: "Дали си сигурен дека сакаш да ги додадеш прикачените фајлови? Оваа акција е неповратна!",
+            title: 'Дали сте сигурни?',
+            text: "Дали сте сигурни дека сакате да ги прикачите фајловите? Оваа акција е неповратна!",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -40,7 +41,7 @@ const Subject = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire(
-                    'Додадено!',
+                    'Успешно!',
                     'Фајловите беа успешно прикачени.',
                     'success'
                 )
@@ -54,7 +55,7 @@ const Subject = () => {
         })
     }
 
-    const deleteMaterials = () => {
+    const deleteMaterials = (e) => {
 
     }
 
@@ -116,10 +117,6 @@ const Subject = () => {
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
                         <div>
-                            {/*<button className="btn btn-outline-danger" onClick={deleteMaterials}>Избриши материјали*/}
-                            {/*</button>*/}
-                        </div>
-                        <div>
                             <button className="btn btn-outline-primary subject_add_button" id="first_button"
                                     onClick={showForm}>Додади материјали
                             </button>
@@ -135,13 +132,11 @@ const Subject = () => {
                         </div>
 
                         <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
+                        {/*<BsTrash className="subject_delete_icon" onClick={deleteMaterials}/>*/}
                     </div>
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Втор колоквиум</h3>
-                        {/*<div>*/}
-                        {/*    <button className="btn btn-outline-danger">Избриши материјали</button>*/}
-                        {/*</div>*/}
                         <div>
                             <button className="btn btn-outline-primary subject_add_button" id="second_button"
                                     onClick={showForm}>Додади материјали
@@ -163,9 +158,6 @@ const Subject = () => {
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left">
                         <h3 className="subject_sub_title">Испит</h3>
-                        {/*<div>*/}
-                        {/*    <button className="btn btn-outline-danger">Избриши материјали</button>*/}
-                        {/*</div>*/}
                         <div>
                             <button className="btn btn-outline-primary subject_add_button" id="third_button"
                                     onClick={showForm}>Додади материјали

@@ -21,11 +21,13 @@
 .navBar_item3:hover > div {
     display: block;
     bottom: 54px;
-
 }
 
 .navBar_item4:hover > div {
     display: block;
     bottom: 23px;
+}
 
+#nav_bar {
+    background: #2a439a;
 }

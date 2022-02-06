@@ -31,3 +31,11 @@
 #nav_bar {
     background: #2a439a;
 }
+
+#login{
+    color: #02abe3;
+}
+
+#login:hover{
+    color: #53d7f5 !important;
+}

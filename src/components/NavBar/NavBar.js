@@ -2,6 +2,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
 import {Button, Container, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
 import React from "react";
+import { FaSearch } from 'react-icons/fa';
 
 const NavBar = () => {
 
@@ -73,16 +74,16 @@ const NavBar = () => {
                     <Form className="d-flex">
                         <FormControl
                             type="email"
-                            placeholder="Search"
+                            placeholder="Search..."
                             className="me-2"
                             aria-label="Search"
                             value={searchValue}
                             onChange={onValueChange}
                             onKeyPress={enterHandler}
                         />
-                        <Button variant="outline-secondary" onClick={search}>Search</Button>
+                        <Button variant="outline-secondary" onClick={search}><FaSearch></FaSearch></Button>
                     </Form>
-                    <Nav.Link href="/login">Логирај се</Nav.Link>
+                    <Nav.Link id="login" href="/login">Најави се / Регистрирај се</Nav.Link>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

@@ -3,6 +3,9 @@ import './MainPage.css'
 import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
 import {AiFillStar} from 'react-icons/ai';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 
 
 const MainPage = () => {
@@ -56,7 +59,8 @@ const MainPage = () => {
         <div className="container">
             <div className="row">
                 <div className="col">
-                    <h1 id="main_page_title">Предмети</h1>
+                    <h1 class="display-2" id="main_page_title">Предмети</h1>
+
                     <div>
                         {areFavorites === true ? <h3>Омилени предмети:</h3> :
                             <div>
@@ -66,19 +70,20 @@ const MainPage = () => {
                             </div>
                         }
 
-                        <ol>
+                        <GridList cellHeight={50} cols={3}>
                             {subjects.map((s) => {
                                 return (
-                                    <li className="main_page_li" key={s.id}>
+                                    <GridListTile key={s.id} className="list-item">
                                         <Link to={`/subject/${s.id}`}>
                                             {s.name}
                                         </Link>
-                                        <AiFillStar size="20px" onClick={addToFavorites} className="main_page_star"
-                                                    id={"unique_star_id" + s.id}/>
-                                    </li>
+                                        <span className="star"><AiFillStar size="20px" onClick={addToFavorites} className="main_page_star"
+                                                          id={"unique_star_id" + s.id}/></span>
+                                    </GridListTile>
+
                                 )
                             })}
-                        </ol>
+                        </GridList>
                     </div>
                 </div>
             </div>

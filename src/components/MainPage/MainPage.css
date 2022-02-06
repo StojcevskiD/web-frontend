@@ -1,10 +1,20 @@
 #main_page_title {
     text-align: center;
     margin-bottom: 40px;
-
+    font-family:  'Times New Roman', serif;
+    font-weight: normal;
 }
 
 .main_page_star > path:hover {
-    color: yellow;
+    color: #e3d802;
     cursor: pointer;
+}
+
+.list-item{
+    border: 1px #adadad solid;
+}
+
+.star{
+    margin-left: 90%;
+    margin-top:  50%;
 }

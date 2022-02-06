@@ -1,0 +1,30 @@
+/*ova da go sredis ti - navbarot se namaluva koga go namaluvam loginot*/
+.login-container {
+    position: center;
+    width: 40%;
+    margin-left: 25%
+}
+
+#login-title {
+    position: center !important;
+}
+
+.MuiTypography-root {
+    margin-left: 45% !important;
+}
+
+.form-control {
+    width: 70% !important;
+    margin-left: 15%;
+}
+
+.row {
+    margin-top: 5px !important;
+}
+
+.logIn-Btn {
+    background-color: #2a439a !important;
+    color: white !important;
+
+}
+

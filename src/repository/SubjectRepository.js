@@ -8,6 +8,8 @@ const SubjectService = {
     getSubjectById: (id) => {
         return axios.get(`/subject/${id}`)
     }
+
+
 }
 
 export default SubjectService

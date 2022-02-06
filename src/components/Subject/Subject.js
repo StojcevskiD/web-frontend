@@ -5,6 +5,7 @@ import SubjectService from "../../repository/SubjectRepository";
 import Form from 'react-bootstrap/Form'
 import Swal from 'sweetalert2'
 import {BsTrash} from "react-icons/bs";
+import FileService from "../../repository/FileRepository";
 
 
 const Subject = () => {
@@ -12,7 +13,7 @@ const Subject = () => {
     const id = parseInt(useParams().id)
 
     const [subject, setSubject] = React.useState()
-    const [files1, setFiles1] = React.useState([])
+    const [files1, setFiles1] = React.useState()
     const [files2, setFiles2] = React.useState([])
     const [files3, setFiles3] = React.useState([])
     const [inputButtonDisable1, setInputButtonDisable1] = React.useState(true)
@@ -29,6 +30,10 @@ const Subject = () => {
     }, [id])
 
     const addMaterials = () => {
+        const formData = new FormData()
+        formData.append('files', files1)
+        // const files = files1
+
         Swal.fire({
             title: 'Дали сте сигурни?',
             text: "Дали сте сигурни дека сакате да ги прикачите фајловите? Оваа акција е неповратна!",
@@ -40,11 +45,15 @@ const Subject = () => {
             cancelButtonText: 'Откажи'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire(
-                    'Успешно!',
-                    'Фајловите беа успешно прикачени.',
-                    'success'
-                )
+                FileService.uploadFile(id, formData).then((result) => {
+                    alert("file uploaded")
+                })
+
+                // Swal.fire(
+                //     'Успешно!',
+                //     'Фајловите беа успешно прикачени.',
+                //     'success'
+                // )
             }
         }).catch(() => {
             Swal.fire(
@@ -124,7 +133,7 @@ const Subject = () => {
                         <div id="first_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
                                 <Form.Label><h5>-Додади материјали</h5></Form.Label>
-                                <Form.Control type="file" multiple onChange={fileChange} id="first_input"/>
+                                <Form.Control type="file" onChange={fileChange} id="first_input"/>
                             </Form.Group>
                             <button className="btn btn-outline-primary" onClick={addMaterials}
                                     disabled={inputButtonDisable1}>Додади

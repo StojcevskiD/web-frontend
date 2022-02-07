@@ -26,6 +26,10 @@
 
 }
 
+.subject_delete_icon > path {
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
     .subject_sub_title_border_left {
         border-left: 1px solid lightgray;

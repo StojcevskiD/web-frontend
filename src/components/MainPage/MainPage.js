@@ -48,7 +48,7 @@ const MainPage = () => {
     useEffect(() => {
             getQueryParam()
             SubjectService.getAllSubjects().then((sub) => {
-                // console.log("subjects: ", sub.data)
+                console.log("subjects: ", sub.data)
                 setSubjects(sub.data)
             })
         }, []

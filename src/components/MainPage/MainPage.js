@@ -73,7 +73,7 @@ const MainPage = () => {
                             {subjects.map((s) => {
                                 return (
                                     <GridListTile key={s.id} className="main_page_list_item">
-                                        <Link to={`/subject/${s.id}`}>
+                                        <Link className="link_subject" to={`/subject/${s.id}`}>
                                             {s.name}
                                         </Link>
                                         <span>

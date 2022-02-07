@@ -5,11 +5,15 @@
 
 #login_card {
     box-shadow: 5px 6px 10px lightgray;
+    padding-bottom: 5%;
 }
 
 .login_btn {
-    background-color: #2a439a !important;
+    background-color: #3752ad !important;
     color: white !important;
+}
+.login_btn:hover{
+    background-color: #2a439a !important;
 }
 
 #login_btn_div {
@@ -35,4 +39,10 @@
 .login_form_element {
     width: 80%;
     max-width: 500px;
+}
+.login_positions{
+    position: center !important;
+    width: 35% !important;
+    margin-top: 5% !important;
+
 }

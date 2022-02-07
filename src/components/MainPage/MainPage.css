@@ -1,8 +1,9 @@
 #main_page_title {
     text-align: center;
     margin-bottom: 40px;
-    font-family:  'Times New Roman', serif;
+    font-family: 'Times New Roman', serif;
     font-weight: normal;
+    font-size: 60px;
 }
 
 .main_page_star > path:hover {
@@ -10,11 +11,12 @@
     cursor: pointer;
 }
 
-.list-item{
+.main_page_list_item {
     border: 1px #adadad solid;
 }
 
-.star{
-    margin-left: 90%;
-    margin-top:  50%;
+.main_page_star {
+    float: right;
+    /*margin-top: 15px;*/
 }
+

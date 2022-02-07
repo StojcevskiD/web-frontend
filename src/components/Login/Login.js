@@ -1,7 +1,6 @@
 import {Card, CardBody} from "reactstrap";
-import CardHeader from "@material-ui/core/CardHeader";
 import './Login.css'
-import { FaBookReader } from 'react-icons/fa';
+import {FaBookReader} from 'react-icons/fa';
 
 const Login = () => {
 
@@ -19,41 +18,38 @@ const Login = () => {
     return (
         <div onKeyPress={handleKeyPress}>
             <div className="container">
-                <div className="login-container">
                 <div className="row">
                     <div className="col">
-                        <Card>
+                        <Card id="login_card">
                             <div className="row">
-                                <CardHeader id="login-title" title={"Log In"}/>
-                                <FaBookReader id="icon-reader"></FaBookReader>
+                                <h1 id="login_title">Log In</h1>
+                                <FaBookReader size="35" id="login_reader_icon"/>
                             </div>
                             <CardBody>
-                                <form>
-                                    <div className="row">
-                                        <input name="username" type="text" className="form-control"
+                                <form id="login_form">
+                                    <div className="row login_form_element">
+                                        <input name="username" type="text" className="form-control "
                                                placeholder="Enter Email"/>
                                     </div>
-                                    <div className="row">
-                                        <input name="password" type="password" className="form-control"
+                                    <div className="row login_password_input login_form_element">
+                                        <input name="password" type="password" className="form-control "
                                                placeholder="Enter Password"/>
                                     </div>
-                                    <div className="">
-                                        <a style={{marginLeft: "40%"}} href={'/reset/password'}>Forgot Password?</a>
-                                    </div>
-                                    <div className="row">
-                                        <button type="button" className="form-control logIn-Btn"
+                                    <div className="row login_form_element" id="login_btn_div">
+                                        <button type="button" className="form-control login_btn "
                                                 onClick={loginHandler}>Log in
                                         </button>
                                     </div>
+                                    <div className="row login_form_element">
+                                        <a className="btn btn-success form-control login_register_btn "
+                                           href={'/register'}>Register</a>
+                                    </div>
                                 </form>
-                                <div className="row">
-                                    <a className="btn btn-success form-control register-Btn" href={'/register'}>Register</a>
-                                </div>
+
                             </CardBody>
                         </Card>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     )

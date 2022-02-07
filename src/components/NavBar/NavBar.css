@@ -10,17 +10,17 @@
 
 .navBar_item1:hover > div {
     display: block;
-    bottom: 120px;
+    bottom: 119px;
 }
 
 .navBar_item2:hover > div {
     display: block;
-    bottom: 85px;
+    bottom: 87px;
 }
 
 .navBar_item3:hover > div {
     display: block;
-    bottom: 54px;
+    bottom: 55px;
 }
 
 .navBar_item4:hover > div {
@@ -32,10 +32,16 @@
     background: #2a439a;
 }
 
-#login{
+.nav_bar_login_link {
     color: #02abe3;
+    padding-left: 0 !important;
 }
 
-#login:hover{
+.nav_bar_login_link:hover {
     color: #53d7f5 !important;
+}
+
+#nav_bar_search_icon {
+    color: white;
+    margin: 10px 15px 0 0;
 }

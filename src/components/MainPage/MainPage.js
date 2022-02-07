@@ -37,18 +37,18 @@ const MainPage = () => {
     }
 
     const addToFavorites = (e) => {
-        if (document.getElementById(e.target.parentNode.id).style.color === "yellow") {
+        console.log(document.getElementById(e.target.parentNode.id).style.color)
+        if (document.getElementById(e.target.parentNode.id).style.color === "rgb(227, 216, 2)") {
             document.getElementById(e.target.parentNode.id).style.color = "black"
         } else {
-            document.getElementById(e.target.parentNode.id).style.color = "yellow"
+            document.getElementById(e.target.parentNode.id).style.color = "#e3d802"
         }
-
     }
 
     useEffect(() => {
             getQueryParam()
             SubjectService.getAllSubjects().then((sub) => {
-                console.log("subjects: ", sub.data)
+                // console.log("subjects: ", sub.data)
                 setSubjects(sub.data)
             })
         }, []
@@ -59,8 +59,7 @@ const MainPage = () => {
         <div className="container">
             <div className="row">
                 <div className="col">
-                    <h1 class="display-2" id="main_page_title">Предмети</h1>
-
+                    <h1 id="main_page_title">Предмети</h1>
                     <div>
                         {areFavorites === true ? <h3>Омилени предмети:</h3> :
                             <div>
@@ -73,14 +72,15 @@ const MainPage = () => {
                         <GridList cellHeight={50} cols={3}>
                             {subjects.map((s) => {
                                 return (
-                                    <GridListTile key={s.id} className="list-item">
+                                    <GridListTile key={s.id} className="main_page_list_item">
                                         <Link to={`/subject/${s.id}`}>
                                             {s.name}
                                         </Link>
-                                        <span className="star"><AiFillStar size="20px" onClick={addToFavorites} className="main_page_star"
-                                                          id={"unique_star_id" + s.id}/></span>
+                                        <span>
+                                            <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
+                                                        id={"unique_star_id" + s.id}/>
+                                        </span>
                                     </GridListTile>
-
                                 )
                             })}
                         </GridList>

@@ -2,7 +2,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
 import {Button, Container, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
 import React from "react";
-import { FaSearch } from 'react-icons/fa';
+import {FaSearch} from 'react-icons/fa';
 
 const NavBar = () => {
 
@@ -23,7 +23,7 @@ const NavBar = () => {
     }
 
     return (
-        <Navbar id="nav_bar" variant="dark" expand="md" className="mb-4">
+        <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
                 <Navbar.Brand href="/subjects">Предметник</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
@@ -81,9 +81,10 @@ const NavBar = () => {
                             onChange={onValueChange}
                             onKeyPress={enterHandler}
                         />
-                        <Button variant="outline-secondary" onClick={search}><FaSearch></FaSearch></Button>
+                        <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </Form>
-                    <Nav.Link id="login" href="/login">Најави се / Регистрирај се</Nav.Link>
+                    <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
+                    <Nav.Link className="nav_bar_login_link" href="/login">Регистрирај се</Nav.Link>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

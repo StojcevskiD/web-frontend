@@ -84,7 +84,7 @@ const NavBar = () => {
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </Form>
                     <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
-                    <Nav.Link className="nav_bar_login_link" href="/login">Регистрирај се</Nav.Link>
+                    <Nav.Link className="nav_bar_login_link" href="/register">Регистрирај се</Nav.Link>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

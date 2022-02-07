@@ -19,4 +19,11 @@
     float: right;
     /*margin-top: 15px;*/
 }
-
+.link_subject{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.link_subject:visited{
+    color: #6649e6;
+}

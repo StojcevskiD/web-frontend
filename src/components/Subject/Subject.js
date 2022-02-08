@@ -112,32 +112,33 @@ const Subject = () => {
         let fileName
         if (e.target.id === "") {
             fileId = e.target.parentNode.id
-            fileName = e.target.parentNode.name
         } else {
             fileId = e.target.id
-            fileName = e.target.name
         }
 
-        Swal.fire({
-            title: 'Дали сте сигурни?',
-            text: "Дали сте сигурни дека сакате да го избришете фајлот: " + fileName + " . Оваа акција е неповратна!",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Потврди',
-            cancelButtonText: 'Откажи'
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                FileService.deleteFile(fileId).then((r) => {
-                    Swal.fire(
-                        'Успешно!',
-                        'Фајлот беше успешно избришан.',
-                        'success'
-                    )
-                })
-            }
+        FileService.getFile(fileId).then(r => {
+            Swal.fire({
+                title: 'Дали сте сигурни?',
+                text: "Дали сте сигурни дека сакате да го избришете фајлот: \"" + r.data.name + "\". Оваа акција е неповратна!",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Потврди',
+                cancelButtonText: 'Откажи'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    FileService.deleteFile(fileId).then((r) => {
+                        Swal.fire(
+                            'Успешно!',
+                            'Фајлот е успешно избришан.',
+                            'success'
+                        )
+                    }).then((r) => {
+                        getFiles()
+                    })
+                }
+            })
         })
     }
 

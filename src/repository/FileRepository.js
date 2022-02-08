@@ -12,8 +12,11 @@ const FileService = {
     },
 
     deleteFile: (id) => {
-        console.log("d", id)
         return axios.delete(`/file/${id}`)
+    },
+
+    getFile: (id) => {
+        return axios.get(`/file/get/${id}`)
     }
 
 }

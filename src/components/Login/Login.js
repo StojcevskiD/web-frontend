@@ -17,9 +17,9 @@ const Login = () => {
 
     return (
         <div onKeyPress={handleKeyPress}>
-            <div className="container login_positions">
+            <div className="container">
                 <div className="row ">
-                    <div className="col ">
+                    <div className="col login_positions">
                         <Card id="login_card">
                             <div className="row">
                                 <h1 id="login_title">Log In</h1>

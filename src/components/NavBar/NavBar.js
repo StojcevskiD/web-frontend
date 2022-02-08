@@ -3,6 +3,7 @@ import './NavBar.css'
 import {Button, Container, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
 import React from "react";
 import {FaSearch} from 'react-icons/fa';
+import SubjectService from "../../repository/SubjectRepository";
 
 const NavBar = () => {
 
@@ -22,6 +23,14 @@ const NavBar = () => {
         }
     }
 
+
+    function getAllSubjectsByYear(year){
+        SubjectService.getAllSubjectsByYear(year).then(r => {
+
+        })
+    }
+
+
     return (
         <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
@@ -34,7 +43,7 @@ const NavBar = () => {
                         navbarScroll
                     >
                         <NavDropdown title="Предмети">
-                            <NavDropdown.Item href="/subjects?year=1" className="navBar_item1">Прва година
+                            <NavDropdown.Item href="/subjects?year=1"  className="navBar_item1">Прва година
                                 <div className="floatDiv">
                                     <NavDropdown.Item href="/subjects?year=1&type=winter">Зимски
                                         семестар </NavDropdown.Item>
@@ -69,7 +78,7 @@ const NavBar = () => {
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="/subjects">Сите предмети</NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="/subjects?type=favorites">Омилени предмети</Nav.Link>
+                        <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                         <FormControl

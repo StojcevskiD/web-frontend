@@ -7,8 +7,10 @@ const SubjectService = {
     },
     getSubjectById: (id) => {
         return axios.get(`/subject/${id}`)
+    },
+    getAllSubjectsByYear: (year) => {
+        return axios.get(`/subject/${year}`)
     }
-
 
 }
 

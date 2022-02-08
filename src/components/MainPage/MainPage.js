@@ -61,7 +61,6 @@ const MainPage = () => {
         CSVReaderService.getAllData()
     }
 
-
     return (
         <div className="container">
             <div className="row">
@@ -69,7 +68,7 @@ const MainPage = () => {
                     <h1 id="main_page_title">Предмети</h1>
                     <span><button style={{float: "right"}} onClick={getAllData} className="btn btn-secondary"><DiDatabase/></button></span>
                     <div>
-                        {areFavorites === true ? <h3>Омилени предмети:</h3> :
+                        {areFavorites === true ? <h3>Мои предмети:</h3> :
                             <div>
                                 <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
                                     {type !== undefined ? "(" + type + " семестар)" : null}: </h3>

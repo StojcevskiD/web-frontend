@@ -6,7 +6,8 @@ import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ImageList} from '@material-ui/core';
 import ImageListItem from '@material-ui/core/ImageListItem'
-
+import CSVReaderService from "../../repository/ReaderRepository"
+import {DiDatabase} from 'react-icons/di';
 
 const MainPage = () => {
 
@@ -37,6 +38,7 @@ const MainPage = () => {
     }
 
     const addToFavorites = (e) => {
+        console.log(document.getElementById(e.target.parentNode.id).style.color)
         if (document.getElementById(e.target.parentNode.id).style.color === "rgb(227, 216, 2)") {
             document.getElementById(e.target.parentNode.id).style.color = "black"
         } else {
@@ -53,13 +55,18 @@ const MainPage = () => {
     )
 
 
+    function getAllData(){
+        CSVReaderService.getAllData()
+    }
+
     return (
         <div className="container">
             <div className="row">
                 <div className="col">
                     <h1 id="main_page_title">Предмети</h1>
+                    <span><button style={{float: "right"}} onClick={getAllData} className="btn btn-secondary"><DiDatabase/></button></span>
                     <div>
-                        {areFavorites === true ? <h3>Омилени предмети:</h3> :
+                        {areFavorites === true ? <h3>Мои предмети:</h3> :
                             <div>
                                 <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
                                     {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
@@ -67,11 +74,11 @@ const MainPage = () => {
                             </div>
                         }
 
-                        <ImageList rowHeight={50} cols={3}>
+                        <ImageList rowHeight={50} cols={3} className="subject_list">
                             {subjects.map((s) => {
                                 return (
                                     <ImageListItem key={s.id} className="main_page_list_item">
-                                        <Link to={`/subject/${s.id}`}>
+                                        <Link className="link_subject" to={`/subject/${s.id}`}>
                                             {s.name}
                                         </Link>
                                         <span>

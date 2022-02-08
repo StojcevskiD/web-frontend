@@ -26,8 +26,12 @@
 
 }
 
-.subject_delete_icon > path {
-    cursor: pointer;
+.subject_delete_icon {
+    margin-left: 5px;
+}
+
+.subject_list {
+    margin-top: 15px;
 }
 
 @media (min-width: 768px) {

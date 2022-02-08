@@ -19,22 +19,54 @@ const Subject = () => {
     const [inputButtonDisable1, setInputButtonDisable1] = React.useState(true)
     const [inputButtonDisable2, setInputButtonDisable2] = React.useState(true)
     const [inputButtonDisable3, setInputButtonDisable3] = React.useState(true)
+    const [filesFirst, setFilesFirst] = React.useState([])
+    const [filesSecond, setFilesSecond] = React.useState([])
+    const [filesExam, setFilesExam] = React.useState([])
 
 
     useEffect(() => {
+        getSubject()
+        getFiles()
+
+    }, [])
+
+    const getSubject = () => {
         SubjectService.getSubjectById(id).then((s) => {
             setSubject(s.data)
-            // console.log("sub", s.data)
         })
+    }
 
-    }, [id])
+    const getFiles = () => {
+        let arr1 = []
+        let arr2 = []
+        let arr3 = []
+        FileService.findFiles(id).then((res) => {
+            res.data.forEach(r => {
+                if (r.exam_type.id === 1) {
+                    arr1.push(r)
+                } else if (r.exam_type.id === 2) {
+                    arr2.push(r)
+                } else {
+                    arr3.push(r)
+                }
+            })
+        }).then(() => {
+            setFilesFirst(arr1)
+            setFilesSecond(arr2)
+            setFilesExam(arr3)
+        })
+    }
 
-    const toFormData = (f) => {
+    const getFile = (id) => {
+
+    }
+
+    const toFormData = (f, type) => {
         let formData = new FormData()
         for (let i = 0; i < f.length; i++) {
             formData.append("files", f[i])
         }
-
+        formData.append("type", type)
         Swal.fire({
             title: 'Дали сте сигурни?',
             text: "Дали сте сигурни дека сакате да ги прикачите фајловите? Оваа акција е неповратна!",
@@ -46,13 +78,14 @@ const Subject = () => {
             cancelButtonText: 'Откажи'
         }).then((result) => {
             if (result.isConfirmed) {
-                FileService.uploadFile(id, formData).then((result) => {
+                FileService.uploadFile(id, formData).then((r) => {
+                    getFiles()
                     Swal.fire(
                         'Успешно!',
                         'Фајловите беа успешно прикачени.',
                         'success'
                     )
-                }).catch(() => {
+                }).catch((r) => {
                     Swal.fire(
                         'Грешка!',
                         'Големината на фајлот е преголема! Обидете се повторно.',
@@ -66,16 +99,46 @@ const Subject = () => {
     const addMaterials = (e) => {
         const buttonId = e.target.id
         if (buttonId === "subject_button1") {
-            toFormData(files1)
+            toFormData(files1, 1)
         } else if (buttonId === "subject_button2") {
-            toFormData(files2)
+            toFormData(files2, 2)
         } else {
-            toFormData(files3)
+            toFormData(files3, 3)
         }
     }
 
     const deleteMaterials = (e) => {
+        let fileId
+        let fileName
+        if (e.target.id === "") {
+            fileId = e.target.parentNode.id
+            fileName = e.target.parentNode.name
+        } else {
+            fileId = e.target.id
+            fileName = e.target.name
+        }
 
+        Swal.fire({
+            title: 'Дали сте сигурни?',
+            text: "Дали сте сигурни дека сакате да го избришете фајлот: " + fileName + " . Оваа акција е неповратна!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Потврди',
+            cancelButtonText: 'Откажи'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                FileService.deleteFile(fileId).then((r) => {
+                    Swal.fire(
+                        'Успешно!',
+                        'Фајлот беше успешно избришан.',
+                        'success'
+                    )
+                })
+            }
+        })
     }
 
     const fileChange = (e) => {
@@ -110,7 +173,6 @@ const Subject = () => {
                 setInputButtonDisable3(false)
             }
         }
-        console.log("aar", arr)
     }
 
     const showForm = (e) => {
@@ -156,9 +218,23 @@ const Subject = () => {
                                     disabled={inputButtonDisable1} id="subject_button1">Додади
                             </button>
                         </div>
+                        {filesFirst.length === 0 ?
+                            <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
+                            :
+                            <ol className="subject_list">
+                                {filesFirst.map((f) => {
+                                    return (
+                                        <li key={f.id}>
+                                            {f.name}
+                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
 
-                        <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
-                        {/*<BsTrash className="subject_delete_icon" onClick={deleteMaterials}/>*/}
+                                        </li>
+                                    )
+                                })}
+                            </ol>
+                        }
+
                     </div>
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left subject_sub_title_border_right">
@@ -178,7 +254,21 @@ const Subject = () => {
                             </button>
                         </div>
 
-                        <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
+                        {filesSecond.length === 0 ?
+                            <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
+                            :
+                            <ol className="subject_list">
+                                {filesSecond.map((f) => {
+                                    return (
+                                        <li key={f.id}>
+                                            {f.name}
+                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                        </li>
+                                    )
+                                })}
+                            </ol>
+                        }
 
                     </div>
 
@@ -199,7 +289,21 @@ const Subject = () => {
                             </button>
                         </div>
 
-                        <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
+                        {filesExam.length === 0 ?
+                            <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
+                            :
+                            <ol className="subject_list">
+                                {filesExam.map((f) => {
+                                    return (
+                                        <li key={f.id}>
+                                            {f.name}
+                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                        </li>
+                                    )
+                                })}
+                            </ol>
+                        }
 
                     </div>
                 </div>

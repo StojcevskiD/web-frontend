@@ -4,8 +4,8 @@ import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
 import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
+import {ImageList} from '@material-ui/core';
+import ImageListItem from '@material-ui/core/ImageListItem'
 
 
 const MainPage = () => {
@@ -15,7 +15,7 @@ const MainPage = () => {
     const [type, setType] = React.useState(undefined)
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
-    let p = useLocation().search
+    let p = decodeURI(useLocation().search)
 
     const getQueryParam = () => {
         if (p[6] === "f") {
@@ -37,7 +37,6 @@ const MainPage = () => {
     }
 
     const addToFavorites = (e) => {
-        console.log(document.getElementById(e.target.parentNode.id).style.color)
         if (document.getElementById(e.target.parentNode.id).style.color === "rgb(227, 216, 2)") {
             document.getElementById(e.target.parentNode.id).style.color = "black"
         } else {
@@ -48,7 +47,6 @@ const MainPage = () => {
     useEffect(() => {
             getQueryParam()
             SubjectService.getAllSubjects().then((sub) => {
-                // console.log("subjects: ", sub.data)
                 setSubjects(sub.data)
             })
         }, []
@@ -69,10 +67,10 @@ const MainPage = () => {
                             </div>
                         }
 
-                        <GridList cellHeight={50} cols={3}>
+                        <ImageList rowHeight={50} cols={3}>
                             {subjects.map((s) => {
                                 return (
-                                    <GridListTile key={s.id} className="main_page_list_item">
+                                    <ImageListItem key={s.id} className="main_page_list_item">
                                         <Link to={`/subject/${s.id}`}>
                                             {s.name}
                                         </Link>
@@ -80,10 +78,10 @@ const MainPage = () => {
                                             <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
                                                         id={"unique_star_id" + s.id}/>
                                         </span>
-                                    </GridListTile>
+                                    </ImageListItem>
                                 )
                             })}
-                        </GridList>
+                        </ImageList>
                     </div>
                 </div>
             </div>

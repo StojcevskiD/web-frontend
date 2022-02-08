@@ -8,6 +8,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import CSVReaderService from "../../repository/ReaderRepository"
 import {DiDatabase} from 'react-icons/di';
+import {FadeLoader} from "react-spinners";
 
 const MainPage = () => {
 
@@ -63,6 +64,10 @@ const MainPage = () => {
 
     return (
         <div className="container">
+            <div id="div_loader">
+                <FadeLoader id="spinner"/>
+                <div id="loading_mess">Loading</div>
+            </div>
             <div className="row">
                 <div className="col">
                     <h1 id="main_page_title">Предмети</h1>

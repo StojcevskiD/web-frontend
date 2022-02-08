@@ -6,7 +6,8 @@ import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-
+import CSVReaderService from "../../repository/ReaderRepository"
+import {DiDatabase} from 'react-icons/di';
 
 const MainPage = () => {
 
@@ -55,11 +56,18 @@ const MainPage = () => {
     )
 
 
+    function getAllData(){
+        getQueryParam()
+        CSVReaderService.getAllData()
+    }
+
+
     return (
         <div className="container">
             <div className="row">
                 <div className="col">
                     <h1 id="main_page_title">Предмети</h1>
+                    <span><button style={{float: "right"}} onClick={getAllData} className="btn btn-secondary"><DiDatabase/></button></span>
                     <div>
                         {areFavorites === true ? <h3>Омилени предмети:</h3> :
                             <div>
@@ -68,8 +76,7 @@ const MainPage = () => {
                                 {search !== "" ? <h5>-пребарување по "{search}"</h5> : null}
                             </div>
                         }
-
-                        <GridList cellHeight={50} cols={3}>
+                        <GridList cellHeight={50} cols={3} className="subject_list">
                             {subjects.map((s) => {
                                 return (
                                     <GridListTile key={s.id} className="main_page_list_item">

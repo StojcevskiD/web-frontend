@@ -23,7 +23,11 @@
     text-decoration: none;
     color: black;
     font-weight: bold;
+    width: fit-content;
 }
 .link_subject:visited{
     color: #6649e6;
+}
+.subject_list{
+    margin-top: 1% !important;
 }

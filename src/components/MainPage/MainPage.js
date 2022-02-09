@@ -16,14 +16,12 @@ const MainPage = () => {
     const [type, setType] = React.useState(undefined)
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
-    const [filteredSubjectsByYear, setFilteredSubjectsByYear] = React.useState([])
-    const [filteredSubjectsByYearAndSemester, setFilteredSubjectsByYearAndSemester] = React.useState([])
-    const [subjectsBySearch, setSubjectsBySearch] = React.useState([])
     let p = decodeURI(useLocation().search)
 
     const getQueryParam = () => {
         if (p[6] === "f") {
             setAreFavorites(true)
+            fetchAllSubjects()
         } else {
             if (p[6] !== "h" && p[6] !== undefined) {
                 setYear(p[6])
@@ -41,6 +39,8 @@ const MainPage = () => {
                     setType("зимски")
                     filterByYearAndSemester(parseInt(p[6]), 2)
                 }
+            } else {
+                fetchAllSubjects()
             }
         }
     }
@@ -55,27 +55,31 @@ const MainPage = () => {
 
     const filterByYear = (y) => {
         SubjectService.getAllSubjectsByYear(y).then(r => {
-            setFilteredSubjectsByYear(r.data)
+            setSubjects(r.data)
         })
     }
 
     const filterByYearAndSemester = (y, type) => {
         SubjectService.getAllSubjectsByYearAndSemester(y, type).then(r => {
-            setFilteredSubjectsByYearAndSemester(r.data)
+            setSubjects(r.data)
         })
     }
 
     const searchFilter = (val) => {
         SubjectService.getAllSubjectsWithSearch(val).then(r => {
-            setSubjectsBySearch(r.data)
+            setSubjects(r.data)
+        })
+    }
+
+    const fetchAllSubjects = () => {
+        SubjectService.getAllSubjects().then((sub) => {
+            setSubjects(sub.data)
         })
     }
 
     useEffect(() => {
             getQueryParam()
-            SubjectService.getAllSubjects().then((sub) => {
-                setSubjects(sub.data)
-            })
+
         }, []
     )
 

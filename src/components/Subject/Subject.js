@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form'
 import Swal from 'sweetalert2'
 import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
+import {FadeLoader} from "react-spinners";
 
 
 const Subject = () => {
@@ -22,7 +23,7 @@ const Subject = () => {
     const [filesFirst, setFilesFirst] = React.useState([])
     const [filesSecond, setFilesSecond] = React.useState([])
     const [filesExam, setFilesExam] = React.useState([])
-
+    const [loading, setLoading] = React.useState(true)
 
     useEffect(() => {
         getSubject()
@@ -42,7 +43,6 @@ const Subject = () => {
         let arr3 = []
         FileService.findFiles(id).then((res) => {
             res.data.forEach(r => {
-                console.log("r", r)
                 if (r.examType.id === 1) {
                     arr1.push(r)
                 } else if (r.examType.id === 2) {
@@ -55,6 +55,8 @@ const Subject = () => {
             setFilesFirst(arr1)
             setFilesSecond(arr2)
             setFilesExam(arr3)
+        }).then(() => {
+            setLoading(false)
         })
     }
 
@@ -106,7 +108,6 @@ const Subject = () => {
 
     const deleteMaterials = (e) => {
         let fileId
-        let fileName
         if (e.target.id === "") {
             fileId = e.target.parentNode.id
         } else {
@@ -197,7 +198,12 @@ const Subject = () => {
 
     return (
         <div className="container">
-            {subject !== undefined ?
+            {loading === true ?
+                <div id="div_loader">
+                    <FadeLoader speedMultiplier={2}/>
+                    <div id="loading_mess">Loading...</div>
+                </div>
+                :
                 <div className="row">
                     <h1 id="subject_title">{subject.name}</h1>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
@@ -302,11 +308,8 @@ const Subject = () => {
                                 })}
                             </ol>
                         }
-
                     </div>
                 </div>
-                :
-                <div/>
             }
         </div>
     )

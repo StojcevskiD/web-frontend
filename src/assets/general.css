@@ -1,3 +1,16 @@
-body{
+body {
     background-color: #f3f3f4 !important;
+}
+
+#div_loader {
+    position: absolute;
+    right: 50%;
+    bottom: 55%;
+}
+
+#loading_mess {
+    position: absolute;
+    top: 60px;
+    left: -12px;
+    font-size: 20px;
 }

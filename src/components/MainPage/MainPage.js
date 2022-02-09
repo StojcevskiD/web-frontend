@@ -16,34 +16,59 @@ const MainPage = () => {
     const [type, setType] = React.useState(undefined)
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
+    const [filteredSubjectsByYear, setFilteredSubjectsByYear] = React.useState([])
+    const [filteredSubjectsByYearAndSemester, setFilteredSubjectsByYearAndSemester] = React.useState([])
+    const [subjectsBySearch, setSubjectsBySearch] = React.useState([])
     let p = decodeURI(useLocation().search)
 
     const getQueryParam = () => {
         if (p[6] === "f") {
             setAreFavorites(true)
         } else {
-            if (p[6] !== "h") {
+            if (p[6] !== "h" && p[6] !== undefined) {
                 setYear(p[6])
+                filterByYear(parseInt(p[6]))
             }
             if (p[1] !== undefined) {
                 if (p[1] === "s") {
-                    setSearch(p.substring(8, p.length))
+                    let s = p.substring(8, p.length)
+                    setSearch(s)
+                    searchFilter(s)
                 } else if (p[13] === "s") {
                     setType("летен")
+                    filterByYearAndSemester(parseInt(p[6]), 1)
                 } else if (p[13] === "w") {
                     setType("зимски")
+                    filterByYearAndSemester(parseInt(p[6]), 2)
                 }
             }
         }
     }
 
     const addToFavorites = (e) => {
-        console.log(document.getElementById(e.target.parentNode.id).style.color)
         if (document.getElementById(e.target.parentNode.id).style.color === "rgb(227, 216, 2)") {
             document.getElementById(e.target.parentNode.id).style.color = "black"
         } else {
             document.getElementById(e.target.parentNode.id).style.color = "#e3d802"
         }
+    }
+
+    const filterByYear = (y) => {
+        SubjectService.getAllSubjectsByYear(y).then(r => {
+            setFilteredSubjectsByYear(r.data)
+        })
+    }
+
+    const filterByYearAndSemester = (y, type) => {
+        SubjectService.getAllSubjectsByYearAndSemester(y, type).then(r => {
+            setFilteredSubjectsByYearAndSemester(r.data)
+        })
+    }
+
+    const searchFilter = (val) => {
+        SubjectService.getAllSubjectsWithSearch(val).then(r => {
+            setSubjectsBySearch(r.data)
+        })
     }
 
     useEffect(() => {
@@ -55,7 +80,7 @@ const MainPage = () => {
     )
 
 
-    function getAllData(){
+    function getAllData() {
         CSVReaderService.getAllData()
     }
 
@@ -64,7 +89,8 @@ const MainPage = () => {
             <div className="row">
                 <div className="col">
                     <h1 id="main_page_title">Предмети</h1>
-                    <span><button style={{float: "right"}} onClick={getAllData} className="btn btn-secondary"><DiDatabase/></button></span>
+                    <span><button style={{float: "right"}} onClick={getAllData}
+                                  className="btn btn-secondary"><DiDatabase/></button></span>
                     <div>
                         {areFavorites === true ? <h3>Мои предмети:</h3> :
                             <div>

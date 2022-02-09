@@ -8,7 +8,6 @@ import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
 
 
-
 const Subject = () => {
 
     const id = parseInt(useParams().id)
@@ -43,9 +42,10 @@ const Subject = () => {
         let arr3 = []
         FileService.findFiles(id).then((res) => {
             res.data.forEach(r => {
-                if (r.exam_type.id === 1) {
+                console.log("r", r)
+                if (r.examType.id === 1) {
                     arr1.push(r)
-                } else if (r.exam_type.id === 2) {
+                } else if (r.examType.id === 2) {
                     arr2.push(r)
                 } else {
                     arr3.push(r)
@@ -56,10 +56,6 @@ const Subject = () => {
             setFilesSecond(arr2)
             setFilesExam(arr3)
         })
-    }
-
-    const getFile = (id) => {
-
     }
 
     const toFormData = (f, type) => {

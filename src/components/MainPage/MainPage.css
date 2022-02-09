@@ -17,18 +17,20 @@
 
 .main_page_star {
     float: right;
-    /*margin-top: 15px;*/
 }
-.link_subject{
+
+.link_subject {
     text-decoration: none;
     color: black;
     font-weight: bold;
     width: fit-content;
 }
-.link_subject:visited{
+
+.link_subject:visited {
     color: #6649e6;
 }
-.subject_list{
+
+.subject_list {
     margin-top: 1% !important;
 }
 

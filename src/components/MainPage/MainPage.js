@@ -4,7 +4,7 @@ import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
 import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {ImageList} from '@material-ui/core';
+import {colors, ImageList} from '@material-ui/core';
 import ImageListItem from '@material-ui/core/ImageListItem'
 import CSVReaderService from "../../repository/ReaderRepository"
 import {DiDatabase} from 'react-icons/di';
@@ -17,6 +17,7 @@ const MainPage = () => {
     const [type, setType] = React.useState(undefined)
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
+    const [loading, setLoading] = React.useState(true)
     let p = decodeURI(useLocation().search)
 
     const getQueryParam = () => {
@@ -57,24 +58,32 @@ const MainPage = () => {
     const filterByYear = (y) => {
         SubjectService.getAllSubjectsByYear(y).then(r => {
             setSubjects(r.data)
+        }).then(() => {
+            setLoading(false)
         })
     }
 
     const filterByYearAndSemester = (y, type) => {
         SubjectService.getAllSubjectsByYearAndSemester(y, type).then(r => {
             setSubjects(r.data)
+        }).then(() => {
+            setLoading(false)
         })
     }
 
     const searchFilter = (val) => {
         SubjectService.getAllSubjectsWithSearch(val).then(r => {
             setSubjects(r.data)
+        }).then(() => {
+            setLoading(false)
         })
     }
 
     const fetchAllSubjects = () => {
         SubjectService.getAllSubjects().then((sub) => {
             setSubjects(sub.data)
+        }).then(() => {
+            setLoading(false)
         })
     }
 
@@ -91,42 +100,46 @@ const MainPage = () => {
 
     return (
         <div className="container">
-            <div id="div_loader">
-                <FadeLoader id="spinner"/>
-                <div id="loading_mess">Loading</div>
-            </div>
-            <div className="row">
-                <div className="col">
-                    <h1 id="main_page_title">Предмети</h1>
-                    <span><button style={{float: "right"}} onClick={getAllData}
-                                  className="btn btn-secondary"><DiDatabase/></button></span>
-                    <div>
-                        {areFavorites === true ? <h3>Мои предмети:</h3> :
-                            <div>
-                                <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
-                                    {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
-                                {search !== "" ? <h5>-пребарување по "{search}"</h5> : null}
-                            </div>
-                        }
+            {loading === true ?
+                <div id="div_loader">
+                    <FadeLoader speedMultiplier={2}/>
+                    <div id="loading_mess">Loading...</div>
+                </div>
+                :
+                <div className="row">
+                    <div className="col">
+                        <h1 id="main_page_title">Предмети</h1>
+                        <span><button style={{float: "right"}} onClick={getAllData}
+                                      className="btn btn-secondary"><DiDatabase/></button></span>
+                        <div>
+                            {areFavorites === true ? <h3>Мои предмети:</h3> :
+                                <div>
+                                    <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
+                                        {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
+                                    {search !== "" ? <h5>-пребарување по "{search}"</h5> : null}
+                                </div>
+                            }
 
-                        <ImageList rowHeight={50} cols={3} className="subject_list">
-                            {subjects.map((s) => {
-                                return (
-                                    <ImageListItem key={s.id} className="main_page_list_item">
-                                        <Link className="link_subject" to={`/subject/${s.id}`}>
-                                            {s.name}
-                                        </Link>
-                                        <span>
+                            <ImageList rowHeight={50} cols={3} className="subject_list">
+                                {subjects.map((s) => {
+                                    return (
+                                        <ImageListItem key={s.id} className="main_page_list_item">
+                                            <Link className="link_subject" to={`/subject/${s.id}`}>
+                                                {s.name}
+                                            </Link>
+                                            <span>
                                             <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
                                                         id={"unique_star_id" + s.id}/>
                                         </span>
-                                    </ImageListItem>
-                                )
-                            })}
-                        </ImageList>
+                                        </ImageListItem>
+                                    )
+                                })}
+                            </ImageList>
+
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

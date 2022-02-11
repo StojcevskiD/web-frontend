@@ -4,7 +4,7 @@ import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
 import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {colors, ImageList} from '@material-ui/core';
+import {ImageList} from '@material-ui/core';
 import ImageListItem from '@material-ui/core/ImageListItem'
 import CSVReaderService from "../../repository/ReaderRepository"
 import {DiDatabase} from 'react-icons/di';

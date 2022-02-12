@@ -59,7 +59,7 @@ const Subject = () => {
             setFilesSecond(arr2)
             setFilesExam(arr3)
         }).then(() => {
-            // setLoading(false)
+            setLoading(false)
         })
     }
 

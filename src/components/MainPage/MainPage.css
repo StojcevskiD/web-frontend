@@ -23,33 +23,36 @@
     text-decoration: none;
     color: black;
     font-weight: bold;
-    width: fit-content;
 }
 
 .link_subject:visited {
     color: #6649e6;
 }
 
-.subject_list {
-    margin-top: 1% !important;
+.main_page_subject_list {
+    margin-top: 16px !important;
 }
-.paggination_btns{
+
+.paggination_btns {
     margin-top: 10px;
     position: absolute;
 }
-.pagination-btn{
+
+.pagination-btn {
     background-color: #f3f3f4 !important;
     border: 1px #adadad solid !important;
     color: #2e2a9a !important;
 }
+
 .pagination-btn:hover {
     background-color: white !important;
 }
 
-.add:hover{
+.add:hover {
     background-color: #2e2a9a !important;
 }
-.add{
+
+.add {
     float: right;
     margin-top: 10px;
     background-color: #2a439a !important;

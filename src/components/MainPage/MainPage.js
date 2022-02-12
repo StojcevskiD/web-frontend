@@ -22,6 +22,7 @@ const MainPage = () => {
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
+
     let p = decodeURI(useLocation().search)
 
     const getQueryParam = () => {
@@ -93,7 +94,6 @@ const MainPage = () => {
 
     useEffect(() => {
             getQueryParam()
-
         }, []
     )
 
@@ -124,31 +124,40 @@ const MainPage = () => {
                                 </div>
                             }
 
-                            <ImageList rowHeight={50} cols={3} className="subject_list">
+                            <ImageList rowHeight={50} cols={3} className="main_page_subject_list">
                                 {subjects.map((s) => {
                                     return (
                                         <ImageListItem key={s.id} className="main_page_list_item">
+
+                                            <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
+                                                        id={"unique_star_id" + s.id}/>
+
                                             <Link className="link_subject" to={`/subject/${s.id}`}>
                                                 {s.name}
                                             </Link>
-                                            <span>
-                                            <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
-                                                        id={"unique_star_id" + s.id}/>
-                                        </span>
+
                                         </ImageListItem>
                                     )
                                 })}
                             </ImageList>
                             <ul className="pagination paggination_btns">
-                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleLeft/></a></li>
+                                <li className="page-item">
+                                    <a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a>
+                                </li>
+                                <li className="page-item">
+                                    <a className="page-link pagination-btn" href="#"><FaAngleLeft/></a>
+                                </li>
                                 <li className="page-item"><a className="page-link pagination-btn" href="#">1</a></li>
                                 <li className="page-item"><a className="page-link pagination-btn" href="#">2</a></li>
                                 <li className="page-item"><a className="page-link pagination-btn" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleRight/></a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a></li>
+                                <li className="page-item">
+                                    <a className="page-link pagination-btn" href="#"><FaAngleRight/></a>
+                                </li>
+                                <li className="page-item">
+                                    <a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a>
+                                </li>
                             </ul>
-                            <a className="btn btn-light add" href="/addSubject">Додади предмет</a>
+                            <a className="btn add" href="/addSubject">Додади предмет</a>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,9 @@ const Subject = () => {
     const [inputButtonDisable1, setInputButtonDisable1] = React.useState(true)
     const [inputButtonDisable2, setInputButtonDisable2] = React.useState(true)
     const [inputButtonDisable3, setInputButtonDisable3] = React.useState(true)
+    const [openInput1, setOpenInput1] = React.useState(false)
+    const [openInput2, setOpenInput2] = React.useState(false)
+    const [openInput3, setOpenInput3] = React.useState(false)
     const [filesFirst, setFilesFirst] = React.useState([])
     const [filesSecond, setFilesSecond] = React.useState([])
     const [filesExam, setFilesExam] = React.useState([])
@@ -56,7 +59,7 @@ const Subject = () => {
             setFilesSecond(arr2)
             setFilesExam(arr3)
         }).then(() => {
-            setLoading(false)
+            // setLoading(false)
         })
     }
 
@@ -176,37 +179,28 @@ const Subject = () => {
 
     const showForm = (e) => {
         if (e.target.id === "first_button") {
-            if(e.target.value === "Додади материјали"){
-                e.target.value="Затвори"
-            }else{
-                e.target.value="Додади материјали"
-            }
             if (document.getElementById("first_form_div").style.display === "none") {
                 document.getElementById("first_form_div").style.display = "block"
+                setOpenInput1(true)
             } else {
                 document.getElementById("first_form_div").style.display = "none"
+                setOpenInput1(false)
             }
         } else if (e.target.id === "second_button") {
-            if(e.target.value === "Додади материјали"){
-                e.target.value="Затвори"
-            }else{
-                e.target.value="Додади материјали"
-            }
             if (document.getElementById("second_form_div").style.display === "none") {
                 document.getElementById("second_form_div").style.display = "block"
+                setOpenInput2(true)
             } else {
                 document.getElementById("second_form_div").style.display = "none"
+                setOpenInput2(false)
             }
         } else {
-            if(e.target.value === "Додади материјали"){
-                e.target.value="Затвори"
-            }else{
-                e.target.value="Додади материјали"
-            }
             if (document.getElementById("third_form_div").style.display === "none") {
                 document.getElementById("third_form_div").style.display = "block"
+                setOpenInput3(true)
             } else {
                 document.getElementById("third_form_div").style.display = "none"
+                setOpenInput3(false)
             }
         }
     }
@@ -231,9 +225,9 @@ const Subject = () => {
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
                         <div>
-                            <input type="button" className="btn btn-outline-primary subject_add_button" id="first_button"
-                                    onClick={showForm}  value="Додади материјали">
-                            </input>
+                            <button className="btn btn-outline-primary subject_add_button" id="first_button"
+                                    onClick={showForm}>{openInput1 === false ? "Додади материјали" : "Затвори"}
+                            </button>
                         </div>
                         <div id="first_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
@@ -244,6 +238,7 @@ const Subject = () => {
                                     disabled={inputButtonDisable1} id="subject_button1">Додади
                             </button>
                         </div>
+
                         {filesFirst.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
                             :
@@ -251,25 +246,25 @@ const Subject = () => {
                                 {filesFirst.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <a download
-                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>{f.name}</a>
-                                            <BsTrash style={{float: "right"}} className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-
+                                            <a download
+                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>
+                                                <div className="subject_name">{f.name}</div>
+                                            </a>
                                         </li>
                                     )
                                 })}
                             </ol>
                         }
-
                     </div>
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Втор колоквиум</h3>
                         <div>
-                            <input type="button" className="btn btn-outline-primary subject_add_button" id="second_button"
-                                    onClick={showForm} value="Додади материјали">
-                            </input>
+                            <button className="btn btn-outline-primary subject_add_button" id="second_button"
+                                    onClick={showForm}>{openInput2 === false ? "Додади материјали" : "Затвори"}
+                            </button>
                         </div>
                         <div id="second_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
@@ -288,23 +283,25 @@ const Subject = () => {
                                 {filesSecond.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            {f.name}
-                                            <BsTrash style={{float: "right"}} className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                            <a download
+                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>
+                                                <div className="subject_name">{f.name}</div>
+                                            </a>
                                         </li>
                                     )
                                 })}
                             </ol>
                         }
-
                     </div>
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left">
                         <h3 className="subject_sub_title">Испит</h3>
                         <div>
-                            <input type="button" className="btn btn-outline-primary subject_add_button" id="third_button"
-                                    onClick={showForm} value="Додади материјали">
-                            </input>
+                            <button className="btn btn-outline-primary subject_add_button" id="third_button"
+                                    onClick={showForm}>{openInput3 === false ? "Додади материјали" : "Затвори"}
+                            </button>
                         </div>
                         <div id="third_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
@@ -323,9 +320,12 @@ const Subject = () => {
                                 {filesExam.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            {f.name}
-                                            <BsTrash style={{float: "right"}} className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                            <a download
+                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>
+                                                <div className="subject_name">{f.name}</div>
+                                            </a>
                                         </li>
                                     )
                                 })}

@@ -124,14 +124,12 @@ const MainPage = () => {
                                 </div>
                             }
 
-                            <ImageList rowHeight={50} cols={3} className="main_page_subject_list">
+                            <ImageList cols={3} className="main_page_subject_list">
                                 {subjects.map((s) => {
                                     return (
                                         <ImageListItem key={s.id} className="main_page_list_item">
-
                                             <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
                                                         id={"unique_star_id" + s.id}/>
-
                                             <Link className="link_subject" to={`/subject/${s.id}`}>
                                                 {s.name}
                                             </Link>

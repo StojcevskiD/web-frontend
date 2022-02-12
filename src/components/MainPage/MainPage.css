@@ -13,6 +13,10 @@
 
 .main_page_list_item {
     border: 1px #adadad solid;
+    min-height: 52px !important;
+    height: auto !important;
+    padding: 1% 0 !important;
+    text-align: center;
 }
 
 .main_page_star {

@@ -21,7 +21,7 @@ const Register = () => {
                     <div className="col ">
                         <Card id="login_card">
                             <div className="row">
-                                <h1 id="login_title">Register</h1>
+                                <h1 id="login_title">Регистрирај се</h1>
                                 <FaBookReader size="35" id="login_reader_icon"/>
                             </div>
                             <CardBody>
@@ -40,11 +40,11 @@ const Register = () => {
                                     </div>
                                     <div className="row login_form_element" id="login_btn_div">
                                         <a className="btn login_form_element btn-success form-control login_btn "
-                                           href={'/login'}>Log in</a>
+                                           href={'/login'}>Најави се</a>
                                     </div>
                                     <div className="row login_form_element">
                                         <a className="btn btn-success form-control login_register_btn "
-                                           href={'/register'}>Register</a>
+                                           href={'/register'}>Регистрирај се</a>
                                     </div>
                                 </form>
 

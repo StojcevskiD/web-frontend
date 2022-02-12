@@ -9,6 +9,10 @@ import ImageListItem from '@material-ui/core/ImageListItem'
 import CSVReaderService from "../../repository/ReaderRepository"
 import {DiDatabase} from 'react-icons/di';
 import {FadeLoader} from "react-spinners";
+import {FaAngleLeft} from 'react-icons/fa';
+import {FaAngleRight} from 'react-icons/fa';
+import {FaAngleDoubleLeft} from 'react-icons/fa';
+import {FaAngleDoubleRight} from 'react-icons/fa';
 
 const MainPage = () => {
 
@@ -116,7 +120,7 @@ const MainPage = () => {
                                 <div>
                                     <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
                                         {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
-                                    {search !== "" ? <h5>-пребарување по "{search}"</h5> : null}
+                                    {search !== "" ? <h5 id="search_message">-пребарување по "{search}"</h5> : null}
                                 </div>
                             }
 
@@ -135,7 +139,16 @@ const MainPage = () => {
                                     )
                                 })}
                             </ImageList>
-
+                            <ul className="pagination paggination_btns">
+                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a></li>
+                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleLeft/></a></li>
+                                <li className="page-item"><a className="page-link pagination-btn" href="#">1</a></li>
+                                <li className="page-item"><a className="page-link pagination-btn" href="#">2</a></li>
+                                <li className="page-item"><a className="page-link pagination-btn" href="#">3</a></li>
+                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleRight/></a></li>
+                                <li className="page-item"><a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a></li>
+                            </ul>
+                            <a className="btn btn-light add" href="/addSubject">Додади предмет</a>
                         </div>
                     </div>
                 </div>

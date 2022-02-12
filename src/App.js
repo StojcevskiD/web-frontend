@@ -7,6 +7,8 @@ import MainPage from "./components/MainPage/MainPage";
 import NavBar from "./components/NavBar/NavBar";
 import Login from "./components/Login/Login";
 import Subject from "./components/Subject/Subject";
+import Register from "./components/Register/Register";
+import AddSubject from "./components/AddSubject/AddSubject";
 
 class App extends Component {
 
@@ -28,6 +30,8 @@ class App extends Component {
                     <Route path='/subjects' element={<MainPage/>}/>
                     <Route path='/subject/:id' element={<Subject/>}/>
                     <Route path='/login' element={<Login/>}/>
+                    <Route path='/register' element={<Register/>}/>
+                    <Route path='/addSubject' element={<AddSubject/>}></Route>
 
                     <Route path="*" element={<Navigate to="/subjects"/>}/>
                 </Routes>

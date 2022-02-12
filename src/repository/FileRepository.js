@@ -17,6 +17,10 @@ const FileService = {
 
     getFile: (id) => {
         return axios.get(`/file/get/${id}`)
+    },
+
+    downloadFile: (id) => {
+        return axios.get(`/file/downloadFile/${id}`)
     }
 
 }

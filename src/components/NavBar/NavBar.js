@@ -24,7 +24,7 @@ const NavBar = () => {
     }
 
 
-    function getAllSubjectsByYear(year){
+    function getAllSubjectsByYear(year) {
         SubjectService.getAllSubjectsByYear(year).then(r => {
 
         })
@@ -43,7 +43,7 @@ const NavBar = () => {
                         navbarScroll
                     >
                         <NavDropdown title="Предмети">
-                            <NavDropdown.Item href="/subjects?year=1"  className="navBar_item1">Прва година
+                            <NavDropdown.Item href="/subjects?year=1" className="navBar_item1">Прва година
                                 <div className="floatDiv">
                                     <NavDropdown.Item href="/subjects?year=1&type=winter">Зимски
                                         семестар </NavDropdown.Item>
@@ -80,18 +80,18 @@ const NavBar = () => {
                         </NavDropdown>
                         <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
                     </Nav>
-                    <Form className="d-flex">
-                        <FormControl
-                            type="email"
+                    <div className="d-flex">
+                        <input
+                            type="text"
                             placeholder="Search..."
-                            className="me-2"
+                            className="me-2 form-control"
                             aria-label="Search"
                             value={searchValue}
                             onChange={onValueChange}
                             onKeyPress={enterHandler}
                         />
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
-                    </Form>
+                    </div>
                     <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
                     <Nav.Link className="nav_bar_login_link" href="/register">Регистрирај се</Nav.Link>
                 </Navbar.Collapse>

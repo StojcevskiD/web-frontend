@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import './Subject.css'
 import SubjectService from "../../repository/SubjectRepository";
 import Form from 'react-bootstrap/Form'
@@ -196,6 +196,13 @@ const Subject = () => {
         }
     }
 
+    const downloadFile = (e) => {
+        const fileId = parseInt(e.target.id)
+        FileService.downloadFile(fileId).then(r => {
+            console.log("jej")
+        })
+    }
+
     return (
         <div className="container">
             {loading === true ?
@@ -229,7 +236,8 @@ const Subject = () => {
                                 {filesFirst.map((f) => {
                                     return (
                                         <li key={f.id}>
-                                            {f.name}
+                                            <a download
+                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>{f.name}</a>
                                             <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
 

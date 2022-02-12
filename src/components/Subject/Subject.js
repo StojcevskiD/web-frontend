@@ -176,18 +176,33 @@ const Subject = () => {
 
     const showForm = (e) => {
         if (e.target.id === "first_button") {
+            if(e.target.value === "Додади материјали"){
+                e.target.value="Затвори"
+            }else{
+                e.target.value="Додади материјали"
+            }
             if (document.getElementById("first_form_div").style.display === "none") {
                 document.getElementById("first_form_div").style.display = "block"
             } else {
                 document.getElementById("first_form_div").style.display = "none"
             }
         } else if (e.target.id === "second_button") {
+            if(e.target.value === "Додади материјали"){
+                e.target.value="Затвори"
+            }else{
+                e.target.value="Додади материјали"
+            }
             if (document.getElementById("second_form_div").style.display === "none") {
                 document.getElementById("second_form_div").style.display = "block"
             } else {
                 document.getElementById("second_form_div").style.display = "none"
             }
         } else {
+            if(e.target.value === "Додади материјали"){
+                e.target.value="Затвори"
+            }else{
+                e.target.value="Додади материјали"
+            }
             if (document.getElementById("third_form_div").style.display === "none") {
                 document.getElementById("third_form_div").style.display = "block"
             } else {
@@ -216,9 +231,9 @@ const Subject = () => {
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
                         <div>
-                            <button className="btn btn-outline-primary subject_add_button" id="first_button"
-                                    onClick={showForm}>Додади материјали
-                            </button>
+                            <input type="button" className="btn btn-outline-primary subject_add_button" id="first_button"
+                                    onClick={showForm}  value="Додади материјали">
+                            </input>
                         </div>
                         <div id="first_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
@@ -232,13 +247,13 @@ const Subject = () => {
                         {filesFirst.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
                             :
-                            <ol className="subject_list">
+                            <ol className="subject_list list-group">
                                 {filesFirst.map((f) => {
                                     return (
-                                        <li key={f.id}>
+                                        <li key={f.id} className="list-group-item">
                                             <a download
                                                href={"http://localhost:8080/file/downloadFile/" + f.id}>{f.name}</a>
-                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash style={{float: "right"}} className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
 
                                         </li>
@@ -252,9 +267,9 @@ const Subject = () => {
                     <div className="col-12 col-md-4 subject_sub_title_border_left subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Втор колоквиум</h3>
                         <div>
-                            <button className="btn btn-outline-primary subject_add_button" id="second_button"
-                                    onClick={showForm}>Додади материјали
-                            </button>
+                            <input type="button" className="btn btn-outline-primary subject_add_button" id="second_button"
+                                    onClick={showForm} value="Додади материјали">
+                            </input>
                         </div>
                         <div id="second_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
@@ -269,12 +284,12 @@ const Subject = () => {
                         {filesSecond.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
                             :
-                            <ol className="subject_list">
+                            <ol className="subject_list list-group">
                                 {filesSecond.map((f) => {
                                     return (
-                                        <li key={f.id}>
+                                        <li key={f.id} className="list-group-item">
                                             {f.name}
-                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash style={{float: "right"}} className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
                                         </li>
                                     )
@@ -287,9 +302,9 @@ const Subject = () => {
                     <div className="col-12 col-md-4 subject_sub_title_border_left">
                         <h3 className="subject_sub_title">Испит</h3>
                         <div>
-                            <button className="btn btn-outline-primary subject_add_button" id="third_button"
-                                    onClick={showForm}>Додади материјали
-                            </button>
+                            <input type="button" className="btn btn-outline-primary subject_add_button" id="third_button"
+                                    onClick={showForm} value="Додади материјали">
+                            </input>
                         </div>
                         <div id="third_form_div" style={{display: "none"}}>
                             <Form.Group className="mb-3 subject_form_group">
@@ -304,12 +319,12 @@ const Subject = () => {
                         {filesExam.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
                             :
-                            <ol className="subject_list">
+                            <ol className="subject_list list-group">
                                 {filesExam.map((f) => {
                                     return (
-                                        <li key={f.id}>
+                                        <li key={f.id} className="list-group-item">
                                             {f.name}
-                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash style={{float: "right"}} className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
                                         </li>
                                     )

@@ -22,7 +22,7 @@ const Login = () => {
                     <div className="col login_positions">
                         <Card id="login_card">
                             <div className="row">
-                                <h1 id="login_title">Log In</h1>
+                                <h1 id="login_title">Најави се</h1>
                                 <FaBookReader size="35" id="login_reader_icon"/>
                             </div>
                             <CardBody>
@@ -37,12 +37,12 @@ const Login = () => {
                                     </div>
                                     <div className="row login_form_element" id="login_btn_div">
                                         <button type="button" className="form-control login_btn"
-                                                onClick={loginHandler}>Log in
+                                                onClick={loginHandler}>Најави се
                                         </button>
                                     </div>
                                     <div className="row login_form_element">
                                         <a className="btn btn-success form-control login_register_btn "
-                                           href={'/register'}>Register</a>
+                                           href={'/register'}>Регистрирај се</a>
                                     </div>
                                 </form>
 

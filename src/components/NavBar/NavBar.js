@@ -34,7 +34,7 @@ const NavBar = () => {
     return (
         <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
-                <Navbar.Brand href="/subjects">Предметник</Navbar.Brand>
+                <Navbar.Brand href="/subjects?page=1">Предметник</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse>
                     <Nav
@@ -76,7 +76,7 @@ const NavBar = () => {
                                 </div>
                             </NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href="/subjects">Сите предмети</NavDropdown.Item>
+                            <NavDropdown.Item href="/subjects?page=1">Сите предмети</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
                     </Nav>

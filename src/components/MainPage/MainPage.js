@@ -13,8 +13,18 @@ import {FaAngleLeft} from 'react-icons/fa';
 import {FaAngleRight} from 'react-icons/fa';
 import {FaAngleDoubleLeft} from 'react-icons/fa';
 import {FaAngleDoubleRight} from 'react-icons/fa';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
 
 const MainPage = () => {
+
+    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+
+    // const handleChangeRowsPerPage = (event) => {
+    //     setRowsPerPage(parseInt(event.target.value, 10));
+    //     setPage(0);
+    // };
 
     const [subjects, setSubjects] = React.useState([])
     const [year, setYear] = React.useState(undefined)
@@ -22,11 +32,24 @@ const MainPage = () => {
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
+    const [showPagination, setShowPagination] = React.useState(false)
+    const [page, setPage] = React.useState(1);
+    const [totalPages, setTotalPages] = React.useState(0)
+    const [sizeOnPage, setSizeOnPage] = React.useState(30)
 
     let p = decodeURI(useLocation().search)
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+        getPaginatedSubjects(newPage, sizeOnPage)
+    };
+
     const getQueryParam = () => {
-        if (p[6] === "f") {
+        setShowPagination(false)
+        if (p[1] === "p") {
+            getPaginatedSubjects(page, sizeOnPage)
+            setShowPagination(true)
+        } else if (p[6] === "f") {
             setAreFavorites(true)
             fetchAllSubjects()
         } else {
@@ -46,8 +69,6 @@ const MainPage = () => {
                     setType("зимски")
                     filterByYearAndSemester(parseInt(p[6]), 2)
                 }
-            } else {
-                fetchAllSubjects()
             }
         }
     }
@@ -85,6 +106,7 @@ const MainPage = () => {
     }
 
     const fetchAllSubjects = () => {
+        setLoading(true)
         SubjectService.getAllSubjects().then((sub) => {
             setSubjects(sub.data)
         }).then(() => {
@@ -92,8 +114,23 @@ const MainPage = () => {
         })
     }
 
+    const getTotalSubjects = () => {
+        SubjectService.getTotalSubjects().then(r => {
+            setTotalPages(Math.ceil(r.data / sizeOnPage))
+        })
+    }
+
+    const getPaginatedSubjects = (p, s) => {
+        SubjectService.getPaginatedSubjects(p, s).then(r => {
+            setSubjects(r.data)
+        }).then(() => {
+            setLoading(false)
+        })
+    }
+
     useEffect(() => {
             getQueryParam()
+            getTotalSubjects()
         }, []
     )
 
@@ -113,6 +150,9 @@ const MainPage = () => {
                 <div className="row">
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
+
+                        <a className="btn add" href="/addSubject">Додади предмет</a>
+
                         <span><button style={{float: "right"}} onClick={getAllData}
                                       className="btn btn-secondary"><DiDatabase/></button></span>
                         <div>
@@ -138,24 +178,36 @@ const MainPage = () => {
                                     )
                                 })}
                             </ImageList>
-                            <ul className="pagination paggination_btns">
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a>
-                                </li>
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleLeft/></a>
-                                </li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#">3</a></li>
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleRight/></a>
-                                </li>
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a>
-                                </li>
-                            </ul>
-                            <a className="btn add" href="/addSubject">Додади предмет</a>
+                            {/*<ul className="pagination paggination_btns">*/}
+                            {/*    <li className="page-item">*/}
+                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a>*/}
+                            {/*    </li>*/}
+                            {/*    <li className="page-item">*/}
+                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleLeft/></a>*/}
+                            {/*    </li>*/}
+                            {/*    <li className="page-item"><a className="page-link pagination-btn" href="#">1</a></li>*/}
+                            {/*    <li className="page-item"><a className="page-link pagination-btn" href="#">2</a></li>*/}
+                            {/*    <li className="page-item"><a className="page-link pagination-btn" href="#">3</a></li>*/}
+                            {/*    <li className="page-item">*/}
+                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleRight/></a>*/}
+                            {/*    </li>*/}
+                            {/*    <li className="page-item">*/}
+                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a>*/}
+                            {/*    </li>*/}
+                            {/*</ul>*/}
+                            {showPagination === true ?
+                                <Pagination className="mt-3" count={totalPages} color={'primary'} variant="outlined"
+                                            showFirstButton showLastButton onChange={handleChangePage}
+                                            page={page}
+                                            renderItem={(item) => (
+                                                <PaginationItem
+                                                    component={Link}
+                                                    to={`/subjects?page=${item.page}`}
+                                                    {...item}
+                                                />
+                                            )}
+                                /> : null}
+
                         </div>
                     </div>
                 </div>

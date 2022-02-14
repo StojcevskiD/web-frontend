@@ -37,28 +37,17 @@
     margin-top: 16px !important;
 }
 
-.paggination_btns {
-    margin-top: 10px;
-    position: absolute;
-}
-
-.pagination-btn {
-    background-color: #f3f3f4 !important;
-    border: 1px #adadad solid !important;
-    color: #2e2a9a !important;
-}
-
-.pagination-btn:hover {
-    background-color: white !important;
-}
-
-.add:hover {
+.main_page_add_subject_btn:hover {
     background-color: #2e2a9a !important;
 }
 
-.add {
+.main_page_add_subject_btn {
+    margin-left: 10px;
     float: right;
-    margin-top: 10px;
     background-color: #2a439a !important;
     color: white !important;
 }
+
+/*#main_page_pagination {*/
+/*    width: fit-content !important;*/
+/*}*/

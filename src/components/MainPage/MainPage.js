@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import './MainPage.css'
 import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
@@ -15,6 +15,7 @@ import {FaAngleDoubleLeft} from 'react-icons/fa';
 import {FaAngleDoubleRight} from 'react-icons/fa';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
+import * as events from "events";
 
 const MainPage = () => {
 
@@ -151,10 +152,9 @@ const MainPage = () => {
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
 
-                        <a className="btn add" href="/addSubject">Додади предмет</a>
-
-                        <span><button style={{float: "right"}} onClick={getAllData}
-                                      className="btn btn-secondary"><DiDatabase/></button></span>
+                        <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
+                        <button style={{float: "right"}} onClick={getAllData}
+                                className="btn btn-secondary"><DiDatabase/></button>
                         <div>
                             {areFavorites === true ? <h3>Мои предмети:</h3> :
                                 <div>
@@ -163,6 +163,20 @@ const MainPage = () => {
                                     {search !== "" ? <h5 id="search_message">-пребарување по "{search}"</h5> : null}
                                 </div>
                             }
+
+                            {showPagination === true ?
+                                <Pagination className="mt-3" id="main_page_pagination"
+                                            count={totalPages} page={page}
+                                            color={'primary'} variant="outlined"
+                                            onChange={handleChangePage}
+                                            renderItem={(item) => (
+                                                <PaginationItem
+                                                    component={Link}
+                                                    to={`/subjects?page=${item.page}`}
+                                                    {...item}
+                                                />
+                                            )}
+                                /> : null}
 
                             <ImageList cols={3} className="main_page_subject_list">
                                 {subjects.map((s) => {
@@ -178,36 +192,6 @@ const MainPage = () => {
                                     )
                                 })}
                             </ImageList>
-                            {/*<ul className="pagination paggination_btns">*/}
-                            {/*    <li className="page-item">*/}
-                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a>*/}
-                            {/*    </li>*/}
-                            {/*    <li className="page-item">*/}
-                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleLeft/></a>*/}
-                            {/*    </li>*/}
-                            {/*    <li className="page-item"><a className="page-link pagination-btn" href="#">1</a></li>*/}
-                            {/*    <li className="page-item"><a className="page-link pagination-btn" href="#">2</a></li>*/}
-                            {/*    <li className="page-item"><a className="page-link pagination-btn" href="#">3</a></li>*/}
-                            {/*    <li className="page-item">*/}
-                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleRight/></a>*/}
-                            {/*    </li>*/}
-                            {/*    <li className="page-item">*/}
-                            {/*        <a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a>*/}
-                            {/*    </li>*/}
-                            {/*</ul>*/}
-                            {showPagination === true ?
-                                <Pagination className="mt-3" count={totalPages} color={'primary'} variant="outlined"
-                                            showFirstButton showLastButton onChange={handleChangePage}
-                                            page={page}
-                                            renderItem={(item) => (
-                                                <PaginationItem
-                                                    component={Link}
-                                                    to={`/subjects?page=${item.page}`}
-                                                    {...item}
-                                                />
-                                            )}
-                                /> : null}
-
                         </div>
                     </div>
                 </div>

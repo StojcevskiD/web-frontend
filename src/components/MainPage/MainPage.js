@@ -144,7 +144,7 @@ const MainPage = () => {
         <div className="container">
             {loading === true ?
                 <div id="div_loader">
-                    <FadeLoader speedMultiplier={2}/>
+                    <FadeLoader speedMultiplier={2} color={"#2a439a"}/>
                     <div id="loading_mess">Loading...</div>
                 </div>
                 :

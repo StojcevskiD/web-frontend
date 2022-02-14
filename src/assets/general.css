@@ -11,6 +11,7 @@ body {
 #loading_mess {
     position: absolute;
     top: 60px;
-    left: -12px;
-    font-size: 20px;
+    left: -15px;
+    font-size: 22px;
+    color: #2a439a;
 }

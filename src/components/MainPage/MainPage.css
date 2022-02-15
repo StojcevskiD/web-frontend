@@ -48,6 +48,24 @@
     color: white !important;
 }
 
-/*#main_page_pagination {*/
-/*    width: fit-content !important;*/
-/*}*/
+#main_page_select {
+    width: 40px;
+    background: transparent;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    margin-left: 5px;
+}
+
+#main_page_pagination_div {
+}
+
+#main_page_pagination {
+    margin-right: 10px;
+}
+
+@media (min-width: 768px) {
+    #main_page_pagination_div {
+        display: flex;
+        align-items: center;
+    }
+}

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import './MainPage.css'
 import SubjectService from '../../repository/SubjectRepository'
 import {Link, useLocation} from "react-router-dom";
@@ -9,23 +9,10 @@ import ImageListItem from '@material-ui/core/ImageListItem'
 import CSVReaderService from "../../repository/ReaderRepository"
 import {DiDatabase} from 'react-icons/di';
 import {FadeLoader} from "react-spinners";
-import {FaAngleLeft} from 'react-icons/fa';
-import {FaAngleRight} from 'react-icons/fa';
-import {FaAngleDoubleLeft} from 'react-icons/fa';
-import {FaAngleDoubleRight} from 'react-icons/fa';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
-import * as events from "events";
 
 const MainPage = () => {
-
-    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-
-    // const handleChangeRowsPerPage = (event) => {
-    //     setRowsPerPage(parseInt(event.target.value, 10));
-    //     setPage(0);
-    // };
 
     const [subjects, setSubjects] = React.useState([])
     const [year, setYear] = React.useState(undefined)
@@ -37,12 +24,21 @@ const MainPage = () => {
     const [page, setPage] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState(0)
     const [sizeOnPage, setSizeOnPage] = React.useState(30)
+    const [totalSubjects, setTotalSubjects] = React.useState(0)
 
     let p = decodeURI(useLocation().search)
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         getPaginatedSubjects(newPage, sizeOnPage)
+    };
+
+    const changeSizePerPage = (event) => {
+        let p = parseInt(event.target.value)
+        setSizeOnPage(p)
+        setPage(1);
+        setTotalPages(Math.ceil(totalSubjects / p))
+        getPaginatedSubjects(1, p)
     };
 
     const getQueryParam = () => {
@@ -117,6 +113,7 @@ const MainPage = () => {
 
     const getTotalSubjects = () => {
         SubjectService.getTotalSubjects().then(r => {
+            setTotalSubjects(r.data)
             setTotalPages(Math.ceil(r.data / sizeOnPage))
         })
     }
@@ -140,6 +137,12 @@ const MainPage = () => {
         CSVReaderService.getAllData()
     }
 
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+
     return (
         <div className="container">
             {loading === true ?
@@ -152,9 +155,9 @@ const MainPage = () => {
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
 
-                        <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
                         <button style={{float: "right"}} onClick={getAllData}
                                 className="btn btn-secondary"><DiDatabase/></button>
+
                         <div>
                             {areFavorites === true ? <h3>Мои предмети:</h3> :
                                 <div>
@@ -164,19 +167,35 @@ const MainPage = () => {
                                 </div>
                             }
 
+                            <div>
+                                <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
+                            </div>
+
                             {showPagination === true ?
-                                <Pagination className="mt-3" id="main_page_pagination"
-                                            count={totalPages} page={page}
-                                            color={'primary'} variant="outlined"
-                                            onChange={handleChangePage}
-                                            renderItem={(item) => (
-                                                <PaginationItem
-                                                    component={Link}
-                                                    to={`/subjects?page=${item.page}`}
-                                                    {...item}
-                                                />
-                                            )}
-                                /> : null}
+                                <div id="main_page_pagination_div">
+                                    <Pagination id="main_page_pagination"
+                                                count={totalPages} page={page}
+                                                color={'primary'} variant="outlined"
+                                                onChange={handleChangePage}
+                                                renderItem={(item) => (
+                                                    <PaginationItem
+                                                        component={Link}
+                                                        to={`/subjects?page=${item.page}`}
+                                                        {...item}
+                                                    />
+                                                )}
+                                    />
+                                    <div>
+                                        <span>Per Page:</span>
+                                        <select id="main_page_select" onChange={changeSizePerPage}>
+                                            <option defaultValue="30">30</option>
+                                            <option value="45">45</option>
+                                            <option value="60">60</option>
+                                            <option value="75">75</option>
+                                            <option value="90">90</option>
+                                        </select>
+                                    </div>
+                                </div> : null}
 
                             <ImageList cols={3} className="main_page_subject_list">
                                 {subjects.map((s) => {

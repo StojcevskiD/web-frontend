@@ -41,6 +41,10 @@
     text-overflow: ellipsis;
 }
 
+#subject_download_div {
+    width: fit-content;
+}
+
 
 @media (min-width: 768px) {
     .subject_sub_title_border_left {

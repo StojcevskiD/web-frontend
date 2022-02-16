@@ -9,10 +9,8 @@ import ImageListItem from '@material-ui/core/ImageListItem'
 import CSVReaderService from "../../repository/ReaderRepository"
 import {DiDatabase} from 'react-icons/di';
 import {FadeLoader} from "react-spinners";
-import {FaAngleLeft} from 'react-icons/fa';
-import {FaAngleRight} from 'react-icons/fa';
-import {FaAngleDoubleLeft} from 'react-icons/fa';
-import {FaAngleDoubleRight} from 'react-icons/fa';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
 
 const MainPage = () => {
 
@@ -22,11 +20,33 @@ const MainPage = () => {
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
+    const [showPagination, setShowPagination] = React.useState(false)
+    const [page, setPage] = React.useState(1);
+    const [totalPages, setTotalPages] = React.useState(0)
+    const [sizeOnPage, setSizeOnPage] = React.useState(30)
+    const [totalSubjects, setTotalSubjects] = React.useState(0)
 
     let p = decodeURI(useLocation().search)
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+        getPaginatedSubjects(newPage, sizeOnPage)
+    };
+
+    const changeSizePerPage = (event) => {
+        let p = parseInt(event.target.value)
+        setSizeOnPage(p)
+        setPage(1);
+        setTotalPages(Math.ceil(totalSubjects / p))
+        getPaginatedSubjects(1, p)
+    };
+
     const getQueryParam = () => {
-        if (p[6] === "f") {
+        setShowPagination(false)
+        if (p[1] === "p") {
+            getPaginatedSubjects(page, sizeOnPage)
+            setShowPagination(true)
+        } else if (p[6] === "f") {
             setAreFavorites(true)
             fetchAllSubjects()
         } else {
@@ -46,8 +66,6 @@ const MainPage = () => {
                     setType("зимски")
                     filterByYearAndSemester(parseInt(p[6]), 2)
                 }
-            } else {
-                fetchAllSubjects()
             }
         }
     }
@@ -85,6 +103,7 @@ const MainPage = () => {
     }
 
     const fetchAllSubjects = () => {
+        setLoading(true)
         SubjectService.getAllSubjects().then((sub) => {
             setSubjects(sub.data)
         }).then(() => {
@@ -92,8 +111,24 @@ const MainPage = () => {
         })
     }
 
+    const getTotalSubjects = () => {
+        SubjectService.getTotalSubjects().then(r => {
+            setTotalSubjects(r.data)
+            setTotalPages(Math.ceil(r.data / sizeOnPage))
+        })
+    }
+
+    const getPaginatedSubjects = (p, s) => {
+        SubjectService.getPaginatedSubjects(p, s).then(r => {
+            setSubjects(r.data)
+        }).then(() => {
+            setLoading(false)
+        })
+    }
+
     useEffect(() => {
             getQueryParam()
+            getTotalSubjects()
         }, []
     )
 
@@ -102,19 +137,27 @@ const MainPage = () => {
         CSVReaderService.getAllData()
     }
 
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
+
     return (
         <div className="container">
             {loading === true ?
                 <div id="div_loader">
-                    <FadeLoader speedMultiplier={2}/>
+                    <FadeLoader speedMultiplier={2} color={"#2a439a"}/>
                     <div id="loading_mess">Loading...</div>
                 </div>
                 :
                 <div className="row">
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
-                        <span><button style={{float: "right"}} onClick={getAllData}
-                                      className="btn btn-secondary"><DiDatabase/></button></span>
+
+                        <button style={{float: "right"}} onClick={getAllData}
+                                className="btn btn-secondary"><DiDatabase/></button>
+
                         <div>
                             {areFavorites === true ? <h3>Мои предмети:</h3> :
                                 <div>
@@ -124,40 +167,53 @@ const MainPage = () => {
                                 </div>
                             }
 
-                            <ImageList rowHeight={50} cols={3} className="main_page_subject_list">
-                                {subjects.map((s) => {
-                                    return (
-                                        <ImageListItem key={s.id} className="main_page_list_item">
+                            <div>
+                                <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
+                            </div>
 
-                                            <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
-                                                        id={"unique_star_id" + s.id}/>
+                            {showPagination === true ?
+                                <div id="main_page_pagination_div">
+                                    <Pagination id="main_page_pagination"
+                                                count={totalPages} page={page}
+                                                color={'primary'} variant="outlined"
+                                                onChange={handleChangePage}
+                                                renderItem={(item) => (
+                                                    <PaginationItem
+                                                        component={Link}
+                                                        to={`/subjects?page=${item.page}`}
+                                                        {...item}
+                                                    />
+                                                )}
+                                    />
+                                    <div>
+                                        <span>Per Page:</span>
+                                        <select id="main_page_select" onChange={changeSizePerPage}>
+                                            <option defaultValue="30">30</option>
+                                            <option value="45">45</option>
+                                            <option value="60">60</option>
+                                            <option value="75">75</option>
+                                            <option value="90">90</option>
+                                        </select>
+                                    </div>
+                                </div> : null}
+                            {subjects.length === 0 ?
+                                <h1 id="main_page_subjects_not_found">Нема предмети по даденото пребарување</h1> :
+                                <ImageList cols={3} className="main_page_subject_list">
+                                    {subjects.map((s) => {
+                                        return (
+                                            <ImageListItem key={s.id} className="main_page_list_item">
+                                                <AiFillStar size="22" onClick={addToFavorites}
+                                                            className="main_page_star"
+                                                            id={"unique_star_id" + s.id}/>
+                                                <Link className="link_subject" to={`/subject/${s.id}`}>
+                                                    {s.name}
+                                                </Link>
 
-                                            <Link className="link_subject" to={`/subject/${s.id}`}>
-                                                {s.name}
-                                            </Link>
-
-                                        </ImageListItem>
-                                    )
-                                })}
-                            </ImageList>
-                            <ul className="pagination paggination_btns">
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleDoubleLeft/></a>
-                                </li>
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleLeft/></a>
-                                </li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link pagination-btn" href="#">3</a></li>
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleRight/></a>
-                                </li>
-                                <li className="page-item">
-                                    <a className="page-link pagination-btn" href="#"><FaAngleDoubleRight/></a>
-                                </li>
-                            </ul>
-                            <a className="btn add" href="/addSubject">Додади предмет</a>
+                                            </ImageListItem>
+                                        )
+                                    })}
+                                </ImageList>
+                            }
                         </div>
                     </div>
                 </div>

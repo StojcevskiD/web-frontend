@@ -13,6 +13,10 @@
 
 .main_page_list_item {
     border: 1px #adadad solid;
+    min-height: 52px !important;
+    height: auto !important;
+    padding: 1% 0 !important;
+    text-align: center;
 }
 
 .main_page_star {
@@ -33,28 +37,40 @@
     margin-top: 16px !important;
 }
 
-.paggination_btns {
-    margin-top: 10px;
-    position: absolute;
-}
-
-.pagination-btn {
-    background-color: #f3f3f4 !important;
-    border: 1px #adadad solid !important;
-    color: #2e2a9a !important;
-}
-
-.pagination-btn:hover {
-    background-color: white !important;
-}
-
-.add:hover {
+.main_page_add_subject_btn:hover {
     background-color: #2e2a9a !important;
 }
 
-.add {
+.main_page_add_subject_btn {
+    margin-left: 10px;
     float: right;
-    margin-top: 10px;
     background-color: #2a439a !important;
     color: white !important;
+}
+
+#main_page_select {
+    width: 40px;
+    background: transparent;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    margin-left: 5px;
+}
+
+#main_page_pagination_div {
+}
+
+#main_page_pagination {
+    margin-right: 10px;
+}
+
+#main_page_subjects_not_found {
+    margin-top: 30px;
+    color: red;
+}
+
+@media (min-width: 768px) {
+    #main_page_pagination_div {
+        display: flex;
+        align-items: center;
+    }
 }

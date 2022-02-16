@@ -1,6 +1,6 @@
 import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
-import {Button, Container, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
+import {Container, Nav, NavDropdown} from "react-bootstrap";
 import React from "react";
 import {FaSearch} from 'react-icons/fa';
 import SubjectService from "../../repository/SubjectRepository";
@@ -10,7 +10,12 @@ const NavBar = () => {
     const [searchValue, setSearchValue] = React.useState("")
 
     const search = () => {
-        window.location.href = "/subjects?search=" + searchValue
+        if (searchValue !== "") {
+            window.location.href = "/subjects?search=" + searchValue
+        } else {
+            window.location.href = "/subjects?page=1"
+
+        }
     }
 
     const onValueChange = (e) => {
@@ -34,7 +39,7 @@ const NavBar = () => {
     return (
         <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
-                <Navbar.Brand href="/subjects">Предметник</Navbar.Brand>
+                <Navbar.Brand href="/subjects?page=1">Предметник</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse>
                     <Nav
@@ -76,7 +81,7 @@ const NavBar = () => {
                                 </div>
                             </NavDropdown.Item>
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href="/subjects">Сите предмети</NavDropdown.Item>
+                            <NavDropdown.Item href="/subjects?page=1">Сите предмети</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
                     </Nav>

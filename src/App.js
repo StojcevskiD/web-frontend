@@ -31,9 +31,9 @@ class App extends Component {
                     <Route path='/subject/:id' element={<Subject/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
-                    <Route path='/addSubject' element={<AddSubject/>}></Route>
+                    <Route path='/add/subject' element={<AddSubject/>}/>
 
-                    <Route path="*" element={<Navigate to="/subjects"/>}/>
+                    <Route path="*" element={<Navigate to="/subjects?page=1"/>}/>
                 </Routes>
             </Router>
         )

@@ -6,11 +6,11 @@ const SubjectService = {
         return axios.get(`/subject/all`)
     },
 
-    getPaginatedSubjects: () => {
-      return axios.get('/subject/page/${pageNo}/${pageSize}')
+    getPaginatedSubjects: (pageNo, pageSize) => {
+        return axios.get(`/subject/page/${pageNo}/${pageSize}`)
     },
     getTotalSubjects: () => {
-      return axios.get('subject/totalSubjects')
+        return axios.get(`subject/totalSubjects`)
     },
 
     getSubjectById: (id) => {
@@ -27,6 +27,10 @@ const SubjectService = {
 
     getAllSubjectsWithSearch: (value) => {
         return axios.get(`/subject/search`, {params: {value: value}})
+    },
+
+    addSubject: (form) => {
+        return axios.post(`/subject/add`, form)
     }
 
 }

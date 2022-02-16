@@ -63,6 +63,11 @@
     margin-right: 10px;
 }
 
+#main_page_subjects_not_found {
+    margin-top: 30px;
+    color: red;
+}
+
 @media (min-width: 768px) {
     #main_page_pagination_div {
         display: flex;

@@ -27,6 +27,10 @@ const SubjectService = {
 
     getAllSubjectsWithSearch: (value) => {
         return axios.get(`/subject/search`, {params: {value: value}})
+    },
+
+    addSubject: (form) => {
+        return axios.post(`/subject/add`, form)
     }
 
 }

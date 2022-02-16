@@ -1,6 +1,6 @@
 import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
-import {Button, Container, Form, FormControl, Nav, NavDropdown} from "react-bootstrap";
+import {Container, Nav, NavDropdown} from "react-bootstrap";
 import React from "react";
 import {FaSearch} from 'react-icons/fa';
 import SubjectService from "../../repository/SubjectRepository";
@@ -10,7 +10,12 @@ const NavBar = () => {
     const [searchValue, setSearchValue] = React.useState("")
 
     const search = () => {
-        window.location.href = "/subjects?search=" + searchValue
+        if (searchValue !== "") {
+            window.location.href = "/subjects?search=" + searchValue
+        } else {
+            window.location.href = "/subjects?page=1"
+
+        }
     }
 
     const onValueChange = (e) => {

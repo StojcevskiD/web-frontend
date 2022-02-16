@@ -196,21 +196,24 @@ const MainPage = () => {
                                         </select>
                                     </div>
                                 </div> : null}
+                            {subjects.length === 0 ?
+                                <h1 id="main_page_subjects_not_found">Нема предмети по даденото пребарување</h1> :
+                                <ImageList cols={3} className="main_page_subject_list">
+                                    {subjects.map((s) => {
+                                        return (
+                                            <ImageListItem key={s.id} className="main_page_list_item">
+                                                <AiFillStar size="22" onClick={addToFavorites}
+                                                            className="main_page_star"
+                                                            id={"unique_star_id" + s.id}/>
+                                                <Link className="link_subject" to={`/subject/${s.id}`}>
+                                                    {s.name}
+                                                </Link>
 
-                            <ImageList cols={3} className="main_page_subject_list">
-                                {subjects.map((s) => {
-                                    return (
-                                        <ImageListItem key={s.id} className="main_page_list_item">
-                                            <AiFillStar size="22" onClick={addToFavorites} className="main_page_star"
-                                                        id={"unique_star_id" + s.id}/>
-                                            <Link className="link_subject" to={`/subject/${s.id}`}>
-                                                {s.name}
-                                            </Link>
-
-                                        </ImageListItem>
-                                    )
-                                })}
-                            </ImageList>
+                                            </ImageListItem>
+                                        )
+                                    })}
+                                </ImageList>
+                            }
                         </div>
                     </div>
                 </div>

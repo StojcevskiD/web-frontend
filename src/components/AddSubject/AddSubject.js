@@ -61,8 +61,7 @@ const AddSubject = () => {
             setLoading(false)
         })
     }
-
-
+    
     const updateValueYear = (e) => {
         setFormData({
             ...formData,
@@ -114,9 +113,9 @@ const AddSubject = () => {
 
                                         <div className="row add_sub_element">
                                             <h6>Одберете ја годината во која се предава предметот:</h6>
-                                            {allYears.map((y) => {
+                                            {allYears.map((y, index) => {
                                                 return (
-                                                    <div onClick={updateValueYear} key={y.id}>
+                                                    <div onClick={updateValueYear} key={index}>
                                                         <input name="year" type="radio" id={y.id} required/>
                                                         <label htmlFor={y.id}>{y.name} година</label>
                                                     </div>
@@ -128,10 +127,10 @@ const AddSubject = () => {
                                             <select name="semesterType" className="form-control form-select"
                                                     onChange={updateValueType} required>
                                                 <option defaultValue="">Изберете го типот на семестарот</option>
-                                                {allTypes.map(t => {
+                                                {allTypes.map((t, index) => {
                                                     return (
                                                         <option name="semesterType" id={t.id}
-                                                                key={t.id}>{t.name} семестар
+                                                                key={index}>{t.name} семестар
                                                         </option>
                                                     )
                                                 })}

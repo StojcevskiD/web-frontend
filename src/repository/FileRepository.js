@@ -20,7 +20,16 @@ const FileService = {
     },
 
     downloadFile: (id) => {
-        return axios.get(`/file/downloadFile/${id}`)
+        return axios.get(`/file/downloadFile/${id}`,
+            {
+                headers: {
+                    "Content-disposition": "attachment; filename=response; charset=UTF-8",
+                    //   "Access-Control-Expose-Headers":"Content-Disposition",
+                    //   "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                },
+                responseType: 'blob'
+            }
+        )
     }
 
 }

@@ -20,6 +20,7 @@ const AddSubject = () => {
 
     useEffect(() => {
         getAllYears()
+        getAllSemesterTypes()
     }, [])
 
     const handleKeyPress = (e) => {
@@ -29,7 +30,6 @@ const AddSubject = () => {
     }
 
     const addSubjectHandler = () => {
-        console.log("form", formData)
         if (formData.name !== "" && formData.year !== "" && formData.semesterType !== "") {
             SubjectService.addSubject(formData).then(r => {
                 Swal.fire(
@@ -52,7 +52,6 @@ const AddSubject = () => {
     const getAllYears = () => {
         YearService.getAllYears().then(r => {
             setAllYears(r.data)
-            getAllSemesterTypes()
         })
     }
 
@@ -65,8 +64,6 @@ const AddSubject = () => {
 
 
     const updateValueYear = (e) => {
-        console.log("e", e.target.name)
-        console.log("e", e.target.id)
         setFormData({
             ...formData,
             [e.target.name]: e.target.id
@@ -74,8 +71,6 @@ const AddSubject = () => {
     }
 
     const updateValueType = (e) => {
-        console.log("a", e.target.options[e.target.selectedIndex].id)
-        console.log("a", e.target.options[e.target.selectedIndex])
         setFormData({
             ...formData,
             semesterType: e.target.options[e.target.selectedIndex].id
@@ -83,11 +78,9 @@ const AddSubject = () => {
     }
 
     const updateValueName = (e) => {
-        console.log("e", e.target.name)
-        console.log("e", e.target.value)
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value[0].toUpperCase() + e.target.value
         })
     }
 
@@ -118,28 +111,31 @@ const AddSubject = () => {
                                                    placeholder="Внеси име на предметот (кирилица)"
                                                    required/>
                                         </div>
-                                        <div className="row add_sub_element">
-                                            <select name="semesterType" className="form-control form-select"
-                                                    onChange={updateValueType} required>
-                                                <option selected value="">Изберете го типот на семестарот</option>
-                                                {allTypes.map(t => {
-                                                    return (
-                                                        <option name="semesterType" id={t.id}>{t.name}</option>
-                                                    )
-                                                })}
-                                            </select>
-                                        </div>
 
                                         <div className="row add_sub_element">
                                             <h6>Одберете ја годината во која се предава предметот:</h6>
                                             {allYears.map((y) => {
                                                 return (
-                                                    <div onClick={updateValueYear}>
+                                                    <div onClick={updateValueYear} key={y.id}>
                                                         <input name="year" type="radio" id={y.id} required/>
                                                         <label htmlFor={y.id}>{y.name} година</label>
                                                     </div>
                                                 )
                                             })}
+                                        </div>
+
+                                        <div className="row add_sub_element">
+                                            <select name="semesterType" className="form-control form-select"
+                                                    onChange={updateValueType} required>
+                                                <option defaultValue="">Изберете го типот на семестарот</option>
+                                                {allTypes.map(t => {
+                                                    return (
+                                                        <option name="semesterType" id={t.id}
+                                                                key={t.id}>{t.name} семестар
+                                                        </option>
+                                                    )
+                                                })}
+                                            </select>
                                         </div>
 
                                         <button type="submit" className="rounded add_subject add_sub_element"

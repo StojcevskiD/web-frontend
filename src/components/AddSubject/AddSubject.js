@@ -134,10 +134,9 @@ const AddSubject = () => {
                                             <h6>Одберете ја годината во која се предава предметот:</h6>
                                             {allYears.map((y) => {
                                                 return (
-                                                    <div onClick={updateValueYear}>
+                                                        <label onClick={updateValueYear}>
                                                         <input name="year" type="radio" id={y.id} required/>
-                                                        <label htmlFor={y.id}>{y.name} година</label>
-                                                    </div>
+                                                        {y.name} година</label>
                                                 )
                                             })}
                                         </div>

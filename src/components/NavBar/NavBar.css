@@ -8,22 +8,22 @@
     z-index: 1;
 }
 
-.navBar_item1:hover > div {
+.navBar_item0:hover > div {
     display: block;
     bottom: 119px;
 }
 
-.navBar_item2:hover > div {
+.navBar_item1:hover > div {
     display: block;
     bottom: 87px;
 }
 
-.navBar_item3:hover > div {
+.navBar_item2:hover > div {
     display: block;
     bottom: 55px;
 }
 
-.navBar_item4:hover > div {
+.navBar_item3:hover > div {
     display: block;
     bottom: 23px;
 }

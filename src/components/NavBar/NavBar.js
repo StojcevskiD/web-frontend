@@ -1,13 +1,19 @@
 import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
 import {Container, Nav, NavDropdown} from "react-bootstrap";
-import React from "react";
+import React, {useEffect} from "react";
 import {FaSearch} from 'react-icons/fa';
-import SubjectService from "../../repository/SubjectRepository";
+import YearService from "../../repository/YearRepository";
+import SemesterTypeService from "../../repository/SemesterType";
+import {DiDatabase} from "react-icons/di";
+import CSVReaderService from "../../repository/ReaderRepository";
+
 
 const NavBar = () => {
 
     const [searchValue, setSearchValue] = React.useState("")
+    const [years, setYears] = React.useState([])
+    const [semesterTypes, setSemesterTypes] = React.useState([])
 
     const search = () => {
         if (searchValue !== "") {
@@ -28,14 +34,27 @@ const NavBar = () => {
         }
     }
 
+    const fetchAllYears = () => {
+        YearService.getAllYears().then((year) => {
+            setYears(year.data)
+        } )
+    }
 
-    function getAllSubjectsByYear(year) {
-        SubjectService.getAllSubjectsByYear(year).then(r => {
-
+    const fetchAllSemesterTypes = () => {
+        SemesterTypeService.getAllSemesterTypes().then((type) => {
+            setSemesterTypes(type.data)
         })
     }
 
+    useEffect(() => {
+   fetchAllSemesterTypes()
+        fetchAllYears()
+        }, []
+    )
 
+    function getAllData() {
+        CSVReaderService.getAllData()
+    }
     return (
         <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
@@ -48,42 +67,25 @@ const NavBar = () => {
                         navbarScroll
                     >
                         <NavDropdown title="Предмети">
-                            <NavDropdown.Item href="/subjects?year=1" className="navBar_item1">Прва година
-                                <div className="floatDiv">
-                                    <NavDropdown.Item href="/subjects?year=1&type=winter">Зимски
-                                        семестар </NavDropdown.Item>
-                                    <NavDropdown.Item href="/subjects?year=1&type=summer">Летен
-                                        семестар</NavDropdown.Item>
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/subjects?year=2" className="navBar_item2">Втора година
-                                <div className="floatDiv">
-                                    <NavDropdown.Item href="/subjects?year=2&type=winter">Зимски
-                                        семестар</NavDropdown.Item>
-                                    <NavDropdown.Item href="/subjects?year=2&type=summer">Летен
-                                        семестар</NavDropdown.Item>
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/subjects?year=3" className="navBar_item3">Трета година
-                                <div className="floatDiv">
-                                    <NavDropdown.Item href="/subjects?year=3&type=winter">Зимски
-                                        семестар</NavDropdown.Item>
-                                    <NavDropdown.Item href="/subjects?year=3&type=summer">Летен
-                                        семестар</NavDropdown.Item>
-                                </div>
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/subjects?year=4" className="navBar_item4">Четврта година
-                                <div className="floatDiv">
-                                    <NavDropdown.Item href="/subjects?year=4&type=winter">Зимски
-                                        семестар</NavDropdown.Item>
-                                    <NavDropdown.Item href="/subjects?year=4&type=summer">Летен
-                                        семестар</NavDropdown.Item>
-                                </div>
-                            </NavDropdown.Item>
+                            {years.map((y) => {
+                                return(
+                                    <NavDropdown.Item href={"/subjects?year="+y.id} className={"navBar_item"+years.indexOf(y)}>{y.name} година
+                                        <div className="floatDiv">
+                                            {semesterTypes.map((t)=>{
+                                                return(
+                                                    <NavDropdown.Item href={"/subjects?year="+ y.id+"&type="+t.id}>{t.name} семестар</NavDropdown.Item>
+                                                )
+                                            })}
+                                        </div>
+                                    </NavDropdown.Item>
+                                )
+                            })}
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="/subjects?page=1">Сите предмети</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
+                        <button onClick={getAllData}
+                                className="btn btn-secondary"><DiDatabase/></button>
                     </Nav>
                     <div className="d-flex">
                         <input

@@ -1,6 +1,5 @@
 #subject_title {
     text-align: center;
-    margin-bottom: 40px;
 }
 
 
@@ -64,4 +63,11 @@
         margin-bottom: 25px;
     }
 
+}
+#subject_edit_delete_btns{
+    float: right;
+
+}
+#subject_edit{
+    margin-right: 5px;
 }

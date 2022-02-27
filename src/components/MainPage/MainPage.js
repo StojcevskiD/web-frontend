@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {ImageList} from '@material-ui/core';
 import ImageListItem from '@material-ui/core/ImageListItem'
 import CSVReaderService from "../../repository/ReaderRepository"
-import {DiDatabase} from 'react-icons/di';
 import {FadeLoader} from "react-spinners";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
@@ -125,10 +124,11 @@ const MainPage = () => {
         }, []
     )
 
+    const [age, setAge] = React.useState('');
 
-    function getAllData() {
-        CSVReaderService.getAllData()
-    }
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
 
     return (
         <div className="container">
@@ -142,21 +142,20 @@ const MainPage = () => {
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
 
-                        <button style={{float: "right"}} onClick={getAllData}
-                                className="btn btn-secondary"><DiDatabase/></button>
-
                         <div>
+                            <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
+                        </div>
+
+                        <div style={{marginBottom: "30px"}}>
                             {areFavorites === true ? <h3>Мои предмети:</h3> :
-                                <div>
+                                <div style={{marginBottom: "20px"}}>
                                     <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
                                         {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
                                     {search !== "" ? <h5 id="search_message">-пребарување по "{search}"</h5> : null}
                                 </div>
                             }
 
-                            <div>
-                                <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
-                            </div>
+
 
                             {showPagination === true ?
                                 <div id="main_page_pagination_div">
@@ -172,8 +171,8 @@ const MainPage = () => {
                                                     />
                                                 )}
                                     />
-                                    <div>
-                                        <span>Per Page:</span>
+                                    <div id="main_page_selection">
+                                        <h5>Прикажи по страна:</h5>
                                         <select id="main_page_select" onChange={changeSizePerPage}>
                                             <option defaultValue="30">30</option>
                                             <option value="45">45</option>
@@ -184,7 +183,7 @@ const MainPage = () => {
                                     </div>
                                 </div> : null}
                             {subjects.length === 0 ?
-                                <h1 id="main_page_subjects_not_found">Нема предмети по даденото пребарување</h1> :
+                                <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото пребарување</h1> :
                                 <ImageList cols={3} className="main_page_subject_list">
                                     {subjects.map((s) => {
                                         return (

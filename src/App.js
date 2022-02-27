@@ -9,6 +9,7 @@ import Login from "./components/Login/Login";
 import Subject from "./components/Subject/Subject";
 import Register from "./components/Register/Register";
 import AddSubject from "./components/AddSubject/AddSubject";
+import EditSubject from "./components/EditSubject/EditSubject";
 
 class App extends Component {
 
@@ -32,6 +33,7 @@ class App extends Component {
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/add/subject' element={<AddSubject/>}/>
+                    <Route path='/edit/subject/:id' element={<EditSubject/>}/>
 
                     <Route path="*" element={<Navigate to="/subjects?page=1"/>}/>
                 </Routes>

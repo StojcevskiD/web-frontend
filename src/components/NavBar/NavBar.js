@@ -37,7 +37,7 @@ const NavBar = () => {
     const fetchAllYears = () => {
         YearService.getAllYears().then((year) => {
             setYears(year.data)
-        } )
+        })
     }
 
     const fetchAllSemesterTypes = () => {
@@ -47,14 +47,15 @@ const NavBar = () => {
     }
 
     useEffect(() => {
-   fetchAllSemesterTypes()
-        fetchAllYears()
+            fetchAllSemesterTypes()
+            fetchAllYears()
         }, []
     )
 
     function getAllData() {
         CSVReaderService.getAllData()
     }
+
     return (
         <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
@@ -67,13 +68,16 @@ const NavBar = () => {
                         navbarScroll
                     >
                         <NavDropdown title="Предмети">
-                            {years.map((y) => {
-                                return(
-                                    <NavDropdown.Item href={"/subjects?year="+y.id} className={"navBar_item"+years.indexOf(y)}>{y.name} година
+                            {years.map((y, ind) => {
+                                return (
+                                    <NavDropdown.Item href={"/subjects?year=" + y.id} key={y.id}
+                                                      className={"navBar_item" + ind}>{y.name} година
                                         <div className="floatDiv">
-                                            {semesterTypes.map((t)=>{
-                                                return(
-                                                    <NavDropdown.Item href={"/subjects?year="+ y.id+"&type="+t.id}>{t.name} семестар</NavDropdown.Item>
+                                            {semesterTypes.map((t, index) => {
+                                                return (
+                                                    <NavDropdown.Item
+                                                        href={"/subjects?year=" + y.id + "&type=" + t.id}
+                                                        key={t.id}>{t.name} семестар</NavDropdown.Item>
                                                 )
                                             })}
                                         </div>

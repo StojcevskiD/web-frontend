@@ -11,6 +11,8 @@ import {DiDatabase} from 'react-icons/di';
 import {FadeLoader} from "react-spinners";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
+import YearService from "../../repository/YearRepository";
+import SemesterTypeService from "../../repository/SemesterType";
 
 const MainPage = () => {
 
@@ -26,15 +28,18 @@ const MainPage = () => {
     const [sizeOnPage, setSizeOnPage] = React.useState(30)
     const [totalSubjects, setTotalSubjects] = React.useState(0)
 
-    let p = decodeURI(useLocation().search)
+    const queryParams = decodeURI(useLocation().search)
+    const yearQuery = new URLSearchParams(queryParams).get('year')
+    const typeQuery = new URLSearchParams(queryParams).get('type')
+    const searchQuery = new URLSearchParams(queryParams).get('search')
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         getPaginatedSubjects(newPage, sizeOnPage)
-    };
+    }
 
     const changeSizePerPage = (event) => {
-        let p = parseInt(event.target.value)
+        let p = event.target.value
         setSizeOnPage(p)
         setPage(1);
         setTotalPages(Math.ceil(totalSubjects / p))
@@ -42,32 +47,20 @@ const MainPage = () => {
     };
 
     const getQueryParam = () => {
-        let t
         setShowPagination(false)
-        if (p[1] === "p") {
-            getPaginatedSubjects(page, sizeOnPage)
-            setShowPagination(true)
-        } else if (p[6] === "f") {
-            setAreFavorites(true)
+        if (searchQuery !== null) {
+            setSearch(searchQuery)
+            searchFilter(searchQuery)
+        } else if (typeQuery === "favorites") {
             fetchAllSubjects()
+            setAreFavorites(true)
+        } else if (yearQuery !== null) {
+            filterByYearAndSemester(yearQuery, typeQuery)
+            getYear(yearQuery)
+            getSemesterType(typeQuery)
         } else {
-            if (p[6] !== "h" && p[6] !== undefined) {
-                setYear(p[6])
-            }
-            if (p[1] !== undefined) {
-                if (p[1] === "s") {
-                    let s = p.substring(8, p.length)
-                    setSearch(s)
-                    searchFilter(s)
-                } else if (p[13] === "s") {
-                    t = 1
-                    setType("летен")
-                } else if (p[13] === "w") {
-                    t = 2
-                    setType("зимски")
-                }
-            }
-            filterByYearAndSemester(parseInt(p[6]), t)
+            setShowPagination(true)
+            getPaginatedSubjects(page, sizeOnPage)
         }
     }
 
@@ -117,6 +110,20 @@ const MainPage = () => {
         }).then(() => {
             setLoading(false)
         })
+    }
+
+    const getYear = (id) => {
+        YearService.getYear(id).then(r => {
+            setYear(r.data.name.toLowerCase())
+        })
+    }
+
+    const getSemesterType = (id) => {
+        if (id !== null) {
+            SemesterTypeService.getSemesterType(id).then(r => {
+                setType(r.data.name.toLowerCase())
+            })
+        }
     }
 
     useEffect(() => {

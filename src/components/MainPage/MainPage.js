@@ -41,6 +41,7 @@ const MainPage = () => {
     };
 
     const getQueryParam = () => {
+        let t
         setShowPagination(false)
         if (p[1] === "p") {
             getPaginatedSubjects(page, sizeOnPage)
@@ -51,7 +52,6 @@ const MainPage = () => {
         } else {
             if (p[6] !== "h" && p[6] !== undefined) {
                 setYear(p[6])
-                filterByYear(parseInt(p[6]))
             }
             if (p[1] !== undefined) {
                 if (p[1] === "s") {
@@ -59,13 +59,14 @@ const MainPage = () => {
                     setSearch(s)
                     searchFilter(s)
                 } else if (p[13] === "s") {
+                    t = 1
                     setType("летен")
-                    filterByYearAndSemester(parseInt(p[6]), 1)
                 } else if (p[13] === "w") {
+                    t = 2
                     setType("зимски")
-                    filterByYearAndSemester(parseInt(p[6]), 2)
                 }
             }
+            filterByYearAndSemester(parseInt(p[6]), t)
         }
     }
 
@@ -75,14 +76,6 @@ const MainPage = () => {
         } else {
             document.getElementById(e.target.parentNode.id).style.color = "#e3d802"
         }
-    }
-
-    const filterByYear = (y) => {
-        SubjectService.getAllSubjectsByYear(y).then(r => {
-            setSubjects(r.data)
-        }).then(() => {
-            setLoading(false)
-        })
     }
 
     const filterByYearAndSemester = (y, type) => {

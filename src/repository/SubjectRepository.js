@@ -17,10 +17,6 @@ const SubjectService = {
         return axios.get(`/subject/${id}`)
     },
 
-    getAllSubjectsByYear: (id) => {
-        return axios.get(`/subject/filter/year`, {params: {yearId: id}})
-    },
-
     getAllSubjectsByYearAndSemester: (year, semester) => {
         return axios.get(`/subject/filter/semester`, {params: {yearId: year, semesterId: semester}})
     },

@@ -9,6 +9,11 @@ import FileService from "../../repository/FileRepository";
 import {FadeLoader} from "react-spinners";
 import { Link } from 'react-router-dom';
 
+import axios from "../../custom-axios/axios";
+
+import FileSaver from 'file-saver';
+
+
 const Subject = () => {
 
     const id = parseInt(useParams().id)
@@ -205,10 +210,10 @@ const Subject = () => {
         }
     }
 
-    const downloadFile = (e) => {
-        const fileId = parseInt(e.target.id)
-        FileService.downloadFile(fileId).then(r => {
-            console.log("jej")
+    const downloadFile = async (id, name) => {
+        await FileService.downloadFile(id).then((response) => {
+            var blob = new Blob([response.data], {type: response.data.type});
+            FileSaver.saveAs(blob, name);
         })
     }
 
@@ -280,12 +285,9 @@ const Subject = () => {
                                         <li key={f.id} className="list-group-item">
                                             <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <div id="subject_download_div">
-                                                <a download
-                                                   href={"http://localhost:8080/file/downloadFile/" + f.id}>
-                                                    <div className="subject_name">{f.name}</div>
-                                                </a>
-                                            </div>
+                                            <a download onClick={() => downloadFile(f.id, f.name)}>
+                                                <div className="subject_name">{f.name}</div>
+                                            </a>
                                         </li>
                                     )
                                 })}
@@ -319,8 +321,7 @@ const Subject = () => {
                                         <li key={f.id} className="list-group-item">
                                             <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <a download
-                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>
+                                            <a download onClick={() => downloadFile(f.id, f.name)}>
                                                 <div className="subject_name">{f.name}</div>
                                             </a>
                                         </li>
@@ -356,8 +357,7 @@ const Subject = () => {
                                         <li key={f.id} className="list-group-item">
                                             <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <a download
-                                               href={"http://localhost:8080/file/downloadFile/" + f.id}>
+                                            <a download onClick={() => downloadFile(f.id, f.name)}>
                                                 <div className="subject_name">{f.name}</div>
                                             </a>
                                         </li>

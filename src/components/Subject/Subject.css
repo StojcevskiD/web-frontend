@@ -38,6 +38,7 @@
 .subject_name {
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 #subject_download_div {

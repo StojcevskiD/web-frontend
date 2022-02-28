@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
 import {FadeLoader} from "react-spinners";
-
+import { Link } from 'react-router-dom';
 
 import axios from "../../custom-axios/axios";
 
@@ -217,6 +217,31 @@ const Subject = () => {
         })
     }
 
+    const deleteSubject = (s) => {
+        SubjectService.getSubjectById(s.target.id).then( r => {
+            Swal.fire({
+                title: 'Дали сте сигурни?',
+                text: "Предметот \"" + r.data.name + "\" ќе биде избришан",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Потврди',
+                cancelButtonText: 'Откажи'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    SubjectService.deleteSubject(s.target.id).then((r) => {
+                        Swal.fire(
+                            'Успешно!',
+                            'Предметот е успешно избришан.',
+                            'success'
+                        )
+                    })
+                }
+            })
+        })
+    }
+
     return (
         <div className="container">
             {loading === true ?
@@ -226,7 +251,14 @@ const Subject = () => {
                 </div>
                 :
                 <div className="row">
+                    <div className="mb-3">
                     <h1 id="subject_title">{subject.name}</h1>
+                        <div id="subject_edit_delete_btns">
+                            {}
+                        <Link className="btn btn-success" id="subject_edit" to={`/edit/subject/${subject.id}`}>Edit</Link>
+                            <button className="btn btn-danger subject_title"
+                                   id={subject.id} onClick={deleteSubject}>Delete</button></div>
+                    </div>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
                         <div>

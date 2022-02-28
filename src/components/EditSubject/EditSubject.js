@@ -1,5 +1,5 @@
 import {Card, CardBody} from "reactstrap";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import React, {useEffect} from "react";
 import SubjectService from "../../repository/SubjectRepository";
 import {FadeLoader} from "react-spinners";
@@ -8,11 +8,9 @@ import Swal from "sweetalert2";
 import SemesterTypeService from "../../repository/SemesterType";
 
 const EditSubject = () => {
-    console.log("asda", useLocation().state.subject)
     const state = useLocation().state
     const subject = state.subject
     const id = subject.id
-    const [subjectForEdit, setSubjectForEdit] = React.useState(subject)
     const [loading1, setLoading1] = React.useState(true)
     const [loading2, setLoading2] = React.useState(true)
     const [semesterTypeName, setSemesterTypeName] = React.useState(subject.semesterType.name)
@@ -37,7 +35,6 @@ const EditSubject = () => {
 
     const editSubjectHandler = (e) => {
         e.preventDefault()
-        console.log("f", formData)
         if (semesterTypeName !== 'Изберете го типот на семестарот') {
             Swal.fire(
                 'Грешка!',
@@ -45,15 +42,15 @@ const EditSubject = () => {
                 'error'
             )
         }
-        if ((formData.name !== subjectForEdit.name) || (formData.year.name !== subjectForEdit.year.name)
-            || (formData.semesterType.name !== subjectForEdit.semesterType.name)) {
+        if ((formData.name !== subject.name) || (formData.year.name !== subject.year.name)
+            || (formData.semesterType.name !== subject.semesterType.name)) {
             SubjectService.editSubject(formData).then(s => {
                 Swal.fire(
                     'Успешно!',
                     'Предметот е успешно променет.',
                     'success'
                 ).then(() => {
-                    window.location.href = "/subjects?page=1"
+                    window.location.href = "/subject/" + id
                 })
             })
         } else {
@@ -114,7 +111,7 @@ const EditSubject = () => {
                         <div className="col add_sub_positions">
                             <Card id="login_card">
                                 <div className="row">
-                                    <h1 id="login_title">{subjectForEdit.name}</h1>
+                                    <h1 id="login_title">{subject.name}</h1>
                                 </div>
                                 <CardBody>
                                     <form id="add_sub_form">
@@ -124,12 +121,6 @@ const EditSubject = () => {
 
                                         </div>
                                         <div className="row add_sub_element">
-                                            {/*<select value={semesterTypeName} id="select" name="semesterType"*/}
-                                            {/*        className="form-control form-select" onChange={updateSemesterType}>*/}
-                                            {/*    <option>Изберете го типот на семестарот</option>*/}
-                                            {/*    <option id="zima" value="зимски">зимски</option>*/}
-                                            {/*    <option id="leto" value="летен">летен</option>*/}
-                                            {/*</select>*/}
                                             <select name="semesterType" className="form-control form-select"
                                                     onChange={updateSemesterType} value={semesterTypeName} required>
                                                 <option defaultValue="">Изберете го типот на семестарот</option>
@@ -147,7 +138,7 @@ const EditSubject = () => {
                                             {
                                                 years.map((y) => {
                                                     return (
-                                                        <label>
+                                                        <label key={y.id}>
                                                             <input name="year" value={y.name} type="radio"
                                                                    checked={yearName === y.name}
                                                                    onChange={updateYears}/> {y.name} година

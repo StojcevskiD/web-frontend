@@ -29,17 +29,17 @@ const Subject = () => {
     const [filesFirst, setFilesFirst] = React.useState([])
     const [filesSecond, setFilesSecond] = React.useState([])
     const [filesExam, setFilesExam] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
-
+    const [loading1, setLoading1] = React.useState(true)
+    const [loading2, setLoading2] = React.useState(true)
     useEffect(() => {
         getSubject()
+        getFiles()
     }, [])
 
     const getSubject = () => {
         SubjectService.getSubjectById(id).then((s) => {
             setSubject(s.data)
-        }).then(() => {
-            getFiles()
+            setLoading1(false)
         })
     }
 
@@ -62,7 +62,7 @@ const Subject = () => {
             setFilesSecond(arr2)
             setFilesExam(arr3)
         }).then(() => {
-            setLoading(false)
+            setLoading2(false)
         })
     }
 
@@ -215,34 +215,35 @@ const Subject = () => {
         })
     }
 
-    const deleteSubject = (s) => {
-        SubjectService.getSubjectById(s.target.id).then(r => {
-            Swal.fire({
-                title: 'Дали сте сигурни?',
-                text: "Предметот \"" + r.data.name + "\" ќе биде избришан",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Потврди',
-                cancelButtonText: 'Откажи'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    SubjectService.deleteSubject(s.target.id).then((r) => {
-                        Swal.fire(
-                            'Успешно!',
-                            'Предметот е успешно избришан.',
-                            'success'
-                        )
+    const deleteSubject = (e) => {
+        // e.preventDefault()
+        Swal.fire({
+            title: 'Дали сте сигурни?',
+            text: "Предметот \"" + subject.name + "\" ќе биде избришан.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Потврди',
+            cancelButtonText: 'Откажи'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                SubjectService.deleteSubject(id).then((r) => {
+                    Swal.fire(
+                        'Успешно!',
+                        'Предметот е успешно избришан.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "/subjects"
                     })
-                }
-            })
+                })
+            }
         })
     }
 
     return (
         <div className="container">
-            {loading === true ?
+            {loading1 === true || loading2 === true ?
                 <div id="div_loader">
                     <FadeLoader speedMultiplier={2}/>
                     <div id="loading_mess">Loading...</div>
@@ -253,10 +254,9 @@ const Subject = () => {
                         <h1 id="subject_title">{subject.name}</h1>
                         <div id="subject_edit_delete_btns">
                             {}
-                            <Link className="btn btn-success" id="subject_edit" to={`/edit/subject/${subject.id}`}
-                                  state={{subject: subject}}>Edit</Link>
-                            <button className="btn btn-danger subject_title"
-                                    id={subject.id} onClick={deleteSubject}>Delete
+                            <Link className="btn btn-success" id="subject_edit" to={`/subject/${subject.id}/edit`}
+                                  state={{subject: subject}}>Измени</Link>
+                            <button className="btn btn-danger subject_title" onClick={deleteSubject}>Избриши
                             </button>
                         </div>
                     </div>

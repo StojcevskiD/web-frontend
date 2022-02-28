@@ -29,10 +29,6 @@
     font-weight: bold;
 }
 
-.link_subject:visited {
-    color: #6649e6;
-}
-
 .main_page_subject_list {
     margin-top: 16px !important;
 }
@@ -49,7 +45,7 @@
 }
 
 #main_page_select {
-    width: 40px;
+    width: 50px;
     background: transparent;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.23);
@@ -60,7 +56,7 @@
 }
 
 #main_page_pagination {
-    margin-right: 10px;
+    /*margin-right: 10px;*/
 }
 
 #main_page_subjects_not_found {
@@ -72,5 +68,9 @@
     #main_page_pagination_div {
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
+}
+#main_page_selection{
+    display: flex;
 }

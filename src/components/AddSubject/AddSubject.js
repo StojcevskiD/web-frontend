@@ -81,7 +81,7 @@ const AddSubject = () => {
     const updateValueName = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value[0].toUpperCase() + e.target.value
+            [e.target.name]: e.target.value[0].toUpperCase() + e.target.value.substring(1)
         })
     }
 

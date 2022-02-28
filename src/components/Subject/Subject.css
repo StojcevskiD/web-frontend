@@ -25,10 +25,11 @@
 
 }
 
-.subject_delete_icon {
+.subject_delete_download_icons {
     margin-top: 5px;
     margin-left: 10px;
     float: right;
+    cursor: pointer;
 }
 
 .subject_list {

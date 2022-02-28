@@ -16,7 +16,8 @@ const AddSubject = () => {
     })
     const [allYears, setAllYears] = React.useState([])
     const [allTypes, setAllTypes] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
+    const [loading1, setLoading1] = React.useState(true)
+    const [loading2, setLoading2] = React.useState(true)
 
     useEffect(() => {
         getAllYears()
@@ -52,16 +53,17 @@ const AddSubject = () => {
     const getAllYears = () => {
         YearService.getAllYears().then(r => {
             setAllYears(r.data)
+            setLoading1(false)
         })
     }
 
     const getAllSemesterTypes = () => {
         SemesterTypeService.getAllSemesterTypes().then(r => {
             setAllTypes(r.data)
-            setLoading(false)
+            setLoading2(false)
         })
     }
-    
+
     const updateValueYear = (e) => {
         setFormData({
             ...formData,
@@ -90,7 +92,7 @@ const AddSubject = () => {
     return (
         <div onKeyPress={handleKeyPress}>
             <div className="container">
-                {loading === true ?
+                {loading1 === true || loading2 === true ?
                     <div id="div_loader">
                         <FadeLoader speedMultiplier={2} color={"#2a439a"}/>
                         <div id="loading_mess">Loading...</div>
@@ -112,18 +114,6 @@ const AddSubject = () => {
                                         </div>
 
                                         <div className="row add_sub_element">
-                                            <h6>Одберете ја годината во која се предава предметот:</h6>
-                                            {allYears.map((y, index) => {
-                                                return (
-
-                                                        <label onClick={updateValueYear}>              
-                                                        <input name="year" type="radio" id={y.id} required/>
-                                                        {y.name} година</label>
-                                                )
-                                            })}
-                                        </div>
-
-                                        <div className="row add_sub_element">
                                             <select name="semesterType" className="form-control form-select"
                                                     onChange={updateValueType} required>
                                                 <option defaultValue="">Изберете го типот на семестарот</option>
@@ -135,6 +125,18 @@ const AddSubject = () => {
                                                     )
                                                 })}
                                             </select>
+                                        </div>
+
+                                        <div className="row add_sub_element">
+                                            <h6>Одберете ја годината во која се предава предметот:</h6>
+                                            {allYears.map((y, index) => {
+                                                return (
+                                                    <label onClick={updateValueYear} key={index}>
+                                                        <input name="year" type="radio" id={y.id} required/>
+                                                        {y.name} година
+                                                    </label>
+                                                )
+                                            })}
                                         </div>
 
                                         <button type="submit" className="rounded add_subject add_sub_element"

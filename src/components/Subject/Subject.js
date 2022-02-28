@@ -7,9 +7,7 @@ import Swal from 'sweetalert2'
 import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
 import {FadeLoader} from "react-spinners";
-import { Link } from 'react-router-dom';
-
-import axios from "../../custom-axios/axios";
+import {Link} from 'react-router-dom';
 
 import FileSaver from 'file-saver';
 
@@ -218,7 +216,7 @@ const Subject = () => {
     }
 
     const deleteSubject = (s) => {
-        SubjectService.getSubjectById(s.target.id).then( r => {
+        SubjectService.getSubjectById(s.target.id).then(r => {
             Swal.fire({
                 title: 'Дали сте сигурни?',
                 text: "Предметот \"" + r.data.name + "\" ќе биде избришан",
@@ -252,12 +250,15 @@ const Subject = () => {
                 :
                 <div className="row">
                     <div className="mb-3">
-                    <h1 id="subject_title">{subject.name}</h1>
+                        <h1 id="subject_title">{subject.name}</h1>
                         <div id="subject_edit_delete_btns">
                             {}
-                        <Link className="btn btn-success" id="subject_edit" to={`/edit/subject/${subject.id}`}>Edit</Link>
+                            <Link className="btn btn-success" id="subject_edit" to={`/edit/subject/${subject.id}`}
+                                  state={{subject: subject}}>Edit</Link>
                             <button className="btn btn-danger subject_title"
-                                   id={subject.id} onClick={deleteSubject}>Delete</button></div>
+                                    id={subject.id} onClick={deleteSubject}>Delete
+                            </button>
+                        </div>
                     </div>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>

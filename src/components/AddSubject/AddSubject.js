@@ -30,6 +30,7 @@ const AddSubject = () => {
     }
 
     const addSubjectHandler = () => {
+        console.log("sd", formData)
         if (formData.name !== "" && formData.year !== "" && formData.semesterType !== "") {
             SubjectService.addSubject(formData).then(r => {
                 Swal.fire(
@@ -61,7 +62,7 @@ const AddSubject = () => {
             setLoading(false)
         })
     }
-    
+
     const updateValueYear = (e) => {
         setFormData({
             ...formData,
@@ -112,18 +113,6 @@ const AddSubject = () => {
                                         </div>
 
                                         <div className="row add_sub_element">
-                                            <h6>Одберете ја годината во која се предава предметот:</h6>
-                                            {allYears.map((y, index) => {
-                                                return (
-
-                                                        <label onClick={updateValueYear}>              
-                                                        <input name="year" type="radio" id={y.id} required/>
-                                                        {y.name} година</label>
-                                                )
-                                            })}
-                                        </div>
-
-                                        <div className="row add_sub_element">
                                             <select name="semesterType" className="form-control form-select"
                                                     onChange={updateValueType} required>
                                                 <option defaultValue="">Изберете го типот на семестарот</option>
@@ -136,6 +125,19 @@ const AddSubject = () => {
                                                 })}
                                             </select>
                                         </div>
+
+                                        <div className="row add_sub_element">
+                                            <h6>Одберете ја годината во која се предава предметот:</h6>
+                                            {allYears.map((y, index) => {
+                                                return (
+                                                    <label onClick={updateValueYear}>
+                                                        <input name="year" type="radio" id={y.id} required/>
+                                                        {y.name} година
+                                                    </label>
+                                                )
+                                            })}
+                                        </div>
+
 
                                         <button type="submit" className="rounded add_subject add_sub_element"
                                                 onClick={addSubjectHandler}>Додади

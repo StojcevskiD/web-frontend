@@ -1,37 +1,31 @@
 import {Card, CardBody} from "reactstrap";
-import {useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import React, {useEffect} from "react";
 import SubjectService from "../../repository/SubjectRepository";
 import {FadeLoader} from "react-spinners";
 import YearService from "../../repository/YearRepository";
 import Swal from "sweetalert2";
+import SemesterTypeService from "../../repository/SemesterType";
 
 const EditSubject = () => {
-
-    const id = parseInt(useParams().id)
-    const [subjectForEdit, setSubjectForEdit] = React.useState()
-    const [loading, setLoading] = React.useState(true)
-    const [semesterTypeName, setSemesterTypeName] = React.useState(true)
+    const state = useLocation().state
+    const subject = state.subject
+    const id = subject.id
+    const [loading1, setLoading1] = React.useState(true)
+    const [loading2, setLoading2] = React.useState(true)
+    const [semesterTypeName, setSemesterTypeName] = React.useState(subject.semesterType.name)
+    const [yearName, setYearName] = React.useState(subject.year.name)
+    const [subjectName, setSubjectName] = React.useState(subject.name)
+    const [formData, setFormData] = React.useState(subject)
+    const [allTypes, setAllTypes] = React.useState([])
     const [years, setYears] = React.useState([])
-    const [yearName, setYearName] = React.useState(true)
-    const [formData, setFormData] = React.useState()
-    const [subjectName, setSubjectName] = React.useState()
 
 
     useEffect(() => {
-        SubjectService.getSubjectById(id).then((s) => {
-            setSubjectForEdit(s.data)
-            setSemesterTypeName(s.data.semesterType.name)
-            setYearName(s.data.year.name)
-            setFormData(s.data)
-            setSubjectName(s.data.name)
-            fetchAllYears()
-            console.log("jjj", s.data)
-            console.log("yearname",s.data.year.name)
-        }
-    ).then(() => {
-            setLoading(false)
-        })},[])
+        fetchAllYears()
+        getAllSemesterTypes()
+
+    }, [])
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
@@ -39,27 +33,33 @@ const EditSubject = () => {
         }
     }
 
-    const editSubjectHandler = () => {
-         if((formData.name !== subjectForEdit.name) || (formData.year.name!== subjectForEdit.year.name)
-             || (formData.semesterType.name !== subjectForEdit.semesterType.name)){
-             console.log("editdaa", formData)
-             SubjectService.editSubject(formData).then(s => {
-             console.log("promeneto", s)
-                 Swal.fire(
-                     'Успешно!',
-                     'Предметот е успешно променет.',
-                     'success'
-                 ).then(() => {
-                     window.location.href = "/subjects?page=1"
-                 })
-             } )
-         }else{
-             Swal.fire(
-                 'Грешка!',
-                 'Предметот нема промена.',
-                 'error'
-             )
-         }
+    const editSubjectHandler = (e) => {
+        e.preventDefault()
+        if (semesterTypeName !== 'Изберете го типот на семестарот') {
+            Swal.fire(
+                'Грешка!',
+                'Изберете валиден тип на семестар.',
+                'error'
+            )
+        }
+        if ((formData.name !== subject.name) || (formData.year.name !== subject.year.name)
+            || (formData.semesterType.name !== subject.semesterType.name)) {
+            SubjectService.editSubject(formData).then(s => {
+                Swal.fire(
+                    'Успешно!',
+                    'Предметот е успешно променет.',
+                    'success'
+                ).then(() => {
+                    window.location.href = "/subject/" + id
+                })
+            })
+        } else {
+            Swal.fire(
+                'Грешка!',
+                'Предметот нема промена.',
+                'error'
+            )
+        }
     }
 
     const updateSemesterType = (e) => {
@@ -68,15 +68,6 @@ const EditSubject = () => {
             semesterType: e.target.options[e.target.selectedIndex].value
         })
         setSemesterTypeName(e.target.options[e.target.selectedIndex].value)
-        console.log("rrr", e.target.options[e.target.selectedIndex].value)
-        console.log("type",e.target.options[e.target.selectedIndex].id)
-        console.log("formdata",formData)
-    }
-
-    const fetchAllYears = () => {
-        YearService.getAllYears().then((year) => {
-            setYears(year.data)
-        } )
     }
 
     const updateYears = (y) => {
@@ -85,8 +76,6 @@ const EditSubject = () => {
             [y.target.name]: y.target.value
         })
         setYearName(y.target.value)
-        console.log("yearname",y.target.name,y.target.id,y.target)
-        console.log("formdata",formData)
     }
 
     const updateName = (n) => {
@@ -94,16 +83,24 @@ const EditSubject = () => {
             ...formData,
             [n.target.name]: n.target.value
         })
-        console.log("name",n.target.value)
         setSubjectName(n.target.value)
-        console.log("name",n.target.name, n.target.value)
-        console.log("formdata",formData)
     }
 
+    const fetchAllYears = () => {
+        YearService.getAllYears().then((year) => {
+            setYears(year.data)
+        }).then(() => setLoading1(false))
+    }
+
+    const getAllSemesterTypes = () => {
+        SemesterTypeService.getAllSemesterTypes().then(r => {
+            setAllTypes(r.data)
+        }).then(() => setLoading2(false))
+    }
 
     return (
         <div onKeyPress={handleKeyPress}>
-            {loading === true ?
+            {loading1 === true || loading2 === true ?
                 <div id="div_loader">
                     <FadeLoader speedMultiplier={2} color={"#2a439a"}/>
                     <div id="loading_mess">Loading...</div>
@@ -114,7 +111,7 @@ const EditSubject = () => {
                         <div className="col add_sub_positions">
                             <Card id="login_card">
                                 <div className="row">
-                                    <h1 id="login_title">{subjectForEdit.name}</h1>
+                                    <h1 id="login_title">{subject.name}</h1>
                                 </div>
                                 <CardBody>
                                     <form id="add_sub_form">
@@ -124,29 +121,34 @@ const EditSubject = () => {
 
                                         </div>
                                         <div className="row add_sub_element">
-                                            <select value={semesterTypeName} id="select" name="semesterType"
-                                                    className="form-control form-select" onChange={updateSemesterType}>
-                                                <option>Изберете го типот на семестарот</option>
-                                                <option id="zima" value="зимски">зимски</option>
-                                                <option id="leto" value="летен">летен</option>
+                                            <select name="semesterType" className="form-control form-select"
+                                                    onChange={updateSemesterType} value={semesterTypeName} required>
+                                                <option defaultValue="">Изберете го типот на семестарот</option>
+                                                {allTypes.map((t, index) => {
+                                                    return (
+                                                        <option name="semesterType" id={t.id}
+                                                                key={index} value={t.name}>{t.name} семестар
+                                                        </option>
+                                                    )
+                                                })}
                                             </select>
                                         </div>
                                         <div className="row add_sub_element">
-                                            {console.log("sssss",subjectForEdit)}
                                             <h6>Одберете ја годината во која се предава предметот:</h6>
                                             {
                                                 years.map((y) => {
-                                                    return(
-                                                        <label>
-                                                            <input name="year" value={y.name} type="radio" checked={yearName === y.name}
-                                                            onChange={updateYears}/> {y.name} година
+                                                    return (
+                                                        <label key={y.id}>
+                                                            <input name="year" value={y.name} type="radio"
+                                                                   checked={yearName === y.name}
+                                                                   onChange={updateYears}/> {y.name} година
                                                         </label>
                                                     )
                                                 })
                                             }
                                         </div>
-                                        {console.log("form2",subjectForEdit)}
-                                        <button type="submit" className="rounded add_subject add_sub_element" onClick={editSubjectHandler}>Измени
+                                        <button type="submit" className="rounded add_subject add_sub_element"
+                                                onClick={editSubjectHandler}>Измени
                                         </button>
                                     </form>
                                 </CardBody>

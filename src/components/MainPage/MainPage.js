@@ -6,10 +6,11 @@ import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ImageList} from '@material-ui/core';
 import ImageListItem from '@material-ui/core/ImageListItem'
-import CSVReaderService from "../../repository/ReaderRepository"
 import {FadeLoader} from "react-spinners";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
+import YearService from "../../repository/YearRepository";
+import SemesterTypeService from "../../repository/SemesterType";
 
 const MainPage = () => {
 
@@ -19,21 +20,25 @@ const MainPage = () => {
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
+    const [loading2, setLoading2] = React.useState(true)
     const [showPagination, setShowPagination] = React.useState(false)
     const [page, setPage] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState(0)
     const [sizeOnPage, setSizeOnPage] = React.useState(30)
     const [totalSubjects, setTotalSubjects] = React.useState(0)
 
-    let p = decodeURI(useLocation().search)
+    const queryParams = decodeURI(useLocation().search)
+    const yearQuery = new URLSearchParams(queryParams).get('year')
+    const typeQuery = new URLSearchParams(queryParams).get('type')
+    const searchQuery = new URLSearchParams(queryParams).get('search')
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         getPaginatedSubjects(newPage, sizeOnPage)
-    };
+    }
 
     const changeSizePerPage = (event) => {
-        let p = parseInt(event.target.value)
+        let p = event.target.value
         setSizeOnPage(p)
         setPage(1);
         setTotalPages(Math.ceil(totalSubjects / p))
@@ -41,32 +46,20 @@ const MainPage = () => {
     };
 
     const getQueryParam = () => {
-        let t
         setShowPagination(false)
-        if (p[1] === "p") {
-            getPaginatedSubjects(page, sizeOnPage)
-            setShowPagination(true)
-        } else if (p[6] === "f") {
-            setAreFavorites(true)
+        if (searchQuery !== null) {
+            setSearch(searchQuery)
+            searchFilter(searchQuery)
+        } else if (typeQuery === "favorites") {
             fetchAllSubjects()
+            setAreFavorites(true)
+        } else if (yearQuery !== null) {
+            filterByYearAndSemester(yearQuery, typeQuery)
+            getYear(yearQuery)
+            getSemesterType(typeQuery)
         } else {
-            if (p[6] !== "h" && p[6] !== undefined) {
-                setYear(p[6])
-            }
-            if (p[1] !== undefined) {
-                if (p[1] === "s") {
-                    let s = p.substring(8, p.length)
-                    setSearch(s)
-                    searchFilter(s)
-                } else if (p[13] === "s") {
-                    t = 1
-                    setType("летен")
-                } else if (p[13] === "w") {
-                    t = 2
-                    setType("зимски")
-                }
-            }
-            filterByYearAndSemester(parseInt(p[6]), t)
+            setShowPagination(true)
+            getPaginatedSubjects(page, sizeOnPage)
         }
     }
 
@@ -107,6 +100,7 @@ const MainPage = () => {
         SubjectService.getTotalSubjects().then(r => {
             setTotalSubjects(r.data)
             setTotalPages(Math.ceil(r.data / sizeOnPage))
+            setLoading2(false)
         })
     }
 
@@ -118,21 +112,29 @@ const MainPage = () => {
         })
     }
 
+    const getYear = (id) => {
+        YearService.getYear(id).then(r => {
+            setYear(r.data.name.toLowerCase())
+        })
+    }
+
+    const getSemesterType = (id) => {
+        if (id !== null) {
+            SemesterTypeService.getSemesterType(id).then(r => {
+                setType(r.data.name.toLowerCase())
+            })
+        }
+    }
+
     useEffect(() => {
             getQueryParam()
             getTotalSubjects()
         }, []
     )
 
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
-
     return (
         <div className="container">
-            {loading === true ?
+            {loading === true || loading2 === true ?
                 <div id="div_loader">
                     <FadeLoader speedMultiplier={2} color={"#2a439a"}/>
                     <div id="loading_mess">Loading...</div>
@@ -143,7 +145,7 @@ const MainPage = () => {
                         <h1 id="main_page_title">Предмети</h1>
 
                         <div>
-                            <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
+                            <Link className="btn main_page_add_subject_btn" to="/add/subject">Додади предмет</Link>
                         </div>
 
                         <div style={{marginBottom: "30px"}}>
@@ -154,8 +156,6 @@ const MainPage = () => {
                                     {search !== "" ? <h5 id="search_message">-пребарување по "{search}"</h5> : null}
                                 </div>
                             }
-
-
 
                             {showPagination === true ?
                                 <div id="main_page_pagination_div">
@@ -183,7 +183,8 @@ const MainPage = () => {
                                     </div>
                                 </div> : null}
                             {subjects.length === 0 ?
-                                <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото пребарување</h1> :
+                                <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото
+                                    пребарување</h1> :
                                 <ImageList cols={3} className="main_page_subject_list">
                                     {subjects.map((s) => {
                                         return (

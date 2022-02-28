@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {useParams} from "react-router-dom";
 import './Subject.css'
 import SubjectService from "../../repository/SubjectRepository";
@@ -8,6 +8,7 @@ import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
 import {FadeLoader} from "react-spinners";
 import { Link } from 'react-router-dom';
+import {HiDownload} from "react-icons/hi";
 
 import axios from "../../custom-axios/axios";
 
@@ -31,17 +32,17 @@ const Subject = () => {
     const [filesFirst, setFilesFirst] = React.useState([])
     const [filesSecond, setFilesSecond] = React.useState([])
     const [filesExam, setFilesExam] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
-
+    const [loading1, setLoading1] = React.useState(true)
+    const [loading2, setLoading2] = React.useState(true)
     useEffect(() => {
         getSubject()
+        getFiles()
     }, [])
 
     const getSubject = () => {
         SubjectService.getSubjectById(id).then((s) => {
             setSubject(s.data)
-        }).then(() => {
-            getFiles()
+            setLoading1(false)
         })
     }
 
@@ -64,7 +65,7 @@ const Subject = () => {
             setFilesSecond(arr2)
             setFilesExam(arr3)
         }).then(() => {
-            setLoading(false)
+            setLoading2(false)
         })
     }
 
@@ -216,35 +217,48 @@ const Subject = () => {
             FileSaver.saveAs(blob, name);
         })
     }
+    const openFile = async (id, name) => {
+        await FileService.downloadFile(id).then((response) => {
+            var blob = new Blob([response.data], {type: response.data.type});
 
-    const deleteSubject = (s) => {
-        SubjectService.getSubjectById(s.target.id).then( r => {
-            Swal.fire({
-                title: 'Дали сте сигурни?',
-                text: "Предметот \"" + r.data.name + "\" ќе биде избришан",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Потврди',
-                cancelButtonText: 'Откажи'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    SubjectService.deleteSubject(s.target.id).then((r) => {
-                        Swal.fire(
-                            'Успешно!',
-                            'Предметот е успешно избришан.',
-                            'success'
-                        )
-                    })
-                }
-            })
         })
     }
 
+    const deleteSubject = (e) => {
+        // e.preventDefault()
+        Swal.fire({
+            title: 'Дали сте сигурни?',
+            text: "Предметот \"" + subject.name + "\" ќе биде избришан.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Потврди',
+            cancelButtonText: 'Откажи'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                SubjectService.deleteSubject(id).then((r) => {
+                    Swal.fire(
+                        'Успешно!',
+                        'Предметот е успешно избришан.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = "/subjects"
+                    })
+                })
+            }
+        })
+    }
+    // const [inputFile, setInputFile] = useRef(null);
+    //
+    // const openFile = (file) => {
+    //     setInputFile(file)
+    //     inputFile.current.click();
+    // };
+
     return (
         <div className="container">
-            {loading === true ?
+            {loading1 === true || loading2 === true ?
                 <div id="div_loader">
                     <FadeLoader speedMultiplier={2}/>
                     <div id="loading_mess">Loading...</div>
@@ -252,12 +266,14 @@ const Subject = () => {
                 :
                 <div className="row">
                     <div className="mb-3">
-                    <h1 id="subject_title">{subject.name}</h1>
+                        <h1 id="subject_title">{subject.name}</h1>
                         <div id="subject_edit_delete_btns">
                             {}
-                        <Link className="btn btn-success" id="subject_edit" to={`/edit/subject/${subject.id}`}>Edit</Link>
-                            <button className="btn btn-danger subject_title"
-                                   id={subject.id} onClick={deleteSubject}>Delete</button></div>
+                            <Link className="btn btn-success" id="subject_edit" to={`/subject/${subject.id}/edit`}
+                                  state={{subject: subject}}>Измени</Link>
+                            <button className="btn btn-danger subject_title" onClick={deleteSubject}>Избриши
+                            </button>
+                        </div>
                     </div>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
@@ -283,11 +299,13 @@ const Subject = () => {
                                 {filesFirst.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+
+                                            <BsTrash className="subject_delete_download_icons" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <a download onClick={() => downloadFile(f.id, f.name)}>
-                                                <div className="subject_name">{f.name}</div>
-                                            </a>
+                                            <HiDownload download style={{color: "blue"}} className="subject_delete_download_icons" onClick={() => downloadFile(f.id, f.name)}>
+                                            </HiDownload>
+                                            {console.log("file", f)}
+                                            <div className="subject_name" >{f.name}</div>
                                         </li>
                                     )
                                 })}
@@ -319,7 +337,7 @@ const Subject = () => {
                                 {filesSecond.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_download_icons" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
                                             <a download onClick={() => downloadFile(f.id, f.name)}>
                                                 <div className="subject_name">{f.name}</div>
@@ -355,7 +373,7 @@ const Subject = () => {
                                 {filesExam.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_icon" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_download_icons" color="red" cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
                                             <a download onClick={() => downloadFile(f.id, f.name)}>
                                                 <div className="subject_name">{f.name}</div>

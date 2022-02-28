@@ -6,7 +6,6 @@ import {AiFillStar} from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {ImageList} from '@material-ui/core';
 import ImageListItem from '@material-ui/core/ImageListItem'
-import CSVReaderService from "../../repository/ReaderRepository"
 import {FadeLoader} from "react-spinners";
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
@@ -21,6 +20,7 @@ const MainPage = () => {
     const [search, setSearch] = React.useState("")
     const [areFavorites, setAreFavorites] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
+    const [loading2, setLoading2] = React.useState(true)
     const [showPagination, setShowPagination] = React.useState(false)
     const [page, setPage] = React.useState(1);
     const [totalPages, setTotalPages] = React.useState(0)
@@ -100,6 +100,7 @@ const MainPage = () => {
         SubjectService.getTotalSubjects().then(r => {
             setTotalSubjects(r.data)
             setTotalPages(Math.ceil(r.data / sizeOnPage))
+            setLoading2(false)
         })
     }
 
@@ -131,15 +132,9 @@ const MainPage = () => {
         }, []
     )
 
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
-
     return (
         <div className="container">
-            {loading === true ?
+            {loading === true || loading2 === true ?
                 <div id="div_loader">
                     <FadeLoader speedMultiplier={2} color={"#2a439a"}/>
                     <div id="loading_mess">Loading...</div>
@@ -150,7 +145,7 @@ const MainPage = () => {
                         <h1 id="main_page_title">Предмети</h1>
 
                         <div>
-                            <a className="btn main_page_add_subject_btn" href="/add/subject">Додади предмет</a>
+                            <Link className="btn main_page_add_subject_btn" to="/add/subject">Додади предмет</Link>
                         </div>
 
                         <div style={{marginBottom: "30px"}}>
@@ -161,8 +156,6 @@ const MainPage = () => {
                                     {search !== "" ? <h5 id="search_message">-пребарување по "{search}"</h5> : null}
                                 </div>
                             }
-
-
 
                             {showPagination === true ?
                                 <div id="main_page_pagination_div">
@@ -190,7 +183,8 @@ const MainPage = () => {
                                     </div>
                                 </div> : null}
                             {subjects.length === 0 ?
-                                <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото пребарување</h1> :
+                                <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото
+                                    пребарување</h1> :
                                 <ImageList cols={3} className="main_page_subject_list">
                                     {subjects.map((s) => {
                                         return (

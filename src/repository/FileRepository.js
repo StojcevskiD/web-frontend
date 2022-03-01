@@ -30,7 +30,20 @@ const FileService = {
                 responseType: 'blob'
             }
         )
-    }
+    },
+
+    // openFile: (id) => {
+    //     return axios.get(`/file/openFile/${id}`,
+    //         {
+    //             headers: {
+    //                 "Content-disposition": "inline; filename=response; charset=UTF-8",
+    //                 //   "Access-Control-Expose-Headers":"Content-Disposition",
+    //                 //   "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    //             },
+    //             responseType: 'blob'
+    //         }
+    //     )
+    // }
 
 }
 

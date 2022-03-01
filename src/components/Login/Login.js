@@ -1,9 +1,13 @@
 import {Card, CardBody} from "reactstrap";
 import './Login.css'
 import {FaBookReader} from 'react-icons/fa';
+import {useRef} from "react";
+import UserService from "../../repository/UserRepository";
 
 const Login = () => {
 
+    const emailInput = useRef()
+    const passwordInput = useRef()
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
@@ -11,8 +15,13 @@ const Login = () => {
         }
     }
 
-    const loginHandler = () => {
+    const loginHandler = (e) => {
+        e.preventDefault()
+        const email = emailInput.current.value
+        const password = passwordInput.current.value
+        UserService.login(email, password).then(r => {
 
+        })
     }
 
     return (
@@ -28,15 +37,16 @@ const Login = () => {
                             <CardBody>
                                 <form id="login_form">
                                     <div className="row login_form_element">
-                                        <input name="username" type="text" className="form-control "
+                                        <input ref={emailInput} name="username" type="text" className="form-control "
                                                placeholder="Enter Email"/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
-                                        <input name="password" type="password" className="form-control "
+                                        <input ref={passwordInput} name="password" type="password"
+                                               className="form-control "
                                                placeholder="Enter Password"/>
                                     </div>
                                     <div className="row login_form_element" id="login_btn_div">
-                                        <button type="button" className="form-control login_btn"
+                                        <button type="submit" className="form-control login_btn"
                                                 onClick={loginHandler}>Најави се
                                         </button>
                                     </div>

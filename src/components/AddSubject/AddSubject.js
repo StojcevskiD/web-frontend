@@ -32,7 +32,7 @@ const AddSubject = () => {
 
     const addSubjectHandler = () => {
         if (formData.name !== "" && formData.year !== "" && formData.semesterType !== "") {
-            SubjectService.addSubject(formData).then(r => {
+            SubjectService.addSubject(formData).then(() => {
                 Swal.fire(
                     'Успешно!',
                     'Предметот е успешно додаден.',
@@ -40,7 +40,7 @@ const AddSubject = () => {
                 ).then(() => {
                     window.location.href = "/subjects?page=1"
                 })
-            }).catch(r => {
+            }).catch(() => {
                 Swal.fire(
                     'Грешка!',
                     'Предметот веке постои во листата од предмети.',

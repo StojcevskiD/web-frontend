@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import {useParams} from "react-router-dom";
 import './Subject.css'
 import SubjectService from "../../repository/SubjectRepository";
@@ -7,11 +7,8 @@ import Swal from 'sweetalert2'
 import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
 import {FadeLoader} from "react-spinners";
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {HiDownload} from "react-icons/hi";
-
-import axios from "../../custom-axios/axios";
-
 import FileSaver from 'file-saver';
 
 
@@ -86,14 +83,14 @@ const Subject = () => {
             cancelButtonText: 'Откажи'
         }).then((result) => {
             if (result.isConfirmed) {
-                FileService.uploadFile(id, formData).then((r) => {
+                FileService.uploadFile(id, formData).then(() => {
                     getFiles()
                     Swal.fire(
                         'Успешно!',
                         'Фајловите беа успешно прикачени.',
                         'success'
                     )
-                }).catch((r) => {
+                }).catch(() => {
                     Swal.fire(
                         'Грешка!',
                         'Големината на фајлот е преголема! Обидете се повторно.',
@@ -135,13 +132,13 @@ const Subject = () => {
                 cancelButtonText: 'Откажи'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    FileService.deleteFile(fileId).then((r) => {
+                    FileService.deleteFile(fileId).then(() => {
                         Swal.fire(
                             'Успешно!',
                             'Фајлот е успешно избришан.',
                             'success'
                         )
-                    }).then((r) => {
+                    }).then(() => {
                         getFiles()
                     })
                 }
@@ -217,15 +214,14 @@ const Subject = () => {
             FileSaver.saveAs(blob, name);
         })
     }
-    const openFile = async (id, name) => {
-        await FileService.downloadFile(id).then((response) => {
-            var blob = new Blob([response.data], {type: response.data.type});
+    // const openFile = async (id) => {
+    //     await FileService.openFile(id).then((response) => {
+    //         var blob = new Blob([response.data], {type: response.data.type});
+    //         FileSaver.open(response);
+    //     })
+    // }
 
-        })
-    }
-
-    const deleteSubject = (e) => {
-        // e.preventDefault()
+    const deleteSubject = () => {
         Swal.fire({
             title: 'Дали сте сигурни?',
             text: "Предметот \"" + subject.name + "\" ќе биде избришан.",
@@ -237,7 +233,7 @@ const Subject = () => {
             cancelButtonText: 'Откажи'
         }).then((result) => {
             if (result.isConfirmed) {
-                SubjectService.deleteSubject(id).then((r) => {
+                SubjectService.deleteSubject(id).then(() => {
                     Swal.fire(
                         'Успешно!',
                         'Предметот е успешно избришан.',
@@ -249,12 +245,6 @@ const Subject = () => {
             }
         })
     }
-    // const [inputFile, setInputFile] = useRef(null);
-    //
-    // const openFile = (file) => {
-    //     setInputFile(file)
-    //     inputFile.current.click();
-    // };
 
     return (
         <div className="container">
@@ -268,7 +258,6 @@ const Subject = () => {
                     <div className="mb-3">
                         <h1 id="subject_title">{subject.name}</h1>
                         <div id="subject_edit_delete_btns">
-                            {}
                             <Link className="btn btn-success" id="subject_edit" to={`/subject/${subject.id}/edit`}
                                   state={{subject: subject}}>Измени</Link>
                             <button className="btn btn-danger subject_title" onClick={deleteSubject}>Избриши
@@ -299,13 +288,13 @@ const Subject = () => {
                                 {filesFirst.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-
-                                            <BsTrash className="subject_delete_download_icons" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_download_icons" color="red"
+                                                     cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <HiDownload download style={{color: "blue"}} className="subject_delete_download_icons" onClick={() => downloadFile(f.id, f.name)}>
+                                            <HiDownload className="subject_delete_download_icons"
+                                                        onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
-                                            {console.log("file", f)}
-                                            <div className="subject_name" >{f.name}</div>
+                                            <div className="subject_name">{f.name}</div>
                                         </li>
                                     )
                                 })}
@@ -337,11 +326,13 @@ const Subject = () => {
                                 {filesSecond.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red" cursor="pointer"
+                                            <BsTrash className="subject_delete_download_icons" color="red"
+                                                     cursor="pointer"
                                                      id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <a download onClick={() => downloadFile(f.id, f.name)}>
-                                                <div className="subject_name">{f.name}</div>
-                                            </a>
+                                            <HiDownload className="subject_delete_download_icons"
+                                                        onClick={() => downloadFile(f.id, f.name)}>
+                                            </HiDownload>
+                                            <div className="subject_name">{f.name}</div>
                                         </li>
                                     )
                                 })}
@@ -373,11 +364,13 @@ const Subject = () => {
                                 {filesExam.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red" cursor="pointer"
-                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
-                                            <a download onClick={() => downloadFile(f.id, f.name)}>
-                                                <div className="subject_name">{f.name}</div>
-                                            </a>
+                                            <BsTrash className="subject_delete_download_icons" color="red"
+                                                     cursor="pointer" id={f.id} name={f.name}
+                                                     onClick={deleteMaterials}/>
+                                            <HiDownload className="subject_delete_download_icons"
+                                                        onClick={() => downloadFile(f.id, f.name)}>
+                                            </HiDownload>
+                                            <div className="subject_name">{f.name}</div>
                                         </li>
                                     )
                                 })}

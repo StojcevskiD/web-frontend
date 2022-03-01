@@ -30,6 +30,7 @@
     margin-left: 10px;
     float: right;
     cursor: pointer;
+    color: blue;
 }
 
 .subject_list {
@@ -65,10 +66,12 @@
     }
 
 }
-#subject_edit_delete_btns{
+
+#subject_edit_delete_btns {
     float: right;
 
 }
-#subject_edit{
+
+#subject_edit {
     margin-right: 5px;
 }

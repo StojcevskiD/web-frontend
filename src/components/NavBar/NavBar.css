@@ -45,3 +45,9 @@
     color: white;
     margin: 10px 15px 0 0;
 }
+
+@media(max-width: 992px) {
+    #navBar_dataBase{
+        width: 50px !important;
+    }
+}

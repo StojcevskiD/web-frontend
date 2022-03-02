@@ -20,7 +20,8 @@ const Login = () => {
         const email = emailInput.current.value
         const password = passwordInput.current.value
         UserService.login(email, password).then(r => {
-
+            console.log("r", r.data)
+            window.location.href = "/subjects"
         })
     }
 

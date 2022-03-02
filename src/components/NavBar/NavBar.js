@@ -89,7 +89,7 @@ const NavBar = () => {
                         </NavDropdown>
                         <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
                         <button onClick={getAllData}
-                                className="btn btn-secondary"><DiDatabase/></button>
+                                className="btn btn-secondary" id="navBar_dataBase"><DiDatabase/></button>
                     </Nav>
                     <div className="d-flex">
                         <input

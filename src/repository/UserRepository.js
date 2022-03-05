@@ -9,6 +9,19 @@ const UserService = {
         return axios.post(`/user/login`, formData)
     },
 
+    register: (email, password, body) => {
+        return axios.post(`/user/register`, body, {
+            headers: {
+                email: email,
+                password: password
+            }
+        })
+    },
+
+    logout: () => {
+        axios.get(`/user/logout`)
+    },
+
 
 }
 

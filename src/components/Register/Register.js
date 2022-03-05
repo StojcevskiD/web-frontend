@@ -1,17 +1,41 @@
 import {Card, CardBody} from "reactstrap";
 import {FaBookReader} from 'react-icons/fa';
+import React, {useState} from "react";
+import UserService from "../../repository/UserRepository";
+
 
 const Register = () => {
 
+    const [data, setData] = React.useState({
+        email: '',
+        username: '',
+        password: '',
+        repeatPassword: ''
+    });
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
-            loginHandler()
+            registerHandler()
         }
     }
 
-    const loginHandler = () => {
+    const updateData = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
 
+    }
+
+    const registerHandler = () => {
+        if (data.password === data.repeatPassword) {
+            let formData = {'username': data.username}
+            UserService.register(data.email, data.password, formData).then(() => {
+                window.location.href = "/login"
+            })
+        } else {
+            alert("pass not match")
+        }
     }
 
     return (
@@ -27,24 +51,25 @@ const Register = () => {
                             <CardBody>
                                 <form id="login_form">
                                     <div className="row login_form_element">
+                                        <input name="email" type="text" className="form-control "
+                                               placeholder="Enter Email" onChange={updateData}/>
+                                    </div>
+                                    <div className="row login_password_input login_form_element">
                                         <input name="username" type="text" className="form-control "
-                                               placeholder="Enter Email"/>
+                                               placeholder="Enter Username" onChange={updateData}/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="password" type="password" className="form-control "
-                                               placeholder="Enter Password"/>
+                                               placeholder="Enter Password" onChange={updateData}/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
-                                        <input name="password" type="password" className="form-control "
-                                               placeholder="Repeat Password"/>
+                                        <input name="repeatPassword" type="password" className="form-control "
+                                               placeholder="Repeat Password" onChange={updateData}/>
                                     </div>
-                                    <div className="row login_form_element" id="login_btn_div">
-                                        <a className="btn login_form_element btn-success form-control login_btn "
-                                           href={'/login'}>Најави се</a>
-                                    </div>
-                                    <div className="row login_form_element">
+
+                                    <div className="row login_form_element mt-4">
                                         <a className="btn btn-success form-control login_register_btn "
-                                           href={'/register'}>Регистрирај се</a>
+                                           onClick={registerHandler}>Регистрирај се</a>
                                     </div>
                                 </form>
 

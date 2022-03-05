@@ -7,6 +7,7 @@ import YearService from "../../repository/YearRepository";
 import SemesterTypeService from "../../repository/SemesterType";
 import {DiDatabase} from "react-icons/di";
 import CSVReaderService from "../../repository/ReaderRepository";
+import UserService from "../../repository/UserRepository";
 
 
 const NavBar = () => {
@@ -46,11 +47,17 @@ const NavBar = () => {
         })
     }
 
+    const logout = () => {
+        UserService.logout()
+        window.location.href = "/login"
+    }
+
     useEffect(() => {
             fetchAllSemesterTypes()
             fetchAllYears()
         }, []
     )
+
 
     function getAllData() {
         CSVReaderService.getAllData()
@@ -104,6 +111,7 @@ const NavBar = () => {
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </div>
                     <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
+                    <Nav.Link className="nav_bar_login_link" onClick={logout}>Одјави се</Nav.Link>
                     <Nav.Link className="nav_bar_login_link" href="/register">Регистрирај се</Nav.Link>
                 </Navbar.Collapse>
             </Container>

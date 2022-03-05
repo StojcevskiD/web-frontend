@@ -48,8 +48,9 @@ const NavBar = () => {
     }
 
     const logout = () => {
-        UserService.logout()
-        window.location.href = "/login"
+        UserService.logout().then(() => {
+            window.location.href = "/login"
+        })
     }
 
     useEffect(() => {

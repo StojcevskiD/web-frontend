@@ -40,6 +40,7 @@
 .subject_name {
     overflow: hidden;
     text-overflow: ellipsis;
+    /* text-truncate   2ве команди горе може и со класава во "div" да се заменат*/
     cursor: pointer;
 }
 

@@ -19,7 +19,7 @@ const UserService = {
     },
 
     logout: () => {
-        axios.get(`/user/logout`)
+        return axios.get(`/user/logout`)
     },
 
 

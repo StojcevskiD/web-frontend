@@ -3,10 +3,14 @@ import axios from "../custom-axios/axios";
 
 const UserService = {
 
-    login: (email, password) => {
-        const formData = {email: email, password: password}
-        console.log("formm", formData)
-        return axios.post(`/user/login`, formData)
+    login: (request) => {
+
+        return axios.post(`/rest/user/login`, {}, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic ' + request
+            }
+        })
     },
 
     register: (email, password, body) => {

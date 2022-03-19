@@ -3,6 +3,8 @@ import './Login.css'
 import {FaBookReader} from 'react-icons/fa';
 import {useRef} from "react";
 import UserService from "../../repository/UserRepository";
+import {Buffer} from "buffer";
+
 
 const Login = () => {
 
@@ -19,9 +21,11 @@ const Login = () => {
         e.preventDefault()
         const email = emailInput.current.value
         const password = passwordInput.current.value
-        UserService.login(email, password).then(r => {
+        const data = email + ":" + password
+        const request = Buffer.from(data).toString('base64')
+        UserService.login(request).then(r => {
             console.log("r", r.data)
-            window.location.href = "/subjects"
+            // window.location.href = "/subjects"
         })
     }
 

@@ -14,9 +14,30 @@ import EditSubject from "./components/EditSubject/EditSubject";
 class App extends Component {
 
     render() {
+        let routes = (
+            <Router>
+                <NavBar/>
+
+                <Routes>
+                    <Route path='/subjects' element={<MainPage/>}/>
+                    <Route path='/subject/:id' element={<Subject/>}/>
+                    <Route path='/login' element={<Login/>}/>
+                    <Route path='/register' element={<Register/>}/>
+
+                    <Route path="*" element={<Navigate to="/subjects?page=1"/>}/>
+                </Routes>
+            </Router>
+        )
+
+        const userRole = localStorage.getItem('role')
+
+        if (userRole === "ROLE_ADMIN") {
+            routes = this.adminRoutes()
+        }
+
         return (
             <div>
-                {this.adminRoutes()}
+                {routes}
             </div>
         )
     }

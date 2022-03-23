@@ -257,12 +257,14 @@ const Subject = () => {
                 <div className="row">
                     <div className="mb-3">
                         <h1 id="subject_title">{subject.name}</h1>
-                        <div id="subject_edit_delete_btns">
-                            <Link className="btn btn-success" id="subject_edit" to={`/subject/${subject.id}/edit`}
-                                  state={{subject: subject}}>Измени</Link>
-                            <button className="btn btn-danger subject_title" onClick={deleteSubject}>Избриши
-                            </button>
-                        </div>
+                        {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                            <div id="subject_edit_delete_btns">
+                                <Link className="btn btn-success" id="subject_edit" to={`/subject/${subject.id}/edit`}
+                                      state={{subject: subject}}>Измени</Link>
+                                <button className="btn btn-danger subject_title" onClick={deleteSubject}>Избриши
+                                </button>
+                            </div>
+                            : null}
                     </div>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
@@ -288,9 +290,10 @@ const Subject = () => {
                                 {filesFirst.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red"
-                                                     cursor="pointer"
-                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                            {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                                                <BsTrash className="subject_delete_download_icons" color="red"
+                                                         cursor="pointer"
+                                                         id={f.id} name={f.name} onClick={deleteMaterials}/> : null}
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
@@ -326,9 +329,10 @@ const Subject = () => {
                                 {filesSecond.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red"
-                                                     cursor="pointer"
-                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                            {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                                                <BsTrash className="subject_delete_download_icons" color="red"
+                                                         cursor="pointer"
+                                                         id={f.id} name={f.name} onClick={deleteMaterials}/> : null}
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
@@ -364,9 +368,10 @@ const Subject = () => {
                                 {filesExam.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red"
-                                                     cursor="pointer" id={f.id} name={f.name}
-                                                     onClick={deleteMaterials}/>
+                                            {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                                                <BsTrash className="subject_delete_download_icons" color="red"
+                                                         cursor="pointer" id={f.id} name={f.name}
+                                                         onClick={deleteMaterials}/> : null}
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>

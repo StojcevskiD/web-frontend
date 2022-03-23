@@ -290,9 +290,10 @@ const Subject = () => {
                                 {filesFirst.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red"
-                                                     cursor="pointer"
-                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                            {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                                                <BsTrash className="subject_delete_download_icons" color="red"
+                                                         cursor="pointer"
+                                                         id={f.id} name={f.name} onClick={deleteMaterials}/> : null}
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
@@ -328,9 +329,10 @@ const Subject = () => {
                                 {filesSecond.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red"
-                                                     cursor="pointer"
-                                                     id={f.id} name={f.name} onClick={deleteMaterials}/>
+                                            {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                                                <BsTrash className="subject_delete_download_icons" color="red"
+                                                         cursor="pointer"
+                                                         id={f.id} name={f.name} onClick={deleteMaterials}/> : null}
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
@@ -366,9 +368,10 @@ const Subject = () => {
                                 {filesExam.map((f) => {
                                     return (
                                         <li key={f.id} className="list-group-item">
-                                            <BsTrash className="subject_delete_download_icons" color="red"
-                                                     cursor="pointer" id={f.id} name={f.name}
-                                                     onClick={deleteMaterials}/>
+                                            {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                                                <BsTrash className="subject_delete_download_icons" color="red"
+                                                         cursor="pointer" id={f.id} name={f.name}
+                                                         onClick={deleteMaterials}/> : null}
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>

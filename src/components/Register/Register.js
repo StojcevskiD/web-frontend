@@ -2,15 +2,20 @@ import {Card, CardBody} from "reactstrap";
 import {FaBookReader} from 'react-icons/fa';
 import React, {useState} from "react";
 import UserService from "../../repository/UserRepository";
+import Swal from "sweetalert2";
 
 
 const Register = () => {
 
     const [data, setData] = React.useState({
+        name: '',
+        surname: '',
         email: '',
         username: '',
         password: '',
-        repeatPassword: ''
+        repeatPassword: '',
+        address: '',
+        phone: ''
     });
 
     const handleKeyPress = (e) => {
@@ -28,13 +33,38 @@ const Register = () => {
     }
 
     const registerHandler = () => {
-        if (data.password === data.repeatPassword) {
-            let formData = {'username': data.username}
-            UserService.register(data.email, data.password, formData).then(() => {
-                window.location.href = "/login"
-            })
+        if (data.name !== '' && data.surname !== '' && data.email !== '' && data.username !== '' && data.password !== ''
+            && data.repeatPassword !== '' && data.address !== '' && data.phone !== '') {
+            if (data.password === data.repeatPassword) {
+                let formData = {
+                    'username': data.username,
+                    'name': data.name,
+                    'surname': data.surname,
+                    'address': data.address,
+                    'phone': data.phone,
+                }
+                UserService.register(data.email, data.password, formData).then(() => {
+                    window.location.href = "/login"
+                }).catch(() => {
+                    Swal.fire(
+                        'Грешка!',
+                        'Е-поштата веќе постои.',
+                        'error'
+                    )
+                })
+            } else {
+                Swal.fire(
+                    'Грешка!',
+                    'Лозинките не се совпаѓаат.',
+                    'error'
+                )
+            }
         } else {
-            alert("pass not match")
+            Swal.fire(
+                'Грешка!',
+                'Пополнете ги сите полиња.',
+                'error'
+            )
         }
     }
 
@@ -51,20 +81,36 @@ const Register = () => {
                             <CardBody>
                                 <form id="login_form">
                                     <div className="row login_form_element">
+                                        <input name="name" type="text" className="form-control "
+                                               placeholder="Внесете име" onChange={updateData} required/>
+                                    </div>
+                                    <div className="row login_password_input login_form_element">
+                                        <input name="surname" type="text" className="form-control "
+                                               placeholder="Внесете презиме" onChange={updateData} required/>
+                                    </div>
+                                    <div className="row login_password_input login_form_element">
                                         <input name="email" type="text" className="form-control "
-                                               placeholder="Enter Email" onChange={updateData}/>
+                                               placeholder="Внесете е-пошта" onChange={updateData} required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="username" type="text" className="form-control "
-                                               placeholder="Enter Username" onChange={updateData}/>
+                                               placeholder="Внесете корисничко име" onChange={updateData} required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="password" type="password" className="form-control "
-                                               placeholder="Enter Password" onChange={updateData}/>
+                                               placeholder="Внесете лозинка" onChange={updateData} required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="repeatPassword" type="password" className="form-control "
-                                               placeholder="Repeat Password" onChange={updateData}/>
+                                               placeholder="Повторете ја лозинката" onChange={updateData} required/>
+                                    </div>
+                                    <div className="row login_password_input login_form_element">
+                                        <input name="address" type="text" className="form-control "
+                                               placeholder="Внесете адреса на живеење" onChange={updateData} required/>
+                                    </div>
+                                    <div className="row login_password_input login_form_element">
+                                        <input name="phone" type="text" className="form-control "
+                                               placeholder="Внесете телефонски број" onChange={updateData} required/>
                                     </div>
 
                                     <div className="row login_form_element mt-4">

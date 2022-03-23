@@ -144,9 +144,11 @@ const MainPage = () => {
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
 
-                        <div>
-                            <Link className="btn main_page_add_subject_btn" to="/add/subject">Додади предмет</Link>
-                        </div>
+                        {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                            <div>
+                                <Link className="btn main_page_add_subject_btn" to="/add/subject">Додади предмет</Link>
+                            </div>
+                            : null}
 
                         <div style={{marginBottom: "30px"}}>
                             {areFavorites === true ? <h3>Мои предмети:</h3> :

@@ -26,6 +26,10 @@ const UserService = {
         return axios.get(`/user/logout`)
     },
 
+    userDetails: () => {
+        return axios.get(`/user/details`)
+    }
+
 
 }
 

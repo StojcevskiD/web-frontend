@@ -4,6 +4,7 @@ import {FaBookReader} from 'react-icons/fa';
 import {useRef} from "react";
 import UserService from "../../repository/UserRepository";
 import {Buffer} from "buffer";
+import Swal from "sweetalert2";
 
 
 const Login = () => {
@@ -13,19 +14,30 @@ const Login = () => {
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
-            loginHandler()
+            loginHandler(e)
         }
     }
 
-    const loginHandler = (e) => {
+    const loginHandler = async (e) => {
         e.preventDefault()
         const email = emailInput.current.value
         const password = passwordInput.current.value
         const data = email + ":" + password
         const request = Buffer.from(data).toString('base64')
-        UserService.login(request).then(r => {
-            console.log("r", r.data)
-            // window.location.href = "/subjects"
+        await UserService.login(request).then(r => {
+            localStorage.setItem("token", r.data)
+        }).then(() => {
+            UserService.userDetails().then(details => {
+                localStorage.setItem("role", details.data.roles[0])
+                localStorage.setItem("username", details.data.username)
+                window.location.href = "/subjects"
+            })
+        }).catch(() => {
+            Swal.fire(
+                'Грешка!',
+                'Е-поштата не се совпаѓа со лозинката. Обидете се повторно.',
+                'error'
+            )
         })
     }
 
@@ -43,12 +55,12 @@ const Login = () => {
                                 <form id="login_form">
                                     <div className="row login_form_element">
                                         <input ref={emailInput} name="username" type="text" className="form-control "
-                                               placeholder="Enter Email"/>
+                                               placeholder="Внесете е-пошта"/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input ref={passwordInput} name="password" type="password"
                                                className="form-control "
-                                               placeholder="Enter Password"/>
+                                               placeholder="Внесете лозинка"/>
                                     </div>
                                     <div className="row login_form_element" id="login_btn_div">
                                         <button type="submit" className="form-control login_btn"

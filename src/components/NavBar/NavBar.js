@@ -49,6 +49,7 @@ const NavBar = () => {
 
     const logout = () => {
         UserService.logout().then(() => {
+            localStorage.clear()
             window.location.href = "/login"
         })
     }
@@ -58,7 +59,6 @@ const NavBar = () => {
             fetchAllYears()
         }, []
     )
-
 
     function getAllData() {
         CSVReaderService.getAllData()
@@ -95,9 +95,10 @@ const NavBar = () => {
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="/subjects?page=1">Сите предмети</NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link>
-                        <button onClick={getAllData}
-                                className="btn btn-secondary" id="navBar_dataBase"><DiDatabase/></button>
+                        {localStorage.getItem("role") ?
+                            <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link> : null}
+                        {/*<button onClick={getAllData}*/}
+                        {/*        className="btn btn-secondary" id="navBar_dataBase"><DiDatabase/></button>*/}
                     </Nav>
                     <div className="d-flex">
                         <input
@@ -111,9 +112,13 @@ const NavBar = () => {
                         />
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </div>
-                    <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
-                    <Nav.Link className="nav_bar_login_link" onClick={logout}>Одјави се</Nav.Link>
-                    <Nav.Link className="nav_bar_login_link" href="/register">Регистрирај се</Nav.Link>
+                    {localStorage.getItem("role") ?
+                        <Nav.Link className="nav_bar_login_link" onClick={logout}>Одјави се</Nav.Link>
+                        :
+                        <>
+                            <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
+                            <Nav.Link className="nav_bar_login_link" href="/register">Регистрирај се</Nav.Link>
+                        </>}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

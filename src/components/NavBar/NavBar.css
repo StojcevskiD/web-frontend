@@ -29,7 +29,7 @@
 }
 
 #nav_bar {
-    background: #2a439a;
+    background: #00145e;
 }
 
 .nav_bar_login_link {
@@ -46,8 +46,12 @@
     margin: 10px 15px 0 0;
 }
 
-@media(max-width: 992px) {
-    #navBar_dataBase{
+#aaa {
+    margin-left: -10px;
+}
+
+@media (max-width: 992px) {
+    #navBar_dataBase {
         width: 50px !important;
     }
 }

@@ -5,9 +5,10 @@ import {useRef} from "react";
 import UserService from "../../repository/UserRepository";
 import {Buffer} from "buffer";
 import Swal from "sweetalert2";
-
+import {useTranslation} from "react-i18next";
 
 const Login = () => {
+    const {t} = useTranslation('lang')
 
     const emailInput = useRef()
     const passwordInput = useRef()

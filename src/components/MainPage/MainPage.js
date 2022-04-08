@@ -127,10 +127,9 @@ const MainPage = () => {
     }
 
     useEffect(() => {
-            getQueryParam()
-            getTotalSubjects()
-        }, []
-    )
+        getQueryParam()
+        getTotalSubjects()
+    }, [])
 
     return (
         <div className="container">

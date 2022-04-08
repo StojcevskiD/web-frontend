@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import './Subject.css'
 import SubjectService from "../../repository/SubjectRepository";
 import Form from 'react-bootstrap/Form'
@@ -7,15 +7,17 @@ import Swal from 'sweetalert2'
 import {BsTrash} from "react-icons/bs";
 import FileService from "../../repository/FileRepository";
 import {FadeLoader} from "react-spinners";
-import {Link} from 'react-router-dom';
 import {HiDownload} from "react-icons/hi";
 import FileSaver from 'file-saver';
+import {FiEdit} from "react-icons/fi";
+import {useNavigate} from "react-router";
 
 
 const Subject = () => {
 
     const id = parseInt(useParams().id)
-
+    const navigate = useNavigate()
+    const role = localStorage.getItem("role")
     const [subject, setSubject] = React.useState()
     const [files1, setFiles1] = React.useState([])
     const [files2, setFiles2] = React.useState([])
@@ -257,31 +259,35 @@ const Subject = () => {
                 <div className="row">
                     <div className="mb-3">
                         <h1 id="subject_title">{subject.name}</h1>
-                        {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                        {role === "ROLE_ADMIN" ?
                             <div id="subject_edit_delete_btns">
                                 <Link className="btn btn-success" id="subject_edit" to={`/subject/${subject.id}/edit`}
                                       state={{subject: subject}}>Измени</Link>
-                                <button className="btn btn-danger subject_title" onClick={deleteSubject}>Избриши
+                                <button className="btn btn-danger" onClick={deleteSubject}>Избриши
                                 </button>
                             </div>
                             : null}
                     </div>
                     <div className="col-12 col-md-4 subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Прв колоквиум</h3>
-                        <div>
-                            <button className="btn btn-outline-primary subject_add_button" id="first_button"
-                                    onClick={showForm}>{openInput1 === false ? "Додади материјали" : "Затвори"}
-                            </button>
-                        </div>
-                        <div id="first_form_div" style={{display: "none"}}>
-                            <Form.Group className="mb-3 subject_form_group">
-                                <Form.Label><h5>-Додади материјали</h5></Form.Label>
-                                <Form.Control type="file" multiple onChange={fileChange} id="first_input"/>
-                            </Form.Group>
-                            <button className="btn btn-outline-primary" onClick={addMaterials}
-                                    disabled={inputButtonDisable1} id="subject_button1">Додади
-                            </button>
-                        </div>
+                        {role ? <>
+                            <div>
+                                <button className="btn btn-outline-primary subject_add_button" id="first_button"
+                                        onClick={showForm}>{openInput1 === false ? "Додади материјали" : "Затвори"}
+                                </button>
+                            </div>
+                            <div id="first_form_div" style={{display: "none"}}>
+                                <Form.Group className="mb-3 subject_form_group">
+                                    <Form.Label><h5>-Додади материјали</h5></Form.Label>
+                                    <Form.Control type="file" multiple onChange={fileChange} id="first_input"/>
+                                </Form.Group>
+                                <button className="btn btn-outline-primary" onClick={addMaterials}
+                                        disabled={inputButtonDisable1} id="subject_button1">Додади
+                                </button>
+                            </div>
+                        </> : null
+                        }
+
 
                         {filesFirst.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
@@ -307,20 +313,23 @@ const Subject = () => {
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left subject_sub_title_border_right">
                         <h3 className="subject_sub_title">Втор колоквиум</h3>
-                        <div>
-                            <button className="btn btn-outline-primary subject_add_button" id="second_button"
-                                    onClick={showForm}>{openInput2 === false ? "Додади материјали" : "Затвори"}
-                            </button>
-                        </div>
-                        <div id="second_form_div" style={{display: "none"}}>
-                            <Form.Group className="mb-3 subject_form_group">
-                                <Form.Label><h5>-Додади материјали</h5></Form.Label>
-                                <Form.Control type="file" multiple onChange={fileChange} id="second_input"/>
-                            </Form.Group>
-                            <button className="btn btn-outline-primary" onClick={addMaterials}
-                                    disabled={inputButtonDisable2} id="subject_button2">Додади
-                            </button>
-                        </div>
+                        {role ? <>
+                            <div>
+                                <button className="btn btn-outline-primary subject_add_button" id="second_button"
+                                        onClick={showForm}>{openInput2 === false ? "Додади материјали" : "Затвори"}
+                                </button>
+                            </div>
+                            <div id="second_form_div" style={{display: "none"}}>
+                                <Form.Group className="mb-3 subject_form_group">
+                                    <Form.Label><h5>-Додади материјали</h5></Form.Label>
+                                    <Form.Control type="file" multiple onChange={fileChange} id="second_input"/>
+                                </Form.Group>
+                                <button className="btn btn-outline-primary" onClick={addMaterials}
+                                        disabled={inputButtonDisable2} id="subject_button2">Додади
+                                </button>
+                            </div>
+                        </> : null
+                        }
 
                         {filesSecond.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>
@@ -346,20 +355,23 @@ const Subject = () => {
 
                     <div className="col-12 col-md-4 subject_sub_title_border_left">
                         <h3 className="subject_sub_title">Испит</h3>
-                        <div>
-                            <button className="btn btn-outline-primary subject_add_button" id="third_button"
-                                    onClick={showForm}>{openInput3 === false ? "Додади материјали" : "Затвори"}
-                            </button>
-                        </div>
-                        <div id="third_form_div" style={{display: "none"}}>
-                            <Form.Group className="mb-3 subject_form_group">
-                                <Form.Label><h5>-Додади материјали</h5></Form.Label>
-                                <Form.Control type="file" multiple onChange={fileChange} id="third_input"/>
-                            </Form.Group>
-                            <button className="btn btn-outline-primary" onClick={addMaterials}
-                                    disabled={inputButtonDisable3} id="subject_button3">Додади
-                            </button>
-                        </div>
+                        {role ? <>
+                            <div>
+                                <button className="btn btn-outline-primary subject_add_button" id="third_button"
+                                        onClick={showForm}>{openInput3 === false ? "Додади материјали" : "Затвори"}
+                                </button>
+                            </div>
+                            <div id="third_form_div" style={{display: "none"}}>
+                                <Form.Group className="mb-3 subject_form_group">
+                                    <Form.Label><h5>-Додади материјали</h5></Form.Label>
+                                    <Form.Control type="file" multiple onChange={fileChange} id="third_input"/>
+                                </Form.Group>
+                                <button className="btn btn-outline-primary" onClick={addMaterials}
+                                        disabled={inputButtonDisable3} id="subject_button3">Додади
+                                </button>
+                            </div>
+                        </> : null
+                        }
 
                         {filesExam.length === 0 ?
                             <h5 className="subject_empty_text">Моментално нема материјали за овој дел</h5>

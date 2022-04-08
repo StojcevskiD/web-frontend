@@ -1,16 +1,18 @@
 import Navbar from 'react-bootstrap/Navbar'
 import './NavBar.css'
 import {Container, Nav, NavDropdown} from "react-bootstrap";
-import React, {useEffect} from "react";
+import React, {Fragment, useEffect} from "react";
 import {FaSearch} from 'react-icons/fa';
 import YearService from "../../repository/YearRepository";
 import SemesterTypeService from "../../repository/SemesterType";
 import {DiDatabase} from "react-icons/di";
 import CSVReaderService from "../../repository/ReaderRepository";
 import UserService from "../../repository/UserRepository";
+import {useTranslation} from "react-i18next";
 
 
 const NavBar = () => {
+    const {t, i18n} = useTranslation('lang')
 
     const [searchValue, setSearchValue] = React.useState("")
     const [years, setYears] = React.useState([])
@@ -64,10 +66,15 @@ const NavBar = () => {
         CSVReaderService.getAllData()
     }
 
+    const changeLanguage = (lng) => {
+        localStorage.setItem("lng", lng)
+        i18n.changeLanguage(lng)
+    }
+
     return (
         <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
             <Container>
-                <Navbar.Brand href="/subjects?page=1">Предметник</Navbar.Brand>
+                <Navbar.Brand href="/subjects?page=1">{t('TITLE')}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse>
                     <Nav
@@ -75,7 +82,7 @@ const NavBar = () => {
                         style={{maxHeight: '100px'}}
                         navbarScroll
                     >
-                        <NavDropdown title="Предмети">
+                        <NavDropdown title={t('SUBJECTS')}>
                             {years.map((y, ind) => {
                                 return (
                                     <NavDropdown.Item href={"/subjects?year=" + y.id} key={y.id}
@@ -93,10 +100,10 @@ const NavBar = () => {
                                 )
                             })}
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href="/subjects?page=1">Сите предмети</NavDropdown.Item>
+                            <NavDropdown.Item href="/subjects?page=1">{t('ALL_SUBJECTS')}</NavDropdown.Item>
                         </NavDropdown>
                         {localStorage.getItem("role") ?
-                            <Nav.Link href="/subjects?type=favorites">Мои предмети</Nav.Link> : null}
+                            <Nav.Link href="/subjects?type=favorites">{t('MY_SUBJECTS')}</Nav.Link> : null}
                         {/*<button onClick={getAllData}*/}
                         {/*        className="btn btn-secondary" id="navBar_dataBase"><DiDatabase/></button>*/}
                     </Nav>
@@ -113,12 +120,17 @@ const NavBar = () => {
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </div>
                     {localStorage.getItem("role") ?
-                        <Nav.Link className="nav_bar_login_link" onClick={logout}>Одјави се</Nav.Link>
+                        <Nav.Link className="nav_bar_login_link" onClick={logout}>{t('LOGOUT')}</Nav.Link>
                         :
                         <>
-                            <Nav.Link className="nav_bar_login_link" href="/login">Најави се</Nav.Link>
-                            <Nav.Link className="nav_bar_login_link" href="/register">Регистрирај се</Nav.Link>
+                            <Nav.Link className="nav_bar_login_link" href="/login">{t('LOG_IN')}</Nav.Link>
+                            <Nav.Link className="nav_bar_login_link" href="/register">{t('REGISTER')}</Nav.Link>
                         </>}
+                    <Nav.Link className="nav_bar_login_link">
+                        <span onClick={() => changeLanguage('mk')}>MK</span>
+                        <span>/</span>
+                        <span onClick={() => changeLanguage('en')}>EN</span>
+                    </Nav.Link>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

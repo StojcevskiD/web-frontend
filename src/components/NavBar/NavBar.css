@@ -33,12 +33,17 @@
 }
 
 .nav_bar_login_link {
-    color: #02abe3;
+    /*color: #02abe3 !important;*/
     padding-left: 0 !important;
 }
 
 .nav_bar_login_link:hover {
     color: #53d7f5 !important;
+}
+
+.nav_bar_username {
+    color: #0d6efd;
+
 }
 
 #nav_bar_search_icon {

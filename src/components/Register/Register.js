@@ -14,8 +14,6 @@ const Register = () => {
         username: '',
         password: '',
         repeatPassword: '',
-        address: '',
-        phone: ''
     });
 
     const handleKeyPress = (e) => {
@@ -34,14 +32,12 @@ const Register = () => {
 
     const registerHandler = () => {
         if (data.name !== '' && data.surname !== '' && data.email !== '' && data.username !== '' && data.password !== ''
-            && data.repeatPassword !== '' && data.address !== '' && data.phone !== '') {
+            && data.repeatPassword !== '') {
             if (data.password === data.repeatPassword) {
                 let formData = {
                     'username': data.username,
                     'name': data.name,
                     'surname': data.surname,
-                    'address': data.address,
-                    'phone': data.phone,
                 }
                 UserService.register(data.email, data.password, formData).then(() => {
                     window.location.href = "/login"
@@ -104,15 +100,6 @@ const Register = () => {
                                         <input name="repeatPassword" type="password" className="form-control "
                                                placeholder="Повторете ја лозинката" onChange={updateData} required/>
                                     </div>
-                                    <div className="row login_password_input login_form_element">
-                                        <input name="address" type="text" className="form-control "
-                                               placeholder="Внесете адреса на живеење" onChange={updateData} required/>
-                                    </div>
-                                    <div className="row login_password_input login_form_element">
-                                        <input name="phone" type="text" className="form-control "
-                                               placeholder="Внесете телефонски број" onChange={updateData} required/>
-                                    </div>
-
                                     <div className="row login_form_element mt-4">
                                         <a className="btn btn-success form-control login_register_btn "
                                            onClick={registerHandler}>Регистрирај се</a>

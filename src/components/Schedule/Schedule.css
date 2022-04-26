@@ -19,6 +19,10 @@
     padding: 0 !important;
 }
 
+.schedule_time {
+    line-height: 43px;
+}
+
 .schedule_row {
     border: 1px solid black;
     text-align: center;
@@ -30,10 +34,31 @@
 }
 
 .schedule_submit {
-    /*width: 100px;*/
+    width: 80px;
+    height: 32px;
+    background: darkgreen;
+    border-radius: 3px;
+    border: none;
+    color: white;
+}
+
+.schedule_submit:hover {
+    cursor: pointer;
+    background: forestgreen;
 }
 
 .schedule_inputs {
     max-width: 200px;
     margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.schedule_input_color {
+    margin-right: 20px;
+    margin-left: 5px;
+}
+
+.schedule_main_header {
+    text-align: center;
+    margin-bottom: 16px;
 }

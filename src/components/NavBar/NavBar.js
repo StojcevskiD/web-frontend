@@ -101,6 +101,8 @@ const NavBar = () => {
                             })}
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="/subjects?page=1">{t('ALL_SUBJECTS')}</NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item href="/schedule">{t('SCHEDULE')}</NavDropdown.Item>
                         </NavDropdown>
                         {localStorage.getItem("role") ?
                             <Nav.Link href="/subjects?type=favorites">{t('MY_SUBJECTS')}</Nav.Link> : null}

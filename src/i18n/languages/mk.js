@@ -7,7 +7,8 @@ const locale = {
     REGISTER: 'Регистрирај се',
     SUBJECTS: 'Предмети',
     USERNAME: 'Корисник',
-    SEARCH: 'Пребарувај'
+    SEARCH: 'Пребарувај',
+    SCHEDULE: 'Креирај распоред'
 }
 
 export default locale

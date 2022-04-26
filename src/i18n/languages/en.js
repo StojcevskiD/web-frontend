@@ -7,7 +7,8 @@ const locale = {
     REGISTER: 'Register',
     SUBJECTS: 'Subjects',
     USERNAME: 'Username',
-    SEARCH: 'Search'
+    SEARCH: 'Search',
+    SCHEDULE: 'Create schedule'
 
 }
 

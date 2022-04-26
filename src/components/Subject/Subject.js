@@ -216,12 +216,13 @@ const Subject = () => {
             FileSaver.saveAs(blob, name);
         })
     }
-    // const openFile = async (id) => {
-    //     await FileService.openFile(id).then((response) => {
-    //         var blob = new Blob([response.data], {type: response.data.type});
-    //         FileSaver.open(response);
-    //     })
-    // }
+    const openFile = async (id) => {
+        window.location.href = 'http://localhost:8080/file/openFile/' + id
+        // await FileService.openFile(id).then((response) => {
+        //     var blob = new Blob([response.data], {type: response.data.type});
+        // FileSaver.open(response);
+        // })
+    }
 
     const deleteSubject = () => {
         Swal.fire({
@@ -303,7 +304,7 @@ const Subject = () => {
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
-                                            <div className="subject_name">{f.name}</div>
+                                            <div className="subject_name" onClick={() => openFile(f.id)}>{f.name}</div>
                                         </li>
                                     )
                                 })}
@@ -345,7 +346,7 @@ const Subject = () => {
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
-                                            <div className="subject_name">{f.name}</div>
+                                            <div className="subject_name" onClick={() => openFile(f.id)}>{f.name}</div>
                                         </li>
                                     )
                                 })}
@@ -387,7 +388,7 @@ const Subject = () => {
                                             <HiDownload className="subject_delete_download_icons"
                                                         onClick={() => downloadFile(f.id, f.name)}>
                                             </HiDownload>
-                                            <div className="subject_name">{f.name}</div>
+                                            <div className="subject_name" onClick={() => openFile(f.id)}>{f.name}</div>
                                         </li>
                                     )
                                 })}

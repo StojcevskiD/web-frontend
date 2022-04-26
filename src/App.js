@@ -10,6 +10,7 @@ import Subject from "./components/Subject/Subject";
 import Register from "./components/Register/Register";
 import AddSubject from "./components/AddSubject/AddSubject";
 import EditSubject from "./components/EditSubject/EditSubject";
+import Schedule from "./components/Schedule/Schedule";
 
 class App extends Component {
 
@@ -23,6 +24,7 @@ class App extends Component {
                     <Route path='/subject/:id' element={<Subject/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
+                    <Route path='/schedule' element={<Schedule/>}/>
 
                     <Route path="*" element={<Navigate to="/subjects?page=1"/>}/>
                 </Routes>
@@ -55,6 +57,7 @@ class App extends Component {
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/add/subject' element={<AddSubject/>}/>
                     <Route path='/subject/:id/edit' element={<EditSubject/>}/>
+                    <Route path='/schedule' element={<Schedule/>}/>
 
                     <Route path="*" element={<Navigate to="/subjects?page=1"/>}/>
                 </Routes>

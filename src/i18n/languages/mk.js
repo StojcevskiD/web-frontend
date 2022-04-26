@@ -6,7 +6,9 @@ const locale = {
     LOGOUT: 'Одјави се',
     REGISTER: 'Регистрирај се',
     SUBJECTS: 'Предмети',
-
+    USERNAME: 'Корисник',
+    SEARCH: 'Пребарувај',
+    SCHEDULE: 'Креирај распоред'
 }
 
 export default locale

@@ -5,7 +5,10 @@ const locale = {
     LOG_IN: 'Log in',
     LOGOUT: 'Logout',
     REGISTER: 'Register',
-    SUBJECTS: 'Subjects'
+    SUBJECTS: 'Subjects',
+    USERNAME: 'Username',
+    SEARCH: 'Search',
+    SCHEDULE: 'Create schedule'
 
 }
 

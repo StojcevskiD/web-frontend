@@ -13,6 +13,7 @@ import {useTranslation} from "react-i18next";
 
 const NavBar = () => {
     const {t, i18n} = useTranslation('lang')
+    const username = localStorage.getItem("username")
 
     const [searchValue, setSearchValue] = React.useState("")
     const [years, setYears] = React.useState([])
@@ -23,7 +24,6 @@ const NavBar = () => {
             window.location.href = "/subjects?search=" + searchValue
         } else {
             window.location.href = "/subjects?page=1"
-
         }
     }
 
@@ -101,6 +101,8 @@ const NavBar = () => {
                             })}
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="/subjects?page=1">{t('ALL_SUBJECTS')}</NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item href="/schedule">{t('SCHEDULE')}</NavDropdown.Item>
                         </NavDropdown>
                         {localStorage.getItem("role") ?
                             <Nav.Link href="/subjects?type=favorites">{t('MY_SUBJECTS')}</Nav.Link> : null}
@@ -110,7 +112,7 @@ const NavBar = () => {
                     <div className="d-flex">
                         <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder={t('SEARCH') + '...'}
                             className="me-2 form-control"
                             aria-label="Search"
                             value={searchValue}
@@ -119,8 +121,10 @@ const NavBar = () => {
                         />
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </div>
-                    {localStorage.getItem("role") ?
-                        <Nav.Link className="nav_bar_login_link" onClick={logout}>{t('LOGOUT')}</Nav.Link>
+                    {localStorage.getItem("role") ? <>
+                            <span className="nav_bar_username mx-3">{t('USERNAME') + ': ' + username}</span>
+                            <Nav.Link className="nav_bar_login_link" onClick={logout}>{t('LOGOUT')}</Nav.Link>
+                        </>
                         :
                         <>
                             <Nav.Link className="nav_bar_login_link" href="/login">{t('LOG_IN')}</Nav.Link>

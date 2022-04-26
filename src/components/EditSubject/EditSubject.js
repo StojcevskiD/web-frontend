@@ -35,14 +35,19 @@ const EditSubject = () => {
 
     const editSubjectHandler = (e) => {
         e.preventDefault()
-        if (semesterTypeName !== 'Изберете го типот на семестарот') {
+        if (formData.name === '') {
+            Swal.fire(
+                'Грешка!',
+                'Името на предметот е невалидно.',
+                'error'
+            )
+        } else if (semesterTypeName === 'Изберете го типот на семестарот') {
             Swal.fire(
                 'Грешка!',
                 'Изберете валиден тип на семестар.',
                 'error'
             )
-        }
-        if ((formData.name !== subject.name) || (formData.year.name !== subject.year.name)
+        } else if ((formData.name !== subject.name) || (formData.year.name !== subject.year.name)
             || (formData.semesterType.name !== subject.semesterType.name)) {
             SubjectService.editSubject(formData).then(s => {
                 Swal.fire(

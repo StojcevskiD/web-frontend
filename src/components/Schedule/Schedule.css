@@ -1,0 +1,39 @@
+.schedule_header {
+    height: 60px;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.schedule_header_columns {
+    width: 235px !important;
+    min-width: 235px;
+}
+
+.schedule_header_column_time {
+    min-width: 120px;
+}
+
+.schedule_columns {
+    height: 45px;
+    padding: 0 !important;
+}
+
+.schedule_row {
+    border: 1px solid black;
+    text-align: center;
+    font-weight: 500;
+}
+
+#schedule_table {
+    overflow: auto;
+}
+
+.schedule_submit {
+    /*width: 100px;*/
+}
+
+.schedule_inputs {
+    max-width: 200px;
+    margin-right: 20px;
+}

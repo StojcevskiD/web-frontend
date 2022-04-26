@@ -60,8 +60,7 @@ const Login = () => {
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input ref={passwordInput} name="password" type="password"
-                                               className="form-control "
-                                               placeholder="Внесете лозинка"/>
+                                               className="form-control" placeholder="Внесете лозинка"/>
                                     </div>
                                     <div className="row login_form_element" id="login_btn_div">
                                         <button type="submit" className="form-control login_btn"

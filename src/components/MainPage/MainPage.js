@@ -175,7 +175,8 @@ const MainPage = () => {
                                     <div id="main_page_selection">
                                         <h5>Прикажи по страна:</h5>
                                         <select id="main_page_select" onChange={changeSizePerPage}>
-                                            <option defaultValue="30">30</option>
+                                            <option value="15">15</option>
+                                            <option defaultValue="30" selected>30</option>
                                             <option value="45">45</option>
                                             <option value="60">60</option>
                                             <option value="75">75</option>
@@ -192,10 +193,10 @@ const MainPage = () => {
                                             <ImageListItem key={s.id} className="main_page_list_item">
                                                 {
                                                     localStorage.getItem("username") ?
-                                                    <AiFillStar size="22" onClick={addToFavorites}
-                                                                className="main_page_star"
-                                                                id={"unique_star_id" + s.id}/>
-                                                                :null
+                                                        <AiFillStar size="22" onClick={addToFavorites}
+                                                                    className="main_page_star"
+                                                                    id={"unique_star_id" + s.id}/>
+                                                        : null
                                                 }
 
                                                 <Link className="link_subject" to={`/subject/${s.id}`}>

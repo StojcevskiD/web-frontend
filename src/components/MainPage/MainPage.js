@@ -190,9 +190,14 @@ const MainPage = () => {
                                     {subjects.map((s) => {
                                         return (
                                             <ImageListItem key={s.id} className="main_page_list_item">
-                                                <AiFillStar size="22" onClick={addToFavorites}
-                                                            className="main_page_star"
-                                                            id={"unique_star_id" + s.id}/>
+                                                {
+                                                    localStorage.getItem("username") ?
+                                                    <AiFillStar size="22" onClick={addToFavorites}
+                                                                className="main_page_star"
+                                                                id={"unique_star_id" + s.id}/>
+                                                                :null
+                                                }
+
                                                 <Link className="link_subject" to={`/subject/${s.id}`}>
                                                     {s.name}
                                                 </Link>

@@ -3,9 +3,11 @@ import {FaBookReader} from 'react-icons/fa';
 import React, {useState} from "react";
 import UserService from "../../repository/UserRepository";
 import Swal from "sweetalert2";
+import {useTranslation} from "react-i18next";
 
 
 const Register = () => {
+    const {t} = useTranslation('lang')
 
     const [data, setData] = React.useState({
         name: '',
@@ -71,38 +73,42 @@ const Register = () => {
                     <div className="col ">
                         <Card id="login_card">
                             <div className="row">
-                                <h1 id="login_title">Регистрирај се</h1>
+                                <h1 id="login_title">{t('REGISTER')}</h1>
                                 <FaBookReader size="35" id="login_reader_icon"/>
                             </div>
                             <CardBody>
                                 <form id="login_form">
                                     <div className="row login_form_element">
-                                        <input name="name" type="text" className="form-control "
-                                               placeholder="Внесете име" onChange={updateData} required/>
+                                        <input name="name" type="text" className="form-control"
+                                               placeholder={t('INPUT_NAME')} onChange={updateData}
+                                               required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="surname" type="text" className="form-control "
-                                               placeholder="Внесете презиме" onChange={updateData} required/>
+                                               placeholder={t('INPUT_SURNAME')} onChange={updateData}
+                                               required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="email" type="text" className="form-control "
-                                               placeholder="Внесете е-пошта" onChange={updateData} required/>
+                                               placeholder={t('INPUT_EMAIL')} onChange={updateData} required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="username" type="text" className="form-control "
-                                               placeholder="Внесете корисничко име" onChange={updateData} required/>
+                                               placeholder={t('INPUT_USERNAME')} onChange={updateData} required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="password" type="password" className="form-control "
-                                               placeholder="Внесете лозинка" onChange={updateData} required/>
+                                               placeholder={t('INPUT_PASSWORD')} onChange={updateData}
+                                               required/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input name="repeatPassword" type="password" className="form-control "
-                                               placeholder="Повторете ја лозинката" onChange={updateData} required/>
+                                               placeholder={t('INPUT_REPEAT_PASSWORD')}
+                                               onChange={updateData} required/>
                                     </div>
                                     <div className="row login_form_element mt-4">
                                         <a className="btn btn-success form-control login_register_btn "
-                                           onClick={registerHandler}>Регистрирај се</a>
+                                           onClick={registerHandler}>{t('REGISTER')}</a>
                                     </div>
                                 </form>
 

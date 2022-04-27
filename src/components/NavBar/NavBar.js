@@ -50,10 +50,13 @@ const NavBar = () => {
     }
 
     const logout = () => {
+        let lang = localStorage.getItem('lng')
         UserService.logout().then(() => {
             localStorage.clear()
+            localStorage.setItem('lng', lang)
             window.location.href = "/login"
         })
+
     }
 
     useEffect(() => {
@@ -72,7 +75,7 @@ const NavBar = () => {
     }
 
     return (
-        <Navbar id="nav_bar" variant="dark" expand="lg" className="mb-4">
+        <Navbar id="nav_bar" variant="dark" expand="md" className="mb-4">
             <Container>
                 <Navbar.Brand href="/subjects?page=1">{t('TITLE')}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
@@ -101,8 +104,6 @@ const NavBar = () => {
                             })}
                             <NavDropdown.Divider/>
                             <NavDropdown.Item href="/subjects?page=1">{t('ALL_SUBJECTS')}</NavDropdown.Item>
-                            <NavDropdown.Divider/>
-                            <NavDropdown.Item href="/schedule">{t('SCHEDULE')}</NavDropdown.Item>
                         </NavDropdown>
                         {localStorage.getItem("role") ?
                             <Nav.Link href="/subjects?type=favorites">{t('MY_SUBJECTS')}</Nav.Link> : null}
@@ -121,20 +122,44 @@ const NavBar = () => {
                         />
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </div>
-                    {localStorage.getItem("role") ? <>
-                            <span className="nav_bar_username mx-3">{t('USERNAME') + ': ' + username}</span>
-                            <Nav.Link className="nav_bar_login_link" onClick={logout}>{t('LOGOUT')}</Nav.Link>
-                        </>
-                        :
-                        <>
-                            <Nav.Link className="nav_bar_login_link" href="/login">{t('LOG_IN')}</Nav.Link>
-                            <Nav.Link className="nav_bar_login_link" href="/register">{t('REGISTER')}</Nav.Link>
-                        </>}
-                    <Nav.Link className="nav_bar_login_link">
-                        <span onClick={() => changeLanguage('mk')}>MK</span>
-                        <span>/</span>
-                        <span onClick={() => changeLanguage('en')}>EN</span>
-                    </Nav.Link>
+
+                    <Nav
+                        className="my-2 my-lg-0"
+                        style={{maxHeight: '100px'}}
+                        navbarScroll
+                    >
+                        <NavDropdown title={t('MENU')}>
+
+                            {localStorage.getItem("role") ? <>
+                                    <NavDropdown.Header
+                                        className="nav_bar_username">{t('USERNAME') + ': ' + username}</NavDropdown.Header>
+                                    <NavDropdown.Divider/>
+
+                                    <NavDropdown.Item className="nav_bar_login_link"
+                                                      onClick={logout}>{t('LOGOUT')}</NavDropdown.Item>
+                                </>
+                                :
+                                <>
+                                    <NavDropdown.Item className="nav_bar_login_link"
+                                                      href="/login">{t('LOG_IN')}</NavDropdown.Item>
+                                    <NavDropdown.Item className="nav_bar_login_link"
+                                                      href="/register">{t('REGISTER')}</NavDropdown.Item>
+                                </>}
+
+
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item href="/schedule">{t('SCHEDULE')}</NavDropdown.Item>
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item>
+                                Language:
+                                <span onClick={() => changeLanguage('mk')}
+                                      style={localStorage.getItem('lng') === 'mk' ? {color: '#1E90FFFF'} : null}> MK</span>
+                                <span> | </span>
+                                <span onClick={() => changeLanguage('en')}
+                                      style={localStorage.getItem('lng') === 'en' ? {color: '#1E90FFFF'} : null}>EN</span>
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

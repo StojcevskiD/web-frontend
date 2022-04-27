@@ -8,7 +8,15 @@ const locale = {
     SUBJECTS: 'Предмети',
     USERNAME: 'Корисник',
     SEARCH: 'Пребарувај',
-    SCHEDULE: 'Креирај распоред'
+    SCHEDULE: 'Креирај распоред',
+    INPUT_EMAIL: 'Внесете е-пошта',
+    INPUT_PASSWORD: 'Внесете лозинка',
+    INPUT_NAME: 'Внесете име',
+    INPUT_SURNAME: 'Внесете презиме',
+    INPUT_USERNAME: 'Внесете корисничко име',
+    INPUT_REPEAT_PASSWORD: 'Повторете ја лозинката',
+    MENU: 'Мени',
+
 }
 
 export default locale

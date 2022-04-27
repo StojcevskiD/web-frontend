@@ -49,27 +49,27 @@ const Login = () => {
                     <div className="col login_positions">
                         <Card id="login_card">
                             <div className="row">
-                                <h1 id="login_title">Најави се</h1>
+                                <h1 id="login_title">{t('LOG_IN')}</h1>
                                 <FaBookReader size="35" id="login_reader_icon"/>
                             </div>
                             <CardBody>
                                 <form id="login_form">
                                     <div className="row login_form_element">
                                         <input ref={emailInput} name="username" type="text" className="form-control "
-                                               placeholder="Внесете е-пошта"/>
+                                               placeholder={t('INPUT_EMAIL')}/>
                                     </div>
                                     <div className="row login_password_input login_form_element">
                                         <input ref={passwordInput} name="password" type="password"
-                                               className="form-control" placeholder="Внесете лозинка"/>
+                                               className="form-control" placeholder={t('INPUT_PASSWORD')}/>
                                     </div>
                                     <div className="row login_form_element" id="login_btn_div">
                                         <button type="submit" className="form-control login_btn"
-                                                onClick={loginHandler}>Најави се
+                                                onClick={loginHandler}>{t('LOG_IN')}
                                         </button>
                                     </div>
                                     <div className="row login_form_element">
                                         <a className="btn btn-success form-control login_register_btn "
-                                           href={'/register'}>Регистрирај се</a>
+                                           href={'/register'}>{t('REGISTER')}</a>
                                     </div>
                                 </form>
 

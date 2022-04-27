@@ -32,27 +32,19 @@
     background: #00145e;
 }
 
-.nav_bar_login_link {
-    /*color: #02abe3 !important;*/
-    padding-left: 0 !important;
-}
-
-.nav_bar_login_link:hover {
-    color: #53d7f5 !important;
-}
-
 .nav_bar_username {
-    color: #0d6efd;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 170px;
+}
 
+.dropdown-menu {
+    left: -100px !important;
 }
 
 #nav_bar_search_icon {
     color: white;
     margin: 10px 15px 0 0;
-}
-
-#aaa {
-    margin-left: -10px;
 }
 
 @media (max-width: 992px) {

@@ -28,6 +28,23 @@ const UserService = {
 
     userDetails: () => {
         return axios.get(`/user/details`)
+    },
+
+    resetPassword: (email) => {
+        return axios.post(`/user/reset/password`, {}, {
+            headers: {
+                email: email
+            }
+        })
+    },
+
+    enableUser: (token) => {
+        return axios.post(`/user/enable`, {}, {
+                params: {
+                    token: token
+                }
+            }
+        )
     }
 
 

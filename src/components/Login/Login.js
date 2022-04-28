@@ -6,10 +6,11 @@ import UserService from "../../repository/UserRepository";
 import {Buffer} from "buffer";
 import Swal from "sweetalert2";
 import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const {t} = useTranslation('lang')
-
+    const navigate = useNavigate()
     const emailInput = useRef()
     const passwordInput = useRef()
 
@@ -42,6 +43,10 @@ const Login = () => {
         })
     }
 
+    const resetPassword = () => {
+        navigate('/reset_password')
+    }
+
     return (
         <div onKeyPress={handleKeyPress}>
             <div className="container">
@@ -70,6 +75,10 @@ const Login = () => {
                                     <div className="row login_form_element">
                                         <a className="btn btn-success form-control login_register_btn "
                                            href={'/register'}>{t('REGISTER')}</a>
+                                    </div>
+                                    <div className="row login_form_element">
+                                        <a className="btn btn-info form-control login_register_btn "
+                                           onClick={resetPassword}>{t('FORGOT_PASSWORD')}</a>
                                     </div>
                                 </form>
 

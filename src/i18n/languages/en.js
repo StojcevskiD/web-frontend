@@ -3,6 +3,7 @@ const locale = {
     ALL_SUBJECTS: 'All subjects',
     MY_SUBJECTS: 'My subjects',
     LOG_IN: 'Log-In',
+    TO_LOG_IN: 'To log-in',
     LOGOUT: 'Logout',
     REGISTER: 'Register',
     SUBJECTS: 'Subjects',
@@ -16,7 +17,10 @@ const locale = {
     INPUT_USERNAME: 'Enter username',
     INPUT_REPEAT_PASSWORD: 'Repeat password',
     MENU: 'Menu',
-
+    FORGOT_PASSWORD: 'Forgot Password',
+    SEND: 'Send',
+    ENABLE_SUCCESS: '',
+    ENABLE_FAILED: '',
 
 }
 

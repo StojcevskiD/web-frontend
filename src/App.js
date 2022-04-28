@@ -11,11 +11,13 @@ import Register from "./components/Register/Register";
 import AddSubject from "./components/AddSubject/AddSubject";
 import EditSubject from "./components/EditSubject/EditSubject";
 import Schedule from "./components/Schedule/Schedule";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ConfirmRegistration from "./components/ConfirmRegistration/ConfirmRegistration";
 
 class App extends Component {
 
     render() {
-        
+
         if (localStorage.getItem('lng') === null) {
             localStorage.setItem('lng', 'mk')
         }
@@ -30,6 +32,8 @@ class App extends Component {
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/schedule' element={<Schedule/>}/>
+                    <Route path='/reset_password' element={<ForgotPassword/>}/>
+                    <Route path='/confirm' element={<ConfirmRegistration/>}/>
 
                     <Route path="*" element={<Navigate to="/subjects?page=1"/>}/>
                 </Routes>

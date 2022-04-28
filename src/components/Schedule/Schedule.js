@@ -1,6 +1,6 @@
 import './Schedule.css'
 import {useRef, useState} from "react";
-import * as htmlToImage from "html-to-image";
+
 
 const Schedule = () => {
 

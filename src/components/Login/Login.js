@@ -31,6 +31,7 @@ const Login = () => {
             UserService.userDetails().then(details => {
                 localStorage.setItem("role", details.data.roles[0])
                 localStorage.setItem("username", details.data.username)
+                localStorage.setItem("id",details.data.id)
                 window.location.href = "/subjects"
             })
         }).catch(() => {

@@ -28,6 +28,17 @@ const UserService = {
 
     userDetails: () => {
         return axios.get(`/user/details`)
+    },
+
+    takeFavoriteSubjects: (id)=>{
+        return axios.get(`/user/${id}/subjects`)
+    },
+
+    addFavoriteSubject: (sId,uId) =>{
+        return axios.get(`/user/takeSubject`, {params: {userId: uId, subjectId: sId}})
+    },
+    removeFavoriteSubject: (uId, sId) => {
+        return axios.get(`/user/removeSubject`, {params: {userId: uId, subjectId: sId}})
     }
 
 

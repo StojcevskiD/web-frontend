@@ -11,6 +11,16 @@
     cursor: pointer;
 }
 
+.favorites_star {
+    float: right;
+    color: #e3d802;
+}
+
+.favorites_star > path:hover {
+    color: black;
+    cursor: pointer;
+}
+
 .main_page_list_item {
     border: 1px #adadad solid;
     min-height: 52px !important;
@@ -21,6 +31,7 @@
 
 .main_page_star {
     float: right;
+    color: black;
 }
 
 .link_subject {

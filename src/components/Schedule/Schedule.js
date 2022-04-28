@@ -1,6 +1,7 @@
 import './Schedule.css'
 import {useRef, useState} from "react";
 
+
 const Schedule = () => {
 
 
@@ -66,6 +67,7 @@ const Schedule = () => {
             }
         }
     }
+
     const getRandomColor = () => {
         var letters = 'BCDEF'.split('');
         var color = '#';

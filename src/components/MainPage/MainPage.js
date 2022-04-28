@@ -11,6 +11,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import YearService from "../../repository/YearRepository";
 import SemesterTypeService from "../../repository/SemesterType";
+import UserService from "../../repository/UserRepository";
 
 const MainPage = () => {
 
@@ -32,6 +33,7 @@ const MainPage = () => {
     const typeQuery = new URLSearchParams(queryParams).get('type')
     const searchQuery = new URLSearchParams(queryParams).get('search')
 
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         getPaginatedSubjects(newPage, sizeOnPage)
@@ -51,8 +53,8 @@ const MainPage = () => {
             setSearch(searchQuery)
             searchFilter(searchQuery)
         } else if (typeQuery === "favorites") {
-            fetchAllSubjects()
             setAreFavorites(true)
+            fetchFavorites()
         } else if (yearQuery !== null) {
             filterByYearAndSemester(yearQuery, typeQuery)
             getYear(yearQuery)
@@ -64,11 +66,19 @@ const MainPage = () => {
     }
 
     const addToFavorites = (e) => {
-        if (document.getElementById(e.target.parentNode.id).style.color === "rgb(227, 216, 2)") {
-            document.getElementById(e.target.parentNode.id).style.color = "black"
-        } else {
-            document.getElementById(e.target.parentNode.id).style.color = "#e3d802"
-        }
+        let id = e.target.parentNode.id.substring(4)
+            UserService.addFavoriteSubject(id, localStorage.getItem("id")).then(() => {
+                document.getElementById(e.target.parentNode.id).style.color = "#e3d802"
+            })
+    }
+
+    const removeFavorites = (e) => {
+        let id = e.target.parentNode.id.substring(4)
+
+            UserService.removeFavoriteSubject(localStorage.getItem("id"), id).then(() => {
+                document.getElementById(e.target.parentNode.id).style.color = "black"
+            })
+
     }
 
     const filterByYearAndSemester = (y, type) => {
@@ -87,13 +97,17 @@ const MainPage = () => {
         })
     }
 
-    const fetchAllSubjects = () => {
+    const fetchFavorites = () => {
         setLoading(true)
-        SubjectService.getAllSubjects().then((sub) => {
-            setSubjects(sub.data)
-        }).then(() => {
-            setLoading(false)
-        })
+        console.log(areFavorites, "fav")
+        if (localStorage.getItem("username")) {
+            UserService.takeFavoriteSubjects(localStorage.getItem("id")).then(s => {
+                setSubjects(s.data)
+                console.log("subjectfav", s.data)
+            }).then(() => {
+                setLoading(false)
+            })
+        }
     }
 
     const getTotalSubjects = () => {
@@ -109,6 +123,7 @@ const MainPage = () => {
             setSubjects(r.data)
         }).then(() => {
             setLoading(false)
+            getFavoriteSubjects()
         })
     }
 
@@ -126,9 +141,23 @@ const MainPage = () => {
         }
     }
 
+    const getFavoriteSubjects = () => {
+        if(localStorage.getItem("username")) {
+            UserService.takeFavoriteSubjects(localStorage.getItem("id")).then(s => {
+                s.data.map((f) => {
+                    if(document.getElementById("main"+f.id)) {
+                        document.getElementById("main" + f.id).style.color = "#e3d802"
+                        console.log("ime na pred", f)
+                    }
+                })
+            })
+        }
+    }
+
     useEffect(() => {
         getQueryParam()
         getTotalSubjects()
+        getFavoriteSubjects()
     }, [])
 
     return (
@@ -143,14 +172,15 @@ const MainPage = () => {
                     <div className="col">
                         <h1 id="main_page_title">Предмети</h1>
 
-                        {localStorage.getItem("role") === "ROLE_ADMIN" ?
+                        {localStorage.getItem("role") === "ROLE_ADMIN" && areFavorites === false ?
                             <div>
                                 <Link className="btn main_page_add_subject_btn" to="/add/subject">Додади предмет</Link>
                             </div>
                             : null}
 
                         <div style={{marginBottom: "30px"}}>
-                            {areFavorites === true ? <h3>Мои предмети:</h3> :
+                            {areFavorites === true ? <h3>Мои предмети:</h3>
+                                :
                                 <div style={{marginBottom: "20px"}}>
                                     <h3>Предмети од {year === undefined ? "сите години" : year + " година "}
                                         {type !== undefined ? "(" + type + " семестар)" : null}: </h3>
@@ -185,17 +215,29 @@ const MainPage = () => {
                                     </div>
                                 </div> : null}
                             {subjects.length === 0 ?
-                                <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото
-                                    пребарување</h1> :
+                                areFavorites === true ?
+                                    <h1 id="main_page_subjects_not_found" className="danger">Немате внесено ваши
+                                        предмети</h1>
+                                    :
+                                    <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото
+                                        пребарување</h1> :
                                 <ImageList cols={3} className="main_page_subject_list">
                                     {subjects.map((s) => {
                                         return (
                                             <ImageListItem key={s.id} className="main_page_list_item">
                                                 {
                                                     localStorage.getItem("username") ?
-                                                        <AiFillStar size="22" onClick={addToFavorites}
-                                                                    className="main_page_star"
-                                                                    id={"unique_star_id" + s.id}/>
+                                                        areFavorites === false ?
+                                                            <>
+                                                                <AiFillStar size="22" onClick={addToFavorites}
+                                                                            className="main_page_star"
+                                                                            id={"main"+s.id}/>
+                                                            </>
+                                                            : areFavorites === true ?
+                                                            <AiFillStar size="22" onClick={removeFavorites}
+                                                                        className="favorites_star"
+                                                                        id={"favr"+s.id}/>
+                                                            : null
                                                         : null
                                                 }
 

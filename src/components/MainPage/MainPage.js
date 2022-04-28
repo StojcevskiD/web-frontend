@@ -158,8 +158,6 @@ const MainPage = () => {
         getQueryParam()
         getTotalSubjects()
         getFavoriteSubjects()
-        console.log("useeffect main", areFavorites)
-
     }, [])
 
     return (
@@ -207,7 +205,8 @@ const MainPage = () => {
                                     <div id="main_page_selection">
                                         <h5>Прикажи по страна:</h5>
                                         <select id="main_page_select" onChange={changeSizePerPage}>
-                                            <option defaultValue="30">30</option>
+                                            <option value="15">15</option>
+                                            <option defaultValue="30" selected>30</option>
                                             <option value="45">45</option>
                                             <option value="60">60</option>
                                             <option value="75">75</option>
@@ -223,8 +222,6 @@ const MainPage = () => {
                                     <h1 id="main_page_subjects_not_found" className="danger">Нема предмети по даденото
                                         пребарување</h1> :
                                 <ImageList cols={3} className="main_page_subject_list">
-                                    {console.log("subjects", subjects)}
-                                    {console.log("userid", localStorage.getItem("id"))}
                                     {subjects.map((s) => {
                                         return (
                                             <ImageListItem key={s.id} className="main_page_list_item">
@@ -243,6 +240,7 @@ const MainPage = () => {
                                                             : null
                                                         : null
                                                 }
+
                                                 <Link className="link_subject" to={`/subject/${s.id}`}>
                                                     {s.name}
                                                 </Link>

@@ -10,17 +10,15 @@ const Schedule = () => {
     const professorRef = useRef()
     const lecturesHallRef = useRef()
     const colorRef = useRef()
-    const timePeriod = ['08:00-08:45', '09:00-09:45'
-        , '10:00-10:45', '11:00-11:45', '12:00-12:45', '13:00-13:45',
-        '14:00-14:45', '15:00-15:45', '16:00-16:45', '17:00-17:45', '18:00-18:45', '19:00-19:45', '20:00-20:45'
-    ]
+    const timePeriod = ['08:00-08:45', '09:00-09:45', '10:00-10:45', '11:00-11:45', '12:00-12:45', '13:00-13:45',
+        '14:00-14:45', '15:00-15:45', '16:00-16:45', '17:00-17:45', '18:00-18:45', '19:00-19:45', '20:00-20:45']
 
     const printRows = () => {
         const array = []
         timePeriod.map(r => {
             let number = r.substring(0, 2)
             array.push(<tr className="schedule_row">
-                <td className="schedule_columns">{r}</td>
+                <td className="schedule_columns"><span className="schedule_time">{r}</span></td>
                 <td id={"1_" + number} onClick={handleSelect} className="schedule_columns"/>
                 <td id={"2_" + number} onClick={handleSelect} className="schedule_columns"/>
                 <td id={"3_" + number} onClick={handleSelect} className="schedule_columns"/>
@@ -52,34 +50,20 @@ const Schedule = () => {
         return flag
     }
 
-    const createElement = (size, fontSize, padding, background, position, text) => {
-        let div = document.createElement('div')
-        div.style.position = 'absolute'
-        div.style.background = background
-        div.style.width = '234px'
-        div.style.height = (size * 45 - 1) + 'px'
-        div.innerText = text
-        div.style.display = 'flex'
-        div.style.alignItems = position
-        div.style.justifyContent = position
-        div.style.fontSize = fontSize + 'rem'
-        div.style.padding = padding
-        return div
-    }
-
     const handleSelect = (e) => {
         let id = e.target.id
-        if (id) {
-            if (selectedRows.length === 0 || checkIfNear(id)) {
-                if (document.getElementById(id).style.background === 'rgb(165, 203, 250)') {
+        const length = selectedRows.length
+        if (id && (length === 0 || checkIfNear(id))) {
+            if (document.getElementById(id).style.background === 'rgb(165, 203, 250)') {
+                if (selectedRows[0] === id || selectedRows[length - 1] === id) {
                     document.getElementById(id).style.background = 'none'
                     setSelectedRows(selectedRows.filter(row => {
                         return row !== id
                     }))
-                } else {
-                    document.getElementById(id).style.background = "#a5cbfa"
-                    setSelectedRows(prevState => [...prevState, id])
                 }
+            } else {
+                document.getElementById(id).style.background = "#a5cbfa"
+                setSelectedRows(prevState => [...prevState, id].sort())
             }
         }
     }
@@ -94,77 +78,82 @@ const Schedule = () => {
     }
 
     const handleSubmit = () => {
+
         if (selectedRows.length !== 0) {
-            const id = selectedRows.sort()[0] //go zimam najgornoto selektirano pole
+            const id = selectedRows[0] //go zimam najgornoto selektirano pole
             const size = selectedRows.length
             let color = colorRef.current.value === '#000000' ? getRandomColor() : colorRef.current.value
-            const div = createElement(size, 1.5, 0, color, 'center', subjectRef.current.value)
-            const hall = createElement(size, 0.5, '3px', 'none', 'start', lecturesHallRef.current.value)
-            const teachers = createElement(size, 0.5, '0 3px 0 0', 'none', 'end', professorRef.current.value)
-            // let div = document.createElement('div')
-            // div.style.position = 'absolute'
-            // div.style.background = '#b9b9ff'
-            // div.style.width = '234px'
-            // div.style.height = (size * 45 - 1) + 'px'
-            // div.innerText = 'Дискретни структури'
-            // div.style.display = 'flex'
-            // div.style.alignItems = 'center'
-            // div.style.justifyContent = 'center'
 
-            // let span1 = document.createElement('div')
-            // span1.style.position = 'absolute'
-            // span1.innerText = 'bbb'
-            // span1.style.fontSize = '0.5rem'
-            // span1.style.padding = '3px'
-            //
-            // let span2 = document.createElement('div')
-            // span2.style.position = 'absolute'
-            // span2.innerText = 'Михова д-р Марија'
-            // span2.style.fontSize = '0.5rem'
-            // span2.style.width = '234px'
-            // span2.style.height = (size * 45 - 1) + 'px'
-            // span2.style.paddingRight = '3px'
-            // span2.style.display = 'flex'
-            // span2.style.alignItems = 'end'
-            // span2.style.justifyContent = 'end'
+            let div = document.createElement('div')
+            div.style.position = 'absolute'
+            div.style.background = color
+            div.style.width = '234px'
+            div.style.height = (size * 45 - 1) + 'px'
+            div.innerText = subjectRef.current.value
+            div.style.display = 'flex'
+            div.style.alignItems = 'center'
+            div.style.justifyContent = 'center'
+
+            let hall = document.createElement('div')
+            hall.style.position = 'absolute'
+            hall.innerText = lecturesHallRef.current.value
+            hall.style.fontSize = '0.5rem'
+            hall.style.padding = '3px'
+
+            let teachers = document.createElement('div')
+            teachers.style.position = 'absolute'
+            teachers.innerText = professorRef.current.value
+            teachers.style.fontSize = '0.5rem'
+            teachers.style.width = '234px'
+            teachers.style.height = (size * 45 - 1) + 'px'
+            teachers.style.paddingRight = '3px'
+            teachers.style.display = 'flex'
+            teachers.style.alignItems = 'end'
+            teachers.style.justifyContent = 'end'
 
             let column = document.getElementById(id.toString())
             column.append(div)
             column.append(hall)
             column.append(teachers)
             setSelectedRows([])
+            colorRef.current.value = '#000000'
+            subjectRef.current.value = ''
+            lecturesHallRef.current.value = ''
+            professorRef.current.value = ''
         }
+    }
+
+    const selectedElement = () => {
+        alert("asd")
     }
 
     return (
         <div className="container">
-            <div className="">
-                <h1>Распоред на часови</h1>
+            <div>
+                <h1 className="schedule_main_header">Распоред на часови</h1>
                 <input ref={subjectRef} className="schedule_inputs" placeholder="Име на предмет"/>
                 <input ref={professorRef} className="schedule_inputs" placeholder="Професори"/>
                 <input ref={lecturesHallRef} className="schedule_inputs" placeholder="Предавална"/>
-                <label>Choose color (random if black):</label>
-                <input ref={colorRef} className="schedule_inputs" type="color"/>
-                <button onClick={handleSubmit} className="btn btn-sm btn-success schedule_submit">Submit</button>
-                <div id='my-node'>
-                    <table className="table table-bordered" id="schedule_table">
-                        <thead>
-                        <tr className="schedule_header col">
-                            <th className="schedule_header_column_time"/>
-                            <th className="schedule_header_columns">Понеделник</th>
-                            <th scope="col-2" className="schedule_header_columns">Вторник</th>
-                            <th scope="col-2" className="schedule_header_columns">Среда</th>
-                            <th scope="col-2" className="schedule_header_columns">Четврток</th>
-                            <th scope="col-2" className="schedule_header_columns">Петок</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                <label> Color (random if black): </label>
+                <input ref={colorRef} className="schedule_input_color" type="color"/>
+                <button onClick={handleSubmit} className="schedule_submit">Submit</button>
+                <table className="table table-bordered" id="schedule_table">
+                    <thead>
+                    <tr className="schedule_header col">
+                        <th className="schedule_header_column_time"/>
+                        <th className="schedule_header_columns">Понеделник</th>
+                        <th scope="col-2" className="schedule_header_columns">Вторник</th>
+                        <th scope="col-2" className="schedule_header_columns">Среда</th>
+                        <th scope="col-2" className="schedule_header_columns">Четврток</th>
+                        <th scope="col-2" className="schedule_header_columns">Петок</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                        {printRows()}
+                    {printRows()}
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     )

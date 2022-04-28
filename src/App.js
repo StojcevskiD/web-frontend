@@ -15,6 +15,11 @@ import Schedule from "./components/Schedule/Schedule";
 class App extends Component {
 
     render() {
+        
+        if (localStorage.getItem('lng') === null) {
+            localStorage.setItem('lng', 'mk')
+        }
+
         let routes = (
             <Router>
                 <NavBar/>

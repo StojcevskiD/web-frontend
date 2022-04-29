@@ -36,6 +36,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     width: 170px;
+    color: white;
 }
 
 .dropdown-menu {

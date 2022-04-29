@@ -121,9 +121,9 @@ const MainPage = () => {
     const getPaginatedSubjects = (p, s) => {
         SubjectService.getPaginatedSubjects(p, s).then(r => {
             setSubjects(r.data)
+            getFavoriteSubjects()
         }).then(() => {
             setLoading(false)
-            getFavoriteSubjects()
         })
     }
 

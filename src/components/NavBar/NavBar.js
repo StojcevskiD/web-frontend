@@ -123,7 +123,10 @@ const NavBar = () => {
                         <div><FaSearch id="nav_bar_search_icon" size={19} cursor="pointer" onClick={search}/></div>
                     </div>
                     <div>
-                        <span className="nav_bar_username">{t('USERNAME') + ': ' + username}</span>
+                        {localStorage.getItem("role") ?
+                            <span className="nav_bar_username">{t('USERNAME') + ': ' + username}</span>
+                            : null
+                        }
                     </div>
 
                     <Nav
